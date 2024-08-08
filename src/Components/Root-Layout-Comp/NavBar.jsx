@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../assets/MHLogo.png';
+import logo from '../../assets/MHLogo.png';
 import { IoMdSearch } from 'react-icons/io';
 import { FaShoppingCart } from 'react-icons/fa';
 

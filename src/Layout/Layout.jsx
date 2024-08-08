@@ -1,12 +1,12 @@
-import Navbar from '../Components/NavBar';
+import Navbar from '../Components/Root-Layout-Comp/NavBar';
 import { Outlet } from 'react-router-dom';
-import Footer from '../Components/Footer';
+import Footer from '../Components/Root-Layout-Comp/Footer';
 
 export default function Layout() {
   return (
     <>
       <Navbar />
-      <div className="paddingX">
+      <div className="min-h-screen">
         <Outlet />
       </div>
       <Footer />

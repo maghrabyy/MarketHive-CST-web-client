@@ -1,4 +1,4 @@
-import logo from '../assets/MHLogo.png';
+import logo from '../../assets/MHLogo.png';
 import {
   TiSocialFacebook,
   TiSocialTwitter,
@@ -8,7 +8,7 @@ import { SlSocialGoogle } from 'react-icons/sl';
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col sm:flex-row items-center bg-slate-700 w-full justify-around sm:space-x-5 fixed bottom-0 text-slate-100 py-10 px-6 sm:px-10">
+    <footer className="flex flex-col md:flex-row items-center bg-slate-700 w-full justify-around md:space-x-5 text-slate-100 py-10 px-6 md:px-10">
       <div className="flex flex-col space-y-4 mb-6 items-center">
         <img src={logo} alt="MarketHive Logo" className="w-48" />
         <div className="flex space-x-4 text-2xl">
@@ -64,7 +64,7 @@ export default function Footer() {
         </ul>
       </nav>
 
-      <div className="flex flex-col items-center space-y-6">
+      <div className="flex flex-col items-center md:items-start gap-6">
         <div className="flex space-x-2">
           <input
             type="email"
@@ -73,13 +73,13 @@ export default function Footer() {
             aria-label="Subscribe to Newsletter"
           />
           <button
-            className="rounded-full bg-orange-500 py-2 px-5 text-xl text-white"
+            className="rounded-full bg-primary py-2 px-5 text-xl text-white"
             aria-label="Subscribe"
           >
             Go
           </button>
         </div>
-        <p>&copy; 2024 All Rights Reserved</p>
+        <p className="ms-0 md:ms-3">&copy; 2024 All Rights Reserved</p>
       </div>
     </footer>
   );
