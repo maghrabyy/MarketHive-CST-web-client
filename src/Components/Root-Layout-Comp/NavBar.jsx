@@ -2,8 +2,20 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/MHLogo.png';
 import { IoMdSearch } from 'react-icons/io';
 import { FaShoppingCart } from 'react-icons/fa';
+import { auth } from '../../firebase';
+import { Button } from 'antd';
+import { FiLogOut } from 'react-icons/fi';
+import { signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 
 export default function NavBar() {
+  const [authUser, setAuthUser] = useState();
+  const logoutHandler = async () => {
+    await signOut(auth);
+  };
+  useEffect(() => {
+    auth.onAuthStateChanged(setAuthUser);
+  }, [authUser]);
   return (
     <div className="shadow-md bg-white  ">
       {/* Upper */}
@@ -27,12 +39,27 @@ export default function NavBar() {
         {/* Shopping Cart & Account*/}
 
         <div className=" flex gap-2 items-center font-medium ">
-          <div>
-            <Link to="/login">Login</Link>
-          </div>
-          <div className="border-l ps-3 border-gray-400">
-            <Link to="/register">Register</Link>
-          </div>
+          {authUser !== null ? (
+            <div>
+              <Button
+                onClick={logoutHandler}
+                type="text"
+                className="font-medium"
+                icon={<FiLogOut />}
+              >
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div>
+                <Link to="/login">Login</Link>
+              </div>
+              <div className="border-l ps-3 border-gray-400">
+                <Link to="/register">Register</Link>
+              </div>
+            </>
+          )}
           <Link
             className="text-primary py-2 px-4 group  rounded-full"
             to="/cart"
