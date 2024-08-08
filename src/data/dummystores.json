@@ -1,0 +1,46 @@
+[
+  {
+    "id": "st01",
+    "vendorId": "vn01",
+    "name": "Adidas",
+    "logo": "/DummyStoreImgs/adidas.png",
+    "category": "clothing",
+    "prods": [],
+    "storeDescription": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, maxime.",
+    "orders": [],
+    "customers": []
+  },
+  {
+    "id": "st02",
+    "vendorId": "vn02",
+    "name": "Puma",
+    "logo": "/DummyStoreImgs/puma.png",
+    "category": "clothing",
+    "prods": [],
+    "storeDescription": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, maxime.",
+    "orders": [],
+    "customers": []
+  },
+  {
+    "id": "st03",
+    "vendorId": "vn03",
+    "name": "Lacoste",
+    "logo": "/DummyStoreImgs/lacoste.png",
+    "category": "clothing",
+    "prods": [],
+    "storeDescription": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, maxime.",
+    "orders": [],
+    "customers": []
+  },
+  {
+    "id": "st04",
+    "vendorId": "vn04",
+    "name": "The North Face",
+    "logo": "/DummyStoreImgs/thenorthface.png",
+    "category": "clothing",
+    "prods": [],
+    "storeDescription": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, maxime.",
+    "orders": [],
+    "customers": []
+  }
+]

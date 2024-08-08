@@ -2,23 +2,38 @@ import Header from '../../Components/Homepage-comp/Header';
 import { HomeSection } from '../../Components/Homepage-comp/HomeSection';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { ProductCard, CategoryCard } from '../../Components/EcommerceCards.jsx';
-
+import {
+  ProductCard,
+  CollectionCard,
+} from '../../Components/EcommerceCards.jsx';
+import dummyStores from '../../data/dummystores.json';
 export default function HomePage() {
   const [popularProdList, setPopularProdList] = useState([]);
   const [popularCategoryList, setPopularCategoryList] = useState([]);
-  const [storesList, setStoresList] = useState([]);
-
+  const [isProdsLoading, setProdsLoading] = useState(true);
+  const [isCatsLoading, setCatsLoading] = useState(true);
   useEffect(() => {
     const fetchProds = async () => {
-      const res = await axios.get('https://fakestoreapi.com/products');
-      const prodsData = res.data;
-      setPopularProdList(prodsData.slice(0, 4));
+      try {
+        const res = await axios.get('https://fakestoreapi.com/products');
+        const prodsData = res.data;
+        setPopularProdList(prodsData.slice(0, 4));
+        setProdsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     };
     const fetchCategories = async () => {
-      const res = await axios.get('https://api.escuelajs.co/api/v1/categories');
-      const catData = res.data;
-      setPopularCategoryList(catData.slice(0, 4));
+      try {
+        const res = await axios.get(
+          'https://api.escuelajs.co/api/v1/categories',
+        );
+        setCatsLoading(false);
+        const catData = res.data;
+        setPopularCategoryList(catData.slice(0, 4));
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchCategories();
     fetchProds();
@@ -36,6 +51,7 @@ export default function HomePage() {
           {popularProdList.map((prod) => {
             return (
               <ProductCard
+                isLoading={isProdsLoading}
                 key={prod.id}
                 prodImg={prod.image}
                 prodTitle={prod.title}
@@ -49,13 +65,13 @@ export default function HomePage() {
           pathTitle={'Stores'}
           sectionPath={'/stores'}
         >
-          {storesList.map((prod) => {
+          {dummyStores.map((store) => {
             return (
-              <ProductCard
-                key={prod.id}
-                prodImg={prod.image}
-                prodTitle={prod.title}
-                prodPrice={prod.price}
+              <CollectionCard
+                key={store.id}
+                prodImg={store.logo}
+                prodTitle={store.name}
+                contain
               />
             );
           })}
@@ -67,10 +83,12 @@ export default function HomePage() {
         >
           {popularCategoryList.map((cat) => {
             return (
-              <CategoryCard
+              <CollectionCard
+                isLoading={isCatsLoading}
                 key={cat.id}
                 prodImg={cat.image}
                 prodTitle={cat.name}
+                cover
               />
             );
           })}

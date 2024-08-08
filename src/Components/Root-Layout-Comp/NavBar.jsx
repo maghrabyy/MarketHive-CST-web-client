@@ -63,7 +63,7 @@ export default function NavBar() {
               <>
                 <Avatar
                   size="small"
-                  className="cursor-pointer bg-primary hover:bg-primary/80 block sm:hidden"
+                  className="cursor-pointer bg-primary hover:bg-primary/80 sm:hidden"
                   icon={<FaUser />}
                 />
 
