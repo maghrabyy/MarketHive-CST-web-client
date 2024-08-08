@@ -8,9 +8,11 @@ import { auth, db } from '../../firebase.js';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
+import { authErrors } from '../../lib/authErrors.js';
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
   const phoneReg = /^01[0125][0-9]{8}$/gm;
   const passReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
@@ -67,7 +69,10 @@ export default function Register() {
           setIsLoading(false);
           navigate('/');
         } catch (error) {
-          console.log(error.message);
+          setAuthError(
+            authErrors[error.code] ?? 'Unable to register, try again later.',
+          );
+          console.log(error.code);
           setIsLoading(false);
         }
       }}
@@ -77,7 +82,13 @@ export default function Register() {
           <h2 className="mt-1 text-center text-4xl font-bold text-primary">
             Registration
           </h2>
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="px-5 sm:mx-auto sm:w-full sm:max-w-sm">
+            {authError && (
+              <div className="auth-error bg-red-500 rounded-md mb-2 p-2 text-white text-center">
+                {authError}
+              </div>
+            )}
+
             <Form action="#" method="POST" className="space-y-2">
               <div>
                 <label
