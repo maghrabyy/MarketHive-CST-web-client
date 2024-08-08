@@ -7,9 +7,11 @@ import { FaExclamationCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
+import { authErrors } from '../../lib/authErrors';
 
 export default function LogIn() {
   const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
   const loginSchema = Yup.object().shape({
     password: Yup.string().required('Enter your password '),
@@ -29,7 +31,9 @@ export default function LogIn() {
           navigate('/');
           setIsLoading(false);
         } catch (error) {
-          console.log(error.message);
+          setAuthError(
+            authErrors[error.code] ?? 'Unable to login, try again later.',
+          );
           setIsLoading(false);
         }
       }}
@@ -40,7 +44,12 @@ export default function LogIn() {
             Sign in to your account
           </h2>
 
-          <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="px-5  mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+            {authError && (
+              <div className="auth-error bg-red-500 rounded-md mb-2 p-2 text-white text-center">
+                {authError}
+              </div>
+            )}
             <Form action="#" method="POST" className="space-y-2">
               <div>
                 <label
