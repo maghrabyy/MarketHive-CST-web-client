@@ -1,15 +1,31 @@
 import './App.css';
-import logo from '../src/assets/MHLogo.png';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from './Layout/Layout.jsx';
+import HomePage from './Pages/HomePage.jsx';
+import NotFoundPage from './Pages/NotFound/NotFoundPage.jsx';
+import CartPage from './Pages/Cart/CartPage.jsx';
+import ProductsPage from './Pages/Products/ProductsPage.jsx';
+import LoginPage from './Pages/LogIn/LoginPage.jsx';
+import RegisterPage from './Pages/Register/RegisterPage.jsx';
+import StoresPage from './Pages/Stores/StoresPage.jsx';
 
+let routers = createBrowserRouter([
+  {
+    path: '',
+    element: <Layout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'cart', element: <CartPage /> },
+      { path: 'products', element: <ProductsPage /> },
+      { path: 'login', element: <LoginPage /> },
+      { path: 'register', element: <RegisterPage /> },
+      { path: 'stores', element: <StoresPage /> },
+      { path: '*', element: <NotFoundPage /> },
+    ],
+  },
+]);
 function App() {
-  return (
-    <>
-      <div className="navbar py-2 px-16">
-        <img src={logo} className="w-32" alt="Market Hive logo" />
-      </div>
-      <h1 className="text-4xl font-bold">MarketHive project</h1>
-    </>
-  );
+  return <RouterProvider router={routers}></RouterProvider>;
 }
 
 export default App;
