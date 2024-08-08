@@ -3,15 +3,19 @@ import logo from '../../assets/MHLogo.png';
 import { IoMdSearch } from 'react-icons/io';
 import { FaShoppingCart } from 'react-icons/fa';
 import { auth } from '../../firebase';
-import { Button } from 'antd';
 import { FiLogOut } from 'react-icons/fi';
 import { signOut } from 'firebase/auth';
+import { FaUser } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import Avatar from 'antd/es/avatar/avatar';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const [authUser, setAuthUser] = useState();
   const logoutHandler = async () => {
     await signOut(auth);
+    navigate('/login');
   };
   useEffect(() => {
     auth.onAuthStateChanged(setAuthUser);
@@ -36,37 +40,42 @@ export default function NavBar() {
           <IoMdSearch className="text-gray-500 group-hover:text-primary  absolute top-[0.6rem] right-3" />
         </div>
 
-        {/* Shopping Cart & Account*/}
+        {/* Actions & Account*/}
 
         <div className=" flex gap-2 items-center font-medium ">
-          {authUser !== null ? (
-            <div>
-              <Button
-                onClick={logoutHandler}
-                type="text"
-                className="font-medium"
-                icon={<FiLogOut />}
-              >
-                Logout
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div>
-                <Link to="/login">Login</Link>
-              </div>
-              <div className="border-l ps-3 border-gray-400">
-                <Link to="/register">Register</Link>
-              </div>
-            </>
-          )}
+          <IoMdSearch className="text-primary  hover:text-primary/80 text-xl cursor-pointer group-hover:text-primary block sm:hidden " />
           <Link
-            className="text-primary py-2 px-4 group  rounded-full"
+            className="text-primary hover:text-primary/80 group  rounded-full"
             to="/cart"
           >
             <FaShoppingCart className="text-xl drop-shadow-sm cursor-pointer" />
           </Link>
-          <IoMdSearch className="text-gray-500 text-xl cursor-pointer group-hover:text-primary block sm:hidden " />
+          <div className="action sm:order-first">
+            {authUser !== null ? (
+              <div
+                onClick={logoutHandler}
+                className="flex gap-1 items-center text-red-600 cursor-pointer select-none"
+              >
+                <FiLogOut />
+                <span className="font-medium hidden sm:block">Logout</span>
+              </div>
+            ) : (
+              <>
+                <Avatar
+                  size="small"
+                  className="cursor-pointer bg-primary hover:bg-primary/80 block sm:hidden"
+                  icon={<FaUser />}
+                />
+
+                <div className="space-x-2 divide-x-2 hidden sm:block">
+                  <Link to="/login">Login</Link>
+                  <Link to="/register" className="ps-2">
+                    Register
+                  </Link>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
       {/* Lower */}
