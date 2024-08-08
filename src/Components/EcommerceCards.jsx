@@ -1,9 +1,14 @@
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaRegHeart } from 'react-icons/fa';
 import Card from 'antd/es/card/Card';
-
-export const ProductCard = ({ prodTitle, prodPrice, prodImg }) => {
-  return (
+import { Skeleton } from 'antd';
+export const ProductCard = ({ prodTitle, prodPrice, prodImg, isLoading }) => {
+  return isLoading ? (
+    <Card className="h-[300px]">
+      <Skeleton active />
+      <Skeleton active className="mt-2.5" />
+    </Card>
+  ) : (
     <Card
       hoverable
       cover={
@@ -24,9 +29,28 @@ export const ProductCard = ({ prodTitle, prodPrice, prodImg }) => {
   );
 };
 
-export const CategoryCard = ({ prodTitle, prodImg }) => {
-  return (
-    <Card hoverable cover={<img alt={prodTitle} src={prodImg} />}>
+export const CollectionCard = ({
+  prodTitle,
+  prodImg,
+  contain,
+  cover,
+  isLoading,
+}) => {
+  return isLoading ? (
+    <Card className="h-[200px]">
+      <Skeleton active />
+    </Card>
+  ) : (
+    <Card
+      hoverable
+      cover={
+        <img
+          alt={prodTitle}
+          className={`h-[200px] ${contain && 'object-contain'} ${cover && 'object-cover'}`}
+          src={prodImg}
+        />
+      }
+    >
       <h1 className="font-bold text-2xl text-center truncate">{prodTitle}</h1>
     </Card>
   );
