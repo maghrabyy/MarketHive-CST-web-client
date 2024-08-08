@@ -36,3 +36,7 @@ p {
 .slick-next::after {
   font-size: 10rem !important;
 } */
+
+.ant-btn-primary:hover {
+  background-color: #d97706 !important;
+}

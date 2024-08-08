@@ -2,8 +2,16 @@ import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { FaExclamationCircle } from 'react-icons/fa';
 import * as Yup from 'yup';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../../firebase.js';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Button } from 'antd';
 
 export default function Register() {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const phoneReg = /^01[0125][0-9]{8}$/gm;
   const passReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
   const signupSchema = Yup.object().shape({
@@ -42,9 +50,26 @@ export default function Register() {
         rePassword: '',
       }}
       validationSchema={signupSchema}
-      onSubmit={(values) => {
-        // same shape as initial values
-        console.log(values);
+      onSubmit={async ({ firstName, lastName, phone, email, password }) => {
+        setIsLoading(true);
+        try {
+          const { user } = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
+          );
+          await setDoc(doc(db, 'Customers', user.uid), {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phone,
+          });
+          setIsLoading(false);
+          navigate('/');
+        } catch (error) {
+          console.log(error.message);
+          setIsLoading(false);
+        }
       }}
     >
       {({ errors, touched }) => (
@@ -212,12 +237,14 @@ export default function Register() {
               </div>
 
               <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                <Button
+                  className="bg-primary"
+                  type="primary w-full"
+                  htmlType="submit"
+                  loading={isLoading}
                 >
                   Register
-                </button>
+                </Button>
               </div>
             </Form>
 

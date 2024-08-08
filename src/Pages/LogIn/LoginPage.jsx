@@ -1,13 +1,18 @@
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
 import { FaExclamationCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Button } from 'antd';
 
 export default function LogIn() {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const loginSchema = Yup.object().shape({
-    password: Yup.string()
-      .min(6, 'password must be at-least 6 character')
-      .required('Enter your password '),
+    password: Yup.string().required('Enter your password '),
     email: Yup.string().email('Invalid email').required('Enter your email'),
   });
   return (
@@ -17,9 +22,16 @@ export default function LogIn() {
         password: '',
       }}
       validationSchema={loginSchema}
-      onSubmit={(values) => {
-        // same shape as initial values
-        console.log(values);
+      onSubmit={async ({ email, password }) => {
+        setIsLoading(true);
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          navigate('/');
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error.message);
+          setIsLoading(false);
+        }
       }}
     >
       {({ errors, touched }) => (
@@ -95,12 +107,14 @@ export default function LogIn() {
               </div>
 
               <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-amber-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                <Button
+                  className="bg-primary"
+                  type="primary w-full"
+                  htmlType="submit"
+                  loading={isLoading}
                 >
-                  Sign in
-                </button>
+                  Sign In
+                </Button>
               </div>
             </Form>
 
