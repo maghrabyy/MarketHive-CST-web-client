@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 .paddingX {
-  @apply px-2 sm:px-6 md:px-10 lg:px-16;
+  @apply px-2 sm:px-6 md:px-10 lg:px-16 xl:px-32 2xl:px-64;
 }
 
 .media {
@@ -44,7 +44,17 @@ p {
   }
 
   button.slick-arrow.slick-next {
-    right: 2rem;
+    right: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  button.slick-arrow.slick-prev {
+    left: 2rem;
+  }
+
+  button.slick-arrow.slick-next {
+    right: 3.5rem;
   }
 }
 
