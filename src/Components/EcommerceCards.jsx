@@ -42,6 +42,7 @@ export const CollectionCard = ({
     </Card>
   ) : (
     <Card
+      className="overflow-hidden"
       hoverable
       cover={
         <img
