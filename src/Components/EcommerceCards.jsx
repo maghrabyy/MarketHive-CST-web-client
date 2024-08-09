@@ -2,13 +2,8 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { FaRegHeart } from 'react-icons/fa';
 import Card from 'antd/es/card/Card';
 import { Skeleton } from 'antd';
-export const ProductCard = ({ prodTitle, prodPrice, prodImg, isLoading }) => {
-  return isLoading ? (
-    <Card className="h-[300px]">
-      <Skeleton active />
-      <Skeleton active className="mt-2.5" />
-    </Card>
-  ) : (
+export const ProductCard = ({ prodTitle, prodPrice, prodImg }) => {
+  return (
     <Card
       hoverable
       cover={
@@ -29,18 +24,17 @@ export const ProductCard = ({ prodTitle, prodPrice, prodImg, isLoading }) => {
   );
 };
 
-export const CollectionCard = ({
-  prodTitle,
-  prodImg,
-  contain,
-  cover,
-  isLoading,
-}) => {
-  return isLoading ? (
-    <Card className="h-[200px]">
+export const SkeletonProdsCard = () => {
+  return (
+    <Card className="h-[300px]">
       <Skeleton active />
+      <Skeleton active className="mt-2.5" />
     </Card>
-  ) : (
+  );
+};
+
+export const CollectionCard = ({ prodTitle, prodImg, contain, cover }) => {
+  return (
     <Card
       className="overflow-hidden"
       hoverable
@@ -53,6 +47,14 @@ export const CollectionCard = ({
       }
     >
       <h1 className="font-bold text-2xl text-center truncate">{prodTitle}</h1>
+    </Card>
+  );
+};
+
+export const SkeletonCollectionCard = () => {
+  return (
+    <Card className="h-[200px]">
+      <Skeleton active />
     </Card>
   );
 };

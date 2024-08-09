@@ -6,6 +6,8 @@ import {
   ProductCard,
   CollectionCard,
 } from '../../Components/EcommerceCards.jsx';
+import { SkeletonProdsCard } from '../../Components/EcommerceCards.jsx';
+import { SkeletonCollectionCard } from '../../Components/EcommerceCards.jsx';
 import dummyStores from '../../data/dummystores.json';
 export default function HomePage() {
   const [popularProdList, setPopularProdList] = useState([]);
@@ -48,17 +50,20 @@ export default function HomePage() {
           pathTitle={'Products'}
           sectionPath={'/products'}
         >
-          {popularProdList.map((prod) => {
-            return (
-              <ProductCard
-                isLoading={isProdsLoading}
-                key={prod.id}
-                prodImg={prod.image}
-                prodTitle={prod.title}
-                prodPrice={prod.price}
-              />
-            );
-          })}
+          {isProdsLoading
+            ? Array.from(Array(4)).map((_, index) => (
+                <SkeletonProdsCard key={index} />
+              ))
+            : popularProdList.map((prod) => {
+                return (
+                  <ProductCard
+                    key={prod.id}
+                    prodImg={prod.image}
+                    prodTitle={prod.title}
+                    prodPrice={prod.price}
+                  />
+                );
+              })}
         </HomeSection>
         <HomeSection
           title="Stores Collection"
@@ -81,17 +86,20 @@ export default function HomePage() {
           pathTitle={'Categories'}
           sectionPath={'/categories'}
         >
-          {popularCategoryList.map((cat) => {
-            return (
-              <CollectionCard
-                isLoading={isCatsLoading}
-                key={cat.id}
-                prodImg={cat.image}
-                prodTitle={cat.name}
-                cover
-              />
-            );
-          })}
+          {isCatsLoading
+            ? Array.from(Array(4)).map((_, index) => (
+                <SkeletonCollectionCard key={index} />
+              ))
+            : popularCategoryList.map((cat) => {
+                return (
+                  <CollectionCard
+                    key={cat.id}
+                    prodImg={cat.image}
+                    prodTitle={cat.name}
+                    cover
+                  />
+                );
+              })}
         </HomeSection>
       </div>
     </>
