@@ -11,7 +11,6 @@ export default function Layout() {
 
   auth.onAuthStateChanged((auth) => {
     if (auth && (location === '/login' || location === 'register')) {
-      console.log('already logged in.');
       navigate('/');
     }
   });
