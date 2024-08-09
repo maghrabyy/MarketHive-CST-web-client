@@ -10,7 +10,7 @@ export default function Layout() {
   const navigate = useNavigate();
 
   auth.onAuthStateChanged((auth) => {
-    if (auth && (location === '/login' || location === 'register')) {
+    if (auth && (location === '/login' || location === '/register')) {
       navigate('/');
     }
   });
