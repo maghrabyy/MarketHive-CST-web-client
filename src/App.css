@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 .paddingX {
-  @apply px-4 sm:px-6 md:px-10 lg:px-16;
+  @apply px-2 sm:px-6 md:px-10 lg:px-16;
 }
 
 .media {
@@ -29,13 +29,24 @@ p {
   @apply font-nunito;
 }
 
-/* button.slick-arrow.slick-prev::after {
-  font-size: 10rem !important;
-}
+@media screen and (min-width: 1024px) {
+  button.slick-arrow.slick-prev::after {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  button.slick-arrow.slick-prev {
+    left: 1rem;
+  }
 
-.slick-next::after {
-  font-size: 10rem !important;
-} */
+  button.slick-arrow.slick-next::after {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  button.slick-arrow.slick-next {
+    right: 2rem;
+  }
+}
 
 .ant-btn-primary:hover {
   background-color: #d97706 !important;
