@@ -8,8 +8,17 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
 import { authErrors } from '../../lib/authErrors';
+import { Spin } from 'antd';
 
 export default function LogIn() {
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  auth.onAuthStateChanged((auth) => {
+    if (auth) {
+      navigate('/');
+    } else {
+      setIsAuthLoading(false);
+    }
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
@@ -17,7 +26,11 @@ export default function LogIn() {
     password: Yup.string().required('Enter your password '),
     email: Yup.string().email('Invalid email').required('Enter your email'),
   });
-  return (
+  return isAuthLoading ? (
+    <div className="h-full absolute left-1/2 flex flex-col justify-center">
+      <Spin size="large" className="self-stretch " />
+    </div>
+  ) : (
     <Formik
       initialValues={{
         email: '',
