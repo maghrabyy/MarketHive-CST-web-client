@@ -9,8 +9,17 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
 import { authErrors } from '../../lib/authErrors.js';
+import { Spin } from 'antd';
 
 export default function Register() {
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  auth.onAuthStateChanged((auth) => {
+    if (auth) {
+      navigate('/');
+    } else {
+      setIsAuthLoading(false);
+    }
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
@@ -41,7 +50,11 @@ export default function Register() {
       .oneOf([Yup.ref('password')], 'Passwords must match')
       .required('Confirm your password'),
   });
-  return (
+  return isAuthLoading ? (
+    <div className="h-full absolute left-1/2 flex flex-col justify-center">
+      <Spin size="large" className="self-stretch " />
+    </div>
+  ) : (
     <Formik
       initialValues={{
         firstName: '',
