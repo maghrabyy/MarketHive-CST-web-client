@@ -16,6 +16,7 @@ export default function HomePage() {
   const [popularStoresList, setPopularStoresList] = useState([]);
   const [isProdsLoading, setProdsLoading] = useState(true);
   const [isCatsLoading, setCatsLoading] = useState(true);
+  const [isStoresLoading, setIsStoresLoading] = useState(true);
 
   useEffect(() => {
     const fetchProds = async () => {
@@ -51,7 +52,7 @@ export default function HomePage() {
         storeSnapshot.forEach((store) => {
           storeData.push({ ...store.data(), id: store.id });
         });
-        setCatsLoading(false);
+        setIsStoresLoading(false);
         setPopularStoresList(storeData.slice(0, 4));
       } catch (error) {
         console.log(error);
@@ -91,16 +92,20 @@ export default function HomePage() {
           pathTitle={'Stores'}
           sectionPath={'/stores'}
         >
-          {popularStoresList.map((store) => {
-            return (
-              <CollectionCard
-                key={store.id}
-                prodImg={store.logo}
-                prodTitle={store.name}
-                contain
-              />
-            );
-          })}
+          {isStoresLoading
+            ? Array.from(Array(4)).map((_, index) => (
+                <SkeletonCollectionCard key={index} />
+              ))
+            : popularStoresList.map((store) => {
+                return (
+                  <CollectionCard
+                    key={store.id}
+                    prodImg={store.logo}
+                    prodTitle={store.name}
+                    contain
+                  />
+                );
+              })}
         </HomeSection>
         <HomeSection
           title="Popular Categories"
