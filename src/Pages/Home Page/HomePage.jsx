@@ -1,5 +1,5 @@
-import Header from '../../Components/Homepage-comp/Header';
-import { HomeSection } from '../../Components/Homepage-comp/HomeSection';
+import Header from '../../Components/Homepage-comp/Header.jsx';
+import { HomeSection } from '../../Components/Homepage-comp/HomeSection.jsx';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {
@@ -9,6 +9,7 @@ import {
 import { SkeletonProdsCard } from '../../Components/EcommerceCards.jsx';
 import { SkeletonCollectionCard } from '../../Components/EcommerceCards.jsx';
 import dummyStores from '../../data/dummystores.json';
+
 export default function HomePage() {
   const [popularProdList, setPopularProdList] = useState([]);
   const [popularCategoryList, setPopularCategoryList] = useState([]);
