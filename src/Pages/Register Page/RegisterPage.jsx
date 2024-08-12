@@ -262,7 +262,6 @@ export default function RegisterPage() {
 
               <div>
                 <Button
-                  className="bg-primary"
                   type="primary w-full"
                   htmlType="submit"
                   loading={isLoading}

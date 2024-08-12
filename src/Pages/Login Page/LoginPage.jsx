@@ -130,7 +130,6 @@ export default function LoginPage() {
 
               <div>
                 <Button
-                  className="bg-primary"
                   type="primary w-full"
                   htmlType="submit"
                   loading={isLoading}

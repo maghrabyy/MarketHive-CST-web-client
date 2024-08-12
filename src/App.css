@@ -58,10 +58,14 @@ p {
   }
 }
 
+.ant-btn-primary {
+  background-color: #f39932 !important;
+}
+
 .ant-btn-primary:hover {
   background-color: #d97706 !important;
 }
 
 .ant-spin-dot-item {
-  background-color: #d97706 !important;
+  background-color: #f39932 !important;
 }
