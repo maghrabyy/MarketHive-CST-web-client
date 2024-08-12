@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import logo from '../../assets/MHLogo.png';
-import { IoMdSearch } from 'react-icons/io';
 import { FaShoppingCart } from 'react-icons/fa';
 import { auth } from '../../firebase';
 import { FiLogOut } from 'react-icons/fi';
@@ -9,6 +8,8 @@ import { FaUser } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Avatar from 'antd/es/avatar/avatar';
 import { useNavigate } from 'react-router-dom';
+import { SearchBar } from './Searchbar';
+import { IoMdSearch } from 'react-icons/io';
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -30,16 +31,8 @@ export default function NavBar() {
           </Link>
         </div>
         {/* Search */}
-        <div className="group relative hidden sm:block  ">
-          <input
-            type="search"
-            placeholder="Search"
-            className="w-[200px] sm:w-[200px] group-hover:w-[300px] transition-all duration-300 rounded-full
-            border border-gray-300 px-2 py-1 focus:outline-none focus:border-1 focus:border-primary"
-          />
-          <IoMdSearch className="text-gray-500 group-hover:text-primary  absolute top-[0.6rem] right-3" />
-        </div>
 
+        <SearchBar />
         {/* Actions & Account*/}
 
         <div className=" flex gap-2 items-center font-medium ">
