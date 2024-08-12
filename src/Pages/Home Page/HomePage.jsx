@@ -1,6 +1,5 @@
 import Header from '../../Components/Homepage-comp/Header.jsx';
 import { HomeSection } from '../../Components/Homepage-comp/HomeSection.jsx';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {
   ProductCard,
@@ -8,18 +7,24 @@ import {
 } from '../../Components/EcommerceCards.jsx';
 import { SkeletonProdsCard } from '../../Components/EcommerceCards.jsx';
 import { SkeletonCollectionCard } from '../../Components/EcommerceCards.jsx';
-import dummyStores from '../../data/dummystores.json';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase.js';
 
 export default function HomePage() {
   const [popularProdList, setPopularProdList] = useState([]);
   const [popularCategoryList, setPopularCategoryList] = useState([]);
+  const [popularStoresList, setPopularStoresList] = useState([]);
   const [isProdsLoading, setProdsLoading] = useState(true);
   const [isCatsLoading, setCatsLoading] = useState(true);
+
   useEffect(() => {
     const fetchProds = async () => {
       try {
-        const res = await axios.get('https://fakestoreapi.com/products');
-        const prodsData = res.data;
+        const prodsData = [];
+        const productsSnapshot = await getDocs(collection(db, 'Products'));
+        productsSnapshot.forEach((product) => {
+          prodsData.push({ ...product.data(), id: product.id });
+        });
         setPopularProdList(prodsData.slice(0, 4));
         setProdsLoading(false);
       } catch (error) {
@@ -28,16 +33,31 @@ export default function HomePage() {
     };
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(
-          'https://api.escuelajs.co/api/v1/categories',
-        );
+        const catData = [];
+        const categorySnapshot = await getDocs(collection(db, 'Categories'));
+        categorySnapshot.forEach((category) => {
+          catData.push({ ...category.data(), id: category.id });
+        });
         setCatsLoading(false);
-        const catData = res.data;
         setPopularCategoryList(catData.slice(0, 4));
       } catch (error) {
         console.log(error);
       }
     };
+    const fetchStores = async () => {
+      try {
+        const storeData = [];
+        const storeSnapshot = await getDocs(collection(db, 'Stores'));
+        storeSnapshot.forEach((store) => {
+          storeData.push({ ...store.data(), id: store.id });
+        });
+        setCatsLoading(false);
+        setPopularStoresList(storeData.slice(0, 4));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStores();
     fetchCategories();
     fetchProds();
   }, []);
@@ -59,7 +79,7 @@ export default function HomePage() {
                 return (
                   <ProductCard
                     key={prod.id}
-                    prodImg={prod.image}
+                    prodImg={prod.images[0]}
                     prodTitle={prod.title}
                     prodPrice={prod.price}
                   />
@@ -71,7 +91,7 @@ export default function HomePage() {
           pathTitle={'Stores'}
           sectionPath={'/stores'}
         >
-          {dummyStores.map((store) => {
+          {popularStoresList.map((store) => {
             return (
               <CollectionCard
                 key={store.id}
@@ -95,8 +115,8 @@ export default function HomePage() {
                 return (
                   <CollectionCard
                     key={cat.id}
-                    prodImg={cat.image}
-                    prodTitle={cat.name}
+                    prodImg={cat.categoryImage}
+                    prodTitle={cat.categoryName}
                     cover
                   />
                 );
