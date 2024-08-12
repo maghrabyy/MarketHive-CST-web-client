@@ -9,16 +9,21 @@ import { useState } from 'react';
 import { Button } from 'antd';
 import { authErrors } from '../../lib/authErrors';
 import { Spin } from 'antd';
+import { useEffect } from 'react';
 
 export default function LoginPage() {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
-  auth.onAuthStateChanged((auth) => {
-    if (auth) {
-      navigate('/');
-    } else {
-      setIsAuthLoading(false);
-    }
-  });
+  useEffect(() => {
+    auth.onAuthStateChanged((auth) => {
+      if (auth) {
+        navigate('/');
+      } else {
+        setIsAuthLoading(false);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
@@ -41,8 +46,6 @@ export default function LoginPage() {
         setIsLoading(true);
         try {
           await signInWithEmailAndPassword(auth, email, password);
-          navigate('/');
-          setIsLoading(false);
         } catch (error) {
           setAuthError(
             authErrors[error.code] ?? 'Unable to login, try again later.',
