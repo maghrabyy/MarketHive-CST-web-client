@@ -11,7 +11,7 @@ import { Button } from 'antd';
 import { authErrors } from '../../lib/authErrors.js';
 import { Spin } from 'antd';
 
-export default function Register() {
+export default function RegisterPage() {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   auth.onAuthStateChanged((auth) => {
     if (auth) {

@@ -10,7 +10,7 @@ import { Button } from 'antd';
 import { authErrors } from '../../lib/authErrors';
 import { Spin } from 'antd';
 
-export default function LogIn() {
+export default function LoginPage() {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   auth.onAuthStateChanged((auth) => {
     if (auth) {
