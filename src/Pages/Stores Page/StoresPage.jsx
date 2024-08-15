@@ -52,15 +52,15 @@ export default function StoresPage() {
   };
 
   //===Old&NewStores=======//
-  const handleNewOldStores = async (e) => {
+  const handleSortBy = async (e) => {
     try {
       const filterData = [];
       let orderby = 'desc';
       let fieldName = '';
 
       if (e == 'OldToNew' || e == 'NewToOld') fieldName = 'creationDate';
-      if (e == 'most' || e == 'recent') fieldName = 'productsCount';
-      if (e == 'recent' || e == 'NewToOld') orderby = 'asc';
+      if (e == 'most' || e == 'leastProducts') fieldName = 'productsCount';
+      if (e == 'leastProducts' || e == 'NewToOld') orderby = 'asc';
 
       const productsCollection = collection(db, 'Stores');
       const q = query(productsCollection, orderBy(fieldName, orderby));
@@ -92,7 +92,6 @@ export default function StoresPage() {
     const fetchStores = async () => {
       try {
         const storeData = [];
-
         const storeSnapshot = await getDocs(collection(db, 'Stores'));
         storeSnapshot.forEach((store) => {
           storeData.push({ ...store.data(), id: store.id });
@@ -112,7 +111,7 @@ export default function StoresPage() {
     <div className="container mx-auto">
       <div className="mt-10 p-1 flex justify-start ">
         <Select
-          style={{ width: 110 }}
+          className="md:w-36"
           onChange={(e) => {
             handleSelectChange(e);
           }}
@@ -131,13 +130,12 @@ export default function StoresPage() {
         />
         {/* Filter By Stores */}
         <Select
-          className=" ml-5 "
-          style={{ width: 110 }}
+          className=" ml-5 md:w-36"
           onChange={(e) => {
             handleStoresChange(e);
           }}
           showSearch
-          placeholder="Stores"
+          placeholder="Search Stores"
           filterOption={(input, option) =>
             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
           }
@@ -150,13 +148,10 @@ export default function StoresPage() {
           ]}
         />
         <Select
-          className=" ml-5 "
-          defaultValue="Modified"
-          style={{
-            width: 120,
-          }}
+          className=" ml-5 ms-auto md:w-36"
+          defaultValue="Sort By"
           onChange={(e) => {
-            handleNewOldStores(e);
+            handleSortBy(e);
           }}
           options={[
             {
@@ -169,11 +164,11 @@ export default function StoresPage() {
             },
             {
               value: 'most',
-              label: 'Most',
+              label: 'Most Products',
             },
             {
-              value: 'recent',
-              label: 'Recent',
+              value: 'leastProducts',
+              label: 'Least Products ',
             },
           ]}
         />
