@@ -1,13 +1,10 @@
-import './style.css';
-import { HomeSection } from '../../Components/Homepage-comp/HomeSection.jsx';
 import { CollectionCard } from '../../Components/EcommerceCards.jsx';
 import { SkeletonCollectionCard } from '../../Components/EcommerceCards.jsx';
 import { useEffect, useState } from 'react';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../firebase.js';
-import { Card, Select } from 'antd';
-import Meta from 'antd/es/card/Meta.js';
-import { async } from '@firebase/util';
+import { Select } from 'antd';
+
 export default function StoresPage() {
   const [StoresList, setStoresList] = useState([]);
   const [CategoryList, setCategoryList] = useState([]);
@@ -59,9 +56,14 @@ export default function StoresPage() {
     try {
       const filterData = [];
       let orderby = 'desc';
-      if (e == 'OldToNew') orderby = 'asc';
+      let fieldName = '';
+
+      if (e == 'OldToNew' || e == 'NewToOld') fieldName = 'creationDate';
+      if (e == 'most' || e == 'recent') fieldName = 'productsCount';
+      if (e == 'recent' || e == 'NewToOld') orderby = 'asc';
+
       const productsCollection = collection(db, 'Stores');
-      const q = query(productsCollection, orderBy('creationDate', orderby));
+      const q = query(productsCollection, orderBy(fieldName, orderby));
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
@@ -73,26 +75,6 @@ export default function StoresPage() {
     }
   };
 
-  //===Most&RecentProducts=======//
-  const handleMostRecentProd = async (e) => {
-    try {
-      const filterData = [];
-      let orderby = 'desc';
-      if (e == 'recent') orderby = 'asc';
-      const productsCollection = collection(db, 'Stores');
-      console.log(productsCollection);
-      const q = query(productsCollection, orderBy('productsCount', orderby)); // Sort by most products
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data().productsCount);
-        filterData.push(...StoresList.filter((store) => store.id == doc.id));
-        setStoresList(filterData);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  //////////////////////
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -128,7 +110,7 @@ export default function StoresPage() {
   }, [getAll]);
   return (
     <div className="container mx-auto">
-      <div className="mt-10 ">
+      <div className="mt-10 p-1 flex justify-start ">
         <Select
           style={{ width: 110 }}
           onChange={(e) => {
@@ -185,18 +167,6 @@ export default function StoresPage() {
               value: 'OldToNew',
               label: 'Old to New',
             },
-          ]}
-        />
-        <Select
-          className=" ml-5 "
-          defaultValue="Modified"
-          style={{
-            width: 120,
-          }}
-          onChange={(e) => {
-            handleMostRecentProd(e);
-          }}
-          options={[
             {
               value: 'most',
               label: 'Most',
@@ -209,22 +179,24 @@ export default function StoresPage() {
         />
       </div>
 
-      <HomeSection className="pt-0 m-0">
-        {isStoresLoading
-          ? Array.from(Array(4)).map((_, index) => (
-              <SkeletonCollectionCard key={index} />
-            ))
-          : StoresList.map((store) => {
-              return (
-                <CollectionCard
-                  key={store.id}
-                  prodImg={store.logo}
-                  prodTitle={store.name}
-                  contain
-                />
-              );
-            })}
-      </HomeSection>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-5">
+        {isStoresLoading ? (
+          Array(4)
+            .fill()
+            .map((_, index) => <SkeletonCollectionCard key={index} />)
+        ) : StoresList.length > 0 ? (
+          StoresList.map((store) => (
+            <CollectionCard
+              key={store.id}
+              prodImg={store.logo}
+              prodTitle={store.name}
+              contain
+            />
+          ))
+        ) : (
+          <p>No stores available</p>
+        )}
+      </div>
     </div>
   );
 }
