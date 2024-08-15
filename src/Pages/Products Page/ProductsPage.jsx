@@ -1,3 +1,6 @@
+import { useOutlet } from 'react-router-dom';
+
 export default function ProductsPage() {
-  return <div>Products</div>;
+  const outlet = useOutlet();
+  return outlet || <div>Products</div>;
 }
