@@ -28,7 +28,7 @@ export const ProductDetails = ({ product, store, reviews }) => {
                 key={img}
                 src={img}
                 alt={product.title}
-                className={`w-24  cursor-pointer border-2 p-1 rounded-md ${
+                className={`w-20 h-14 object-contain cursor-pointer border-2 rounded-md ${
                   activeImage === index ? ' border-primary' : 'border-slate-400'
                 }`}
                 onClick={() => setActiveImage(index)}

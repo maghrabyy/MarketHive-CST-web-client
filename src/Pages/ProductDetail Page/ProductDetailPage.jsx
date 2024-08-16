@@ -6,6 +6,8 @@ import { CustomersReviews } from '../../Components/ProductDetails-comp/Customers
 import { Breadcrumb } from 'antd';
 import { Spin } from 'antd';
 import { FaHome, FaStore, FaShoppingBag } from 'react-icons/fa';
+import { auth } from '../../firebase';
+
 function ProductDetailPage() {
   const { prodId } = useParams();
   const { product, store, category, productReviews, isProductLoading } =
@@ -60,7 +62,7 @@ function ProductDetailPage() {
         store={store}
         reviews={productReviews}
       />
-      <ReviewForm productId={prodId} />
+      {auth.currentUser && <ReviewForm productId={prodId} />}
       <CustomersReviews reviews={productReviews} />
     </div>
   );

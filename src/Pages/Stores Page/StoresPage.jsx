@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../firebase.js';
 import { Select } from 'antd';
+import { useOutlet } from 'react-router-dom';
 
 export default function StoresPage() {
   const [StoresList, setStoresList] = useState([]);
@@ -11,7 +12,7 @@ export default function StoresPage() {
   const [filterStores, setFilterStores] = useState([]);
   const [isStoresLoading, setIsStoresLoading] = useState(true);
   const [getAll, setGetAll] = useState(false);
-
+  const outlet = useOutlet();
   const handleSelectChange = async (e) => {
     try {
       if (e == 'all') {
@@ -108,90 +109,99 @@ export default function StoresPage() {
     fetchCategories();
   }, [getAll]);
   return (
-    <div className="container mx-auto">
-      <div className="mt-10 p-1 flex justify-start ">
-        <Select
-          className="md:w-36"
-          onChange={(e) => {
-            handleSelectChange(e);
-          }}
-          showSearch
-          placeholder="Category"
-          filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-          }
-          options={[
-            { value: 'all', label: 'All' },
-            ...CategoryList.map((category) => ({
-              value: category.id,
-              label: category.categoryName,
-            })),
-          ]}
-        />
-        {/* Filter By Stores */}
-        <Select
-          className=" ml-5 md:w-36"
-          onChange={(e) => {
-            handleStoresChange(e);
-          }}
-          showSearch
-          placeholder="Search Stores"
-          filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-          }
-          options={[
-            { value: 'all', label: 'All' },
-            ...filterStores.map((store) => ({
-              value: store.name,
-              label: store.name,
-            })),
-          ]}
-        />
-        <Select
-          className=" ml-5 ms-auto md:w-36"
-          defaultValue="Sort By"
-          onChange={(e) => {
-            handleSortBy(e);
-          }}
-          options={[
-            {
-              value: 'NewToOld',
-              label: 'New to Old',
-            },
-            {
-              value: 'OldToNew',
-              label: 'Old to New',
-            },
-            {
-              value: 'most',
-              label: 'Most Products',
-            },
-            {
-              value: 'leastProducts',
-              label: 'Least Products ',
-            },
-          ]}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-5">
-        {isStoresLoading ? (
-          Array(4)
-            .fill()
-            .map((_, index) => <SkeletonCollectionCard key={index} />)
-        ) : StoresList.length > 0 ? (
-          StoresList.map((store) => (
-            <CollectionCard
-              key={store.id}
-              prodImg={store.logo}
-              prodTitle={store.name}
-              contain
+    outlet || (
+      <div className="paddingX space-y-2 py-4">
+        <div className="flex justify-between">
+          <div>
+            <Select
+              className="md:w-36"
+              onChange={(e) => {
+                handleSelectChange(e);
+              }}
+              showSearch
+              placeholder="Category"
+              filterOption={(input, option) =>
+                (option?.label ?? '')
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={[
+                { value: 'all', label: 'All' },
+                ...CategoryList.map((category) => ({
+                  value: category.id,
+                  label: category.categoryName,
+                })),
+              ]}
             />
-          ))
-        ) : (
-          <p>No stores available</p>
-        )}
+            {/* Filter By Stores */}
+            <Select
+              className=" ml-5 md:w-36"
+              onChange={(e) => {
+                handleStoresChange(e);
+              }}
+              showSearch
+              placeholder="Search Stores"
+              filterOption={(input, option) =>
+                (option?.label ?? '')
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={[
+                { value: 'all', label: 'All' },
+                ...filterStores.map((store) => ({
+                  value: store.name,
+                  label: store.name,
+                })),
+              ]}
+            />
+          </div>
+          <Select
+            className=" ml-5 md:w-36"
+            defaultValue="Sort By"
+            onChange={(e) => {
+              handleSortBy(e);
+            }}
+            options={[
+              {
+                value: 'NewToOld',
+                label: 'New to Old',
+              },
+              {
+                value: 'OldToNew',
+                label: 'Old to New',
+              },
+              {
+                value: 'most',
+                label: 'Most Products',
+              },
+              {
+                value: 'leastProducts',
+                label: 'Least Products ',
+              },
+            ]}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {isStoresLoading ? (
+            Array(8)
+              .fill()
+              .map((_, index) => <SkeletonCollectionCard key={index} />)
+          ) : StoresList.length > 0 ? (
+            StoresList.map((store) => (
+              <CollectionCard
+                key={store.id}
+                path={`/stores/${store.id}`}
+                prodImg={store.logo}
+                prodTitle={store.name}
+                contain
+              />
+            ))
+          ) : (
+            <p>No stores available</p>
+          )}
+        </div>
       </div>
-    </div>
+    )
   );
 }
