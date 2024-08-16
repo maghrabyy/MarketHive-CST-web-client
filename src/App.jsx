@@ -9,6 +9,7 @@ import LoginPage from './Pages/Login Page/LoginPage.jsx';
 import RegisterPage from './Pages/Register Page/RegisterPage.jsx';
 import StoresPage from './Pages/Stores Page/StoresPage.jsx';
 import CategoriesPage from './Pages/Categories Page/CategoriesPage.jsx';
+import ProductDetailPage from './Pages/ProductDetail Page/ProductDetailPage.jsx';
 
 let routers = createBrowserRouter([
   {
@@ -19,7 +20,11 @@ let routers = createBrowserRouter([
       { path: 'cart', element: <CartPage /> },
       { path: 'categories', element: <CategoriesPage /> },
       { path: 'stores', element: <StoresPage /> },
-      { path: 'products', element: <ProductsPage /> },
+      {
+        path: 'products',
+        element: <ProductsPage />,
+        children: [{ path: ':prodId', element: <ProductDetailPage /> }],
+      },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
       { path: '*', element: <NotFoundPage /> },
