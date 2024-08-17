@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../../firebase.js';
+import { updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
@@ -83,6 +84,13 @@ export default function RegisterPage() {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phone,
+            address: {},
+            orders: [],
+            shoppingCart: [],
+            registrationDate: new Date(),
+          });
+          await updateProfile(user, {
+            displayName: `${firstName} ${lastName}`,
           });
         } catch (error) {
           setAuthError(

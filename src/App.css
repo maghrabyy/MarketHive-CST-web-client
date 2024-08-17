@@ -1,28 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 .paddingX {
-  @apply px-2 sm:px-6 md:px-10 lg:px-16 xl:px-28 2xl:px-64;
+  @apply px-3 sm:px-6 md:px-10 lg:px-16 xl:px-28 2xl:px-64;
 }
 
 .media {
-  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4;
 }
 
 h1 {
-  @apply font-josefin-sans text-4xl;
+  @apply font-josefin-sans;
 }
 
 h2 {
-  @apply font-josefin-sans text-2xl;
+  @apply font-josefin-sans;
 }
 
 h3,
 h4 {
-  @apply font-nunito text-xl;
+  @apply font-nunito;
 }
 
 h5,
 h6 {
-  @apply font-nunito text-lg;
+  @apply font-nunito;
 }
 
 p {

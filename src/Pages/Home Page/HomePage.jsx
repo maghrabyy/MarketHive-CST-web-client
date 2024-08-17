@@ -26,7 +26,11 @@ export default function HomePage() {
         productsSnapshot.forEach((product) => {
           prodsData.push({ ...product.data(), id: product.id });
         });
-        setPopularProdList(prodsData.slice(0, 4));
+        setPopularProdList(
+          prodsData
+            .sort((a, b) => b.reviews.length - a.reviews.length)
+            .slice(0, 4),
+        );
         setProdsLoading(false);
       } catch (error) {
         console.log(error);
@@ -80,9 +84,8 @@ export default function HomePage() {
                 return (
                   <ProductCard
                     key={prod.id}
-                    prodImg={prod.images[0]}
-                    prodTitle={prod.title}
-                    prodPrice={prod.price}
+                    path={`/products/${prod.id}`}
+                    product={prod}
                   />
                 );
               })}
@@ -100,6 +103,7 @@ export default function HomePage() {
                 return (
                   <CollectionCard
                     key={store.id}
+                    path={`/stores/${store.id}`}
                     prodImg={store.logo}
                     prodTitle={store.name}
                     contain
@@ -120,6 +124,7 @@ export default function HomePage() {
                 return (
                   <CollectionCard
                     key={cat.id}
+                    path={`/collections/${cat.id}`}
                     prodImg={cat.categoryImage}
                     prodTitle={cat.categoryName}
                     cover
