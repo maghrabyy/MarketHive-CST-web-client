@@ -4,6 +4,7 @@ import { QuantitySelector } from '../../Components/ProductDetails-comp/QuantityS
 import { Avatar } from 'antd';
 import { useState } from 'react';
 import { FaRegHeart } from 'react-icons/fa';
+
 export const ProductDetails = ({ product, store, reviews }) => {
   const [selectedQty, setSelectedQty] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
@@ -15,7 +16,12 @@ export const ProductDetails = ({ product, store, reviews }) => {
     reviews.length;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div className="product-images">
+      <div className="product-images relative">
+        {product.discount > 0 && (
+          <div className="discount absolute top-1 right-1 rounded-md bg-red-500 text-white select-none py-2 px-4">
+            - {product.discount * 100}%
+          </div>
+        )}
         <img
           src={product.images[activeImage]}
           alt={product.title}
@@ -49,7 +55,7 @@ export const ProductDetails = ({ product, store, reviews }) => {
           <h1 className="text-4xl font-bold">{product.title}</h1>
           <div className="product-rate flex items-center gap-2">
             <Rate count={5} disabled value={avgRate} />(
-            {product.reviews.length.toLocaleString()})
+            {reviews.length.toLocaleString()})
           </div>
           <h1
             className={`font-semibold ${

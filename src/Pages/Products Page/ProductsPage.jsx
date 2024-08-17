@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { FaStore } from 'react-icons/fa';
 import { FaShoppingBag } from 'react-icons/fa';
 import { SkeletonProdsCard } from '../../Components/EcommerceCards';
+import { EmptyList } from '../../Components/EmptyList';
 
 export default function ProductsPage({
   productsList,
@@ -125,7 +126,7 @@ export default function ProductsPage({
         <div className="flex gap-2">
           <Select
             defaultValue={'Filter By'}
-            className="min-w-40"
+            className="min-w-36"
             onChange={handleFilter}
             options={[
               {
@@ -144,7 +145,7 @@ export default function ProductsPage({
           />
           <Select
             defaultValue={'Sort By'}
-            className="min-w-40"
+            className="min-w-36"
             onChange={handleSort}
             options={[
               {
@@ -183,13 +184,13 @@ export default function ProductsPage({
           />
         </div>
 
-        <div className="media">
-          {isLoading ? (
-            Array(8)
-              .fill()
-              .map((_, index) => <SkeletonProdsCard key={index} />)
-          ) : products.length > 0 ? (
-            products.map((product) => (
+        {isLoading ? (
+          Array(8)
+            .fill()
+            .map((_, index) => <SkeletonProdsCard key={index} />)
+        ) : products.length > 0 ? (
+          <div className="media">
+            {products.map((product) => (
               <ProductCard
                 key={product.id}
                 path={`/products/${product.id}`}
@@ -197,11 +198,11 @@ export default function ProductsPage({
                 prodImg={product.images}
                 prodPrice={product.price}
               />
-            ))
-          ) : (
-            <p>No products available.</p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyList type="products" />
+        )}
       </div>
     )
   );

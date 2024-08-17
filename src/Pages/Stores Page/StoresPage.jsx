@@ -5,6 +5,7 @@ import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../firebase.js';
 import { Select } from 'antd';
 import { useOutlet } from 'react-router-dom';
+import { EmptyList } from '../../Components/EmptyList.jsx';
 
 export default function StoresPage() {
   const [StoresList, setStoresList] = useState([]);
@@ -111,10 +112,10 @@ export default function StoresPage() {
   return (
     outlet || (
       <div className="paddingX space-y-2 py-4">
-        <div className="flex justify-between">
-          <div>
+        <div className="flex flex-wrap gap-2 justify-between">
+          <div className="flex gap-2">
             <Select
-              className="md:w-36"
+              className="min-w-36"
               onChange={(e) => {
                 handleSelectChange(e);
               }}
@@ -135,7 +136,7 @@ export default function StoresPage() {
             />
             {/* Filter By Stores */}
             <Select
-              className=" ml-5 md:w-36"
+              className=" min-w-36"
               onChange={(e) => {
                 handleStoresChange(e);
               }}
@@ -156,7 +157,7 @@ export default function StoresPage() {
             />
           </div>
           <Select
-            className=" ml-5 md:w-36"
+            className="min-w-36"
             defaultValue="Sort By"
             onChange={(e) => {
               handleSortBy(e);
@@ -182,13 +183,13 @@ export default function StoresPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {isStoresLoading ? (
-            Array(8)
-              .fill()
-              .map((_, index) => <SkeletonCollectionCard key={index} />)
-          ) : StoresList.length > 0 ? (
-            StoresList.map((store) => (
+        {isStoresLoading ? (
+          Array(8)
+            .fill()
+            .map((_, index) => <SkeletonCollectionCard key={index} />)
+        ) : StoresList.length > 0 ? (
+          <div className="media">
+            {StoresList.map((store) => (
               <CollectionCard
                 key={store.id}
                 path={`/stores/${store.id}`}
@@ -196,11 +197,11 @@ export default function StoresPage() {
                 prodTitle={store.name}
                 contain
               />
-            ))
-          ) : (
-            <p>No stores available</p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyList type="stores" />
+        )}
       </div>
     )
   );
