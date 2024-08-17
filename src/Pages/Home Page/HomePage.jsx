@@ -85,9 +85,7 @@ export default function HomePage() {
                   <ProductCard
                     key={prod.id}
                     path={`/products/${prod.id}`}
-                    prodImg={prod.images[0]}
-                    prodTitle={prod.title}
-                    prodPrice={prod.price}
+                    product={prod}
                   />
                 );
               })}

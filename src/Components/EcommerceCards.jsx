@@ -3,7 +3,10 @@ import { FaRegHeart } from 'react-icons/fa';
 import Card from 'antd/es/card/Card';
 import { Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
-export const ProductCard = ({ prodTitle, prodPrice, prodImg, path }) => {
+export const ProductCard = ({ product, path }) => {
+  const productPrice = product.discount
+    ? product.price - product.price * product.discount
+    : product.price;
   return (
     <Link to={path}>
       <Card
@@ -13,16 +16,34 @@ export const ProductCard = ({ prodTitle, prodPrice, prodImg, path }) => {
           <div className="relative">
             <FaShoppingCart className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75" />
             <FaRegHeart className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75" />
+            {product.discount > 0 && (
+              <div className="discount absolute top-1 left-1 rounded-md bg-red-500 text-white select-none py-2 px-4">
+                - {product.discount * 100}%
+              </div>
+            )}
             <img
-              alt={prodTitle}
+              alt={product.title}
               className="pt-2 h-[300px] w-full object-contain"
-              src={prodImg}
+              src={product.images[0]}
             />
           </div>
         }
       >
-        <h1 className="font-bold truncate">{prodTitle}</h1>
-        <p className="text-gray-400">{prodPrice.toLocaleString()} EGP</p>
+        <h1 className="font-bold truncate">{product.title}</h1>
+        {product.discount ? (
+          <div className="product-price flex items-center gap-2">
+            <p className="text-gray-400 text-lg">
+              {productPrice.toLocaleString()} EGP
+            </p>
+            <p className="text-gray-400 text-sm line-through">
+              {product.price.toLocaleString()} EGP
+            </p>
+          </div>
+        ) : (
+          <p className="text-gray-400 text-lg">
+            {productPrice.toLocaleString()} EGP
+          </p>
+        )}
       </Card>
     </Link>
   );

@@ -41,11 +41,13 @@ export default function ProductsPage({
   function handleSort(value) {
     setProducts((prods) => [
       ...prods.sort((a, b) => {
+        const aPrice = a.discount ? a.price - a.price * a.discount : a.price;
+        const bPrice = b.discount ? b.price - b.price * b.discount : b.price;
         switch (value) {
           case 'priceAsc':
-            return a.price - b.price;
+            return aPrice - bPrice;
           case 'priceDesc':
-            return b.price - a.price;
+            return bPrice - aPrice;
           case 'nameAsc':
             return a.title.localeCompare(b.title);
           case 'nameDesc':
@@ -174,11 +176,11 @@ export default function ProductsPage({
               },
               {
                 value: 'highRate',
-                label: 'Highest Products',
+                label: 'Highest Rate',
               },
               {
                 value: 'lowRate',
-                label: 'Lowest Rates',
+                label: 'Lowest Rate',
               },
             ]}
           />
@@ -194,9 +196,7 @@ export default function ProductsPage({
               <ProductCard
                 key={product.id}
                 path={`/products/${product.id}`}
-                prodTitle={product.title}
-                prodImg={product.images}
-                prodPrice={product.price}
+                product={product}
               />
             ))}
           </div>
