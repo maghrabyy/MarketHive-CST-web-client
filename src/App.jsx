@@ -12,6 +12,7 @@ import CategoriesPage from './Pages/Categories Page/CategoriesPage.jsx';
 import { ProductsStorePage } from './Pages/Products Page/ProductsStorePage.jsx';
 import { ProductsCategoryPage } from './Pages/Products Page/ProductsCategoryPage.jsx';
 import ProductDetailPage from './Pages/ProductDetail Page/ProductDetailPage.jsx';
+import { SearchResultPage } from './Pages/Products Page/SearchResultPage.jsx';
 import { useState, useEffect } from 'react';
 import { db } from './firebase.js';
 import { getDocs, collection } from 'firebase/firestore';
@@ -50,7 +51,7 @@ function App() {
       children: [
         { index: true, element: <HomePage /> },
         { path: 'cart', element: <CartPage /> },
-
+        { path: 'search-result', element: <SearchResultPage /> },
         {
           path: 'categories',
           element: <CategoriesPage />,
