@@ -34,7 +34,11 @@ export const SearchBar = () => {
     ...filteredProductsByCategory,
     ...filteredProductsByStore,
     ...filteredProducts,
-  ];
+  ].filter(
+    (prod, index, array) =>
+      array.map((product) => product.id).indexOf(prod.id) === index,
+  );
+
   const options = searchProducts.map((product) => ({
     label: product.title,
     value: product.id,
@@ -45,9 +49,11 @@ export const SearchBar = () => {
   };
 
   const searchHandler = (e) => {
-    if (e.code === 'Enter') {
-      setSearchResult(searchProducts);
-      navigate('/search-result');
+    if (searchProducts.length > 0) {
+      if (e.code === 'Enter') {
+        setSearchResult(searchProducts);
+        navigate(`/search-result/${searchTerm}`);
+      }
     }
   };
   return (

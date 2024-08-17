@@ -51,7 +51,7 @@ function App() {
       children: [
         { index: true, element: <HomePage /> },
         { path: 'cart', element: <CartPage /> },
-        { path: 'search-result', element: <SearchResultPage /> },
+        { path: 'search-result/:keyword', element: <SearchResultPage /> },
         {
           path: 'categories',
           element: <CategoriesPage />,
