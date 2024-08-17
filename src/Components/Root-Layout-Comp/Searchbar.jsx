@@ -1,48 +1,14 @@
 import { AutoComplete } from 'antd';
 import { useState } from 'react';
-import useFetchData from '../../Custom Hooks/useFetchData';
 import { useNavigate } from 'react-router-dom';
 import { useSearchResult } from '../../Context/SearchResultContext';
+import { useProductSearch } from '../../Custom Hooks/useSearchResult';
 
 export const SearchBar = () => {
   const { setSearchResult } = useSearchResult();
   const navigate = useNavigate();
-  const { products, categories, stores } = useFetchData();
   const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
-  const matchingCategories = categories.filter((category) =>
-    category.categoryName.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-  const matchingCategoryIds = matchingCategories.map((category) => category.id);
-  const filteredProductsByCategory = products.filter((product) =>
-    matchingCategoryIds.includes(product.categoryId),
-  );
-
-  const matchingStores = stores.filter((store) =>
-    store.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-  const matchingStoreIds = matchingStores.map((store) => store.id);
-  const filteredProductsByStore = products.filter((product) =>
-    matchingStoreIds.includes(product.storeId),
-  );
-
-  const searchProducts = [
-    ...filteredProductsByCategory,
-    ...filteredProductsByStore,
-    ...filteredProducts,
-  ].filter(
-    (prod, index, array) =>
-      array.map((product) => product.id).indexOf(prod.id) === index,
-  );
-
-  const options = searchProducts.map((product) => ({
-    label: product.title,
-    value: product.id,
-  }));
+  const { searchProducts, searchSuggestions } = useProductSearch(searchTerm);
   const handleSelect = (value, title) => {
     setSearchTerm(title.label);
     navigate(`/products/${value}`);
@@ -58,7 +24,7 @@ export const SearchBar = () => {
   };
   return (
     <AutoComplete
-      options={options.slice(0, 5)}
+      options={searchSuggestions}
       filterOption={false}
       onSelect={handleSelect}
       onKeyDown={searchHandler}

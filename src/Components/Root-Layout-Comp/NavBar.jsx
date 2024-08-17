@@ -10,8 +10,10 @@ import Avatar from 'antd/es/avatar/avatar';
 import { useNavigate } from 'react-router-dom';
 import { SearchBar } from './Searchbar';
 import { IoMdSearch } from 'react-icons/io';
+import { useSearchDrawer } from '../../Context/SearchDrawerContext';
 
 export default function NavBar() {
+  const { setShowSearchDrawer } = useSearchDrawer();
   const navigate = useNavigate();
   const [authUser, setAuthUser] = useState();
   const logoutHandler = async () => {
@@ -36,7 +38,10 @@ export default function NavBar() {
         {/* Actions & Account*/}
 
         <div className=" flex gap-2 items-center font-medium ">
-          <IoMdSearch className="text-primary  hover:text-primary/80 text-xl cursor-pointer group-hover:text-primary block sm:hidden " />
+          <IoMdSearch
+            onClick={() => setShowSearchDrawer(true)}
+            className="text-primary  hover:text-primary/80 text-xl cursor-pointer group-hover:text-primary block sm:hidden "
+          />
           <Link
             className="text-primary hover:text-primary/80 group  rounded-full"
             to="/cart"

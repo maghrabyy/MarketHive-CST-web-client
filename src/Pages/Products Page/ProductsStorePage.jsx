@@ -1,4 +1,4 @@
-import { fetchProducts } from '../../lib/fetchProducts';
+import { fetchProducts } from '../../util/fetchProducts';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ProductsPage from './ProductsPage';

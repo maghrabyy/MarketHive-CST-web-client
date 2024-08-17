@@ -7,7 +7,7 @@ import { FaExclamationCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
-import { authErrors } from '../../lib/authErrors';
+import { authErrors } from '../../util/authErrors';
 import { Spin } from 'antd';
 import { useEffect } from 'react';
 

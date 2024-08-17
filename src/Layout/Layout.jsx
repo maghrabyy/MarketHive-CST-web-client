@@ -4,7 +4,7 @@ import Footer from '../Components/Root-Layout-Comp/Footer';
 import { Spin } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import { SearchDrawer } from '../Components/Root-Layout-Comp/SearchDrawer';
 export default function Layout({ isRoutesLoading }) {
   const location = useLocation().pathname;
   useEffect(() => {
@@ -12,6 +12,7 @@ export default function Layout({ isRoutesLoading }) {
   }, [location]);
   return (
     <>
+      <SearchDrawer />
       <Navbar />
       <div className="min-h-screen relative">
         {isRoutesLoading ? (

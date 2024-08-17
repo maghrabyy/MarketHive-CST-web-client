@@ -9,7 +9,7 @@ import { updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
-import { authErrors } from '../../lib/authErrors.js';
+import { authErrors } from '../../util/authErrors.js';
 import { Spin } from 'antd';
 import { useEffect } from 'react';
 
