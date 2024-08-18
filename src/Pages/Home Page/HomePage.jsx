@@ -36,13 +36,7 @@ export default function HomePage() {
                 <SkeletonProdsCard key={index} />
               ))
             : popularProdList.map((prod) => {
-                return (
-                  <ProductCard
-                    key={prod.id}
-                    path={`/products/${prod.id}`}
-                    product={prod}
-                  />
-                );
+                return <ProductCard key={prod.id} product={prod} />;
               })}
         </HomeSection>
         <HomeSection

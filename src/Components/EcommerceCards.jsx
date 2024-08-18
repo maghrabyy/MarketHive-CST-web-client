@@ -3,12 +3,12 @@ import { FaRegHeart } from 'react-icons/fa';
 import Card from 'antd/es/card/Card';
 import { Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
-export const ProductCard = ({ product, path }) => {
+export const ProductCard = ({ product }) => {
   const productPrice = product.discount
     ? product.price - product.price * product.discount
     : product.price;
   return (
-    <Link to={path}>
+    <Link to={`/products/${product.id}`}>
       <Card
         hoverable
         className="overflow-hidden px-1"

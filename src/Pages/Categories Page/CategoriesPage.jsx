@@ -4,6 +4,7 @@ import { db } from '../../firebase';
 import { CollectionCard } from '../../Components/EcommerceCards';
 import { useOutlet } from 'react-router-dom';
 import { SkeletonCollectionCard } from '../../Components/EcommerceCards';
+import { EmptyList } from '../../Components/EmptyList';
 
 function CategoriesPage() {
   const outlet = useOutlet();
@@ -53,7 +54,7 @@ function CategoriesPage() {
             })}
           </div>
         ) : (
-          <p>No categories available.</p>
+          <EmptyList type="categories" />
         )}
       </div>
     )

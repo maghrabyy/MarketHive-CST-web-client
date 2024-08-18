@@ -186,7 +186,6 @@ export default function ProductsPage({
             {products.map((product) => (
               <ProductCard
                 key={product.id}
-                path={`/products/${product.id}`}
                 product={product}
               />
             ))}
