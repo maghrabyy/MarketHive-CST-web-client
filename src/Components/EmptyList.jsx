@@ -20,7 +20,7 @@ export const EmptyList = ({ type }) => {
   return (
     <div className="Empty-list grid grid-cols-1 md:grid-cols-2 gap-2 items-center px-4">
       <div className="empty-msg order-last md:order-first text-center md:text-start">
-        <h1 className="text-3xl font-bold">{emptyMsg}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">{emptyMsg}</h1>
         <p>
           You can go{' '}
           <span
