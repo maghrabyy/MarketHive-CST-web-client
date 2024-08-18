@@ -183,13 +183,17 @@ export default function StoresPage() {
           />
         </div>
 
-        <div className="media">
-          {isStoresLoading ? (
-            Array(8)
+        {isStoresLoading ? (
+          <div className="media">
+            {Array(8)
               .fill()
-              .map((_, index) => <SkeletonCollectionCard key={index} />)
-          ) : storesList.length > 0 ? (
-            storesList.map((store) => (
+              .map((_, index) => (
+                <SkeletonCollectionCard key={index} />
+              ))}
+          </div>
+        ) : storesList.length > 0 ? (
+          <div className="media">
+            {storesList.map((store) => (
               <CollectionCard
                 key={store.id}
                 path={`/stores/${store.id}`}
@@ -197,11 +201,11 @@ export default function StoresPage() {
                 prodTitle={store.name}
                 contain
               />
-            ))
-          ) : (
-            <EmptyList type="stores" />
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyList type="stores" />
+        )}
       </div>
     )
   );

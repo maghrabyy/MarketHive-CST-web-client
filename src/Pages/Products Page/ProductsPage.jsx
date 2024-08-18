@@ -173,23 +173,27 @@ export default function ProductsPage({
           />
         </div>
 
-        <div className="media">
-          {isLoading ? (
-            Array(8)
+        {isLoading ? (
+          <div className="media">
+            {Array(8)
               .fill()
-              .map((_, index) => <SkeletonProdsCard key={index} />)
-          ) : products.length > 0 ? (
-            products.map((product) => (
+              .map((_, index) => (
+                <SkeletonProdsCard key={index} />
+              ))}
+          </div>
+        ) : products.length > 0 ? (
+          <div className="media">
+            {products.map((product) => (
               <ProductCard
                 key={product.id}
                 path={`/products/${product.id}`}
                 product={product}
               />
-            ))
-          ) : (
-            <EmptyList type="products" />
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyList type="products" />
+        )}
       </div>
     )
   );

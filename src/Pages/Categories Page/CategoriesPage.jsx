@@ -30,13 +30,17 @@ function CategoriesPage() {
   return (
     outlet || (
       <div className="paddingX space-y-2 py-4">
-        <div className="media">
-          {isCatsLoading ? (
-            Array(8)
+        {isCatsLoading ? (
+          <div className="media">
+            {Array(8)
               .fill()
-              .map((_, index) => <SkeletonCollectionCard key={index} />)
-          ) : categories.length > 0 ? (
-            categories.map((cat) => {
+              .map((_, index) => (
+                <SkeletonCollectionCard key={index} />
+              ))}
+          </div>
+        ) : categories.length > 0 ? (
+          <div className="media">
+            {categories.map((cat) => {
               return (
                 <CollectionCard
                   key={cat.id}
@@ -46,11 +50,11 @@ function CategoriesPage() {
                   cover
                 />
               );
-            })
-          ) : (
-            <p>No categories available.</p>
-          )}
-        </div>
+            })}
+          </div>
+        ) : (
+          <p>No categories available.</p>
+        )}
       </div>
     )
   );
