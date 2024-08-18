@@ -3,7 +3,10 @@ import { FaRegHeart } from 'react-icons/fa';
 import Card from 'antd/es/card/Card';
 import { Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
-export const ProductCard = ({ product }) => {
+import { useFetchStore } from '../Custom Hooks/useFetchStore';
+
+export const ProductCard = ({ product, showStore = true }) => {
+  const { store, isStoreLoading } = useFetchStore(product.storeId);
   const productPrice = product.discount
     ? product.price - product.price * product.discount
     : product.price;
@@ -11,14 +14,32 @@ export const ProductCard = ({ product }) => {
     <Link to={`/products/${product.id}`}>
       <Card
         hoverable
-        className="overflow-hidden px-1"
+        className="overflow-hidden"
         cover={
           <div className="relative">
             <FaShoppingCart className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75" />
             <FaRegHeart className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75" />
             {product.discount > 0 && (
-              <div className="discount absolute top-1 left-1 rounded-md bg-red-500 text-white select-none py-2 px-4">
+              <h2 className="discount absolute top-0 left-0 rounded-md bg-red-500 text-white select-none p-2">
                 - {product.discount * 100}%
+              </h2>
+            )}
+            {showStore && (
+              <div className="store-info absolute bottom-0 left-0 py-1 px-2 w-full flex gap-2 items-center bg-gray-100 bg-opacity-80 backdrop-blur-sm">
+                {isStoreLoading ? (
+                  <p>Loading...</p>
+                ) : (
+                  <>
+                    <img
+                      className="size-10 rounded-full object-contain"
+                      src={store.logo}
+                      alt={store.name}
+                    />
+                    <h2 className="text-xl text-slate-800 font-semibold">
+                      {store.name}
+                    </h2>
+                  </>
+                )}
               </div>
             )}
             <img

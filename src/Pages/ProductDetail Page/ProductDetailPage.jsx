@@ -26,14 +26,14 @@ function ProductDetailPage() {
             title: 'Home',
           },
           {
-            href: `/stores/${store.id}`,
-            icon: <FaStore />,
-            title: store.name,
-          },
-          {
             href: `/categories/${category.id}`,
             icon: <FaShoppingBag />,
             title: category.categoryName,
+          },
+          {
+            href: `/stores/${store.id}`,
+            icon: <FaStore />,
+            title: store.name,
           },
           {
             icon: <FaShoppingBag />,
