@@ -4,6 +4,8 @@ import { QuantitySelector } from '../../Components/ProductDetails-comp/QuantityS
 import { Avatar } from 'antd';
 import { useState } from 'react';
 import { FaRegHeart } from 'react-icons/fa';
+import { FaShoppingBag } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
 
 export const ProductDetails = ({ product, store, reviews }) => {
   const [selectedQty, setSelectedQty] = useState(1);
@@ -98,10 +100,16 @@ export const ProductDetails = ({ product, store, reviews }) => {
               onChange={setSelectedQty}
               maxValue={product.stockQuantity}
             />
-            <Button type="primary" className="flex-grow">
+            <Button
+              type="primary"
+              icon={<FaShoppingBag />}
+              className="flex-grow"
+            >
               Buy Now
             </Button>
-            <Button className="flex-grow">Add to Cart</Button>
+            <Button icon={<FaShoppingCart />} className="flex-grow">
+              Add to Cart
+            </Button>
           </div>
         </div>
       </div>

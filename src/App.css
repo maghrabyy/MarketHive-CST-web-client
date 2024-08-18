@@ -66,6 +66,11 @@ p {
   background-color: #d97706 !important;
 }
 
+.ant-btn-default:hover {
+  color: #f39932 !important;
+  border-color: #f39932 !important;
+}
+
 .ant-spin-dot-item {
   background-color: #f39932 !important;
 }
