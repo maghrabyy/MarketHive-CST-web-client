@@ -6,7 +6,7 @@ export const SearchResultPage = () => {
   return (
     <>
       <h2 className="paddingX pt-8 text-xl">
-        Search Results, {searchResult.length} items found.
+        Search Results, {searchResult.length} item(s) found.
       </h2>
       <ProductsPage productsList={searchResult} />
     </>

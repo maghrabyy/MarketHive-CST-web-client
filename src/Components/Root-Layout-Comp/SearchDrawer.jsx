@@ -16,7 +16,7 @@ export const SearchDrawer = () => {
   const { searchProducts, getStoreNameFromId } = useProductSearch(searchTerm);
   const searchSuggestions = searchProducts.slice(0, 5);
   const searchResultHandler = () => {
-    if (searchProducts.length > 0) {
+    if (searchTerm.length > 0) {
       setSearchResult(searchProducts);
       navigate(`/search-result/${searchTerm}`);
       setShowSearchDrawer(false);

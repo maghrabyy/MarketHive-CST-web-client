@@ -15,7 +15,7 @@ export const SearchBar = () => {
   };
 
   const searchHandler = (e) => {
-    if (searchProducts.length > 0) {
+    if (searchTerm.length > 0) {
       if (e.code === 'Enter') {
         setSearchResult(searchProducts);
         navigate(`/search-result/${searchTerm}`);
