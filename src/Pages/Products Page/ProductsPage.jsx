@@ -1,6 +1,7 @@
 import { useOutlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Select, Breadcrumb } from 'antd';
+import { Select } from 'antd';
+import { BreadCrumb } from '../../Components/BreadCrumb';
 import { ProductCard } from '../../Components/EcommerceCards';
 import { FaHome } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
@@ -69,12 +70,8 @@ export default function ProductsPage({
   const categoriesPath = [
     {
       href: `/categories`,
-      title: (
-        <div className="flex gap-2 items-center">
-          <FaShoppingBag />
-          <span>Categories</span>
-        </div>
-      ),
+      icon: <FaShoppingBag />,
+      title: 'Categories',
     },
     {
       title: productPath.collectionName,
@@ -83,12 +80,8 @@ export default function ProductsPage({
   const storesPath = [
     {
       href: '/stores',
-      title: (
-        <div className="flex gap-2 items-center">
-          <FaStore />
-          <span>Stores</span>
-        </div>
-      ),
+      icon: <FaStore />,
+      title: 'Stores',
     },
     {
       title: productPath.collectionName,
@@ -98,29 +91,21 @@ export default function ProductsPage({
     outlet || (
       <div className="paddingX py-5 space-y-3 ">
         {collectionName && (
-          <Breadcrumb
+          <BreadCrumb
             items={
               (productPath.base === 'categories' && [
                 {
                   href: '/',
-                  title: (
-                    <div className="flex gap-2 items-center">
-                      <FaHome />
-                      <span>Home</span>
-                    </div>
-                  ),
+                  icon: <FaHome />,
+                  title: 'Home',
                 },
                 ...categoriesPath,
               ]) ||
               (productPath.base === 'stores' && [
                 {
                   href: '/',
-                  title: (
-                    <div className="flex gap-2 items-center">
-                      <FaHome />
-                      <span>Home</span>
-                    </div>
-                  ),
+                  icon: <FaHome />,
+                  title: 'Home',
                 },
                 ...storesPath,
               ])

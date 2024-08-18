@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ProductDetails } from '../../Components/ProductDetails-comp/ProductDetails';
 import { ReviewForm } from '../../Components/ProductDetails-comp/ReviewForm';
 import { CustomersReviews } from '../../Components/ProductDetails-comp/CustomersReviews';
-import { Breadcrumb } from 'antd';
+import { BreadCrumb } from '../../Components/BreadCrumb';
 import { Spin } from 'antd';
 import { FaHome, FaStore, FaShoppingBag } from 'react-icons/fa';
 import { auth } from '../../firebase';
@@ -18,42 +18,26 @@ function ProductDetailPage() {
     </div>
   ) : (
     <div className="product-details-page paddingX py-5 space-y-5">
-      <Breadcrumb
+      <BreadCrumb
         items={[
           {
             href: '/',
-            title: (
-              <div className="flex gap-2 items-center">
-                <FaHome />
-                <span>Home</span>
-              </div>
-            ),
+            icon: <FaHome />,
+            title: 'Home',
           },
           {
             href: `/stores/${store.id}`,
-            title: (
-              <div className="flex gap-2 items-center">
-                <FaStore />
-                <span>{store.name}</span>
-              </div>
-            ),
+            icon: <FaStore />,
+            title: store.name,
           },
           {
             href: `/categories/${category.id}`,
-            title: (
-              <div className="flex gap-2 items-center">
-                <FaShoppingBag />
-                <span>{category.categoryName}</span>
-              </div>
-            ),
+            icon: <FaShoppingBag />,
+            title: category.categoryName,
           },
           {
-            title: (
-              <div className="flex gap-2 items-center">
-                <FaShoppingBag />
-                <span>{product.title}</span>
-              </div>
-            ),
+            icon: <FaShoppingBag />,
+            title: product.title,
           },
         ]}
       />
