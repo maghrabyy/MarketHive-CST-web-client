@@ -97,34 +97,36 @@ export default function ProductsPage({
   return (
     outlet || (
       <div className="paddingX py-5 space-y-3 ">
-        <Breadcrumb
-          items={
-            (productPath.base === 'categories' && [
-              {
-                href: '/',
-                title: (
-                  <div className="flex gap-2 items-center">
-                    <FaHome />
-                    <span>Home</span>
-                  </div>
-                ),
-              },
-              ...categoriesPath,
-            ]) ||
-            (productPath.base === 'stores' && [
-              {
-                href: '/',
-                title: (
-                  <div className="flex gap-2 items-center">
-                    <FaHome />
-                    <span>Home</span>
-                  </div>
-                ),
-              },
-              ...storesPath,
-            ])
-          }
-        />
+        {collectionName && (
+          <Breadcrumb
+            items={
+              (productPath.base === 'categories' && [
+                {
+                  href: '/',
+                  title: (
+                    <div className="flex gap-2 items-center">
+                      <FaHome />
+                      <span>Home</span>
+                    </div>
+                  ),
+                },
+                ...categoriesPath,
+              ]) ||
+              (productPath.base === 'stores' && [
+                {
+                  href: '/',
+                  title: (
+                    <div className="flex gap-2 items-center">
+                      <FaHome />
+                      <span>Home</span>
+                    </div>
+                  ),
+                },
+                ...storesPath,
+              ])
+            }
+          />
+        )}
         <div className="flex gap-2">
           <Select
             defaultValue={'Filter By'}

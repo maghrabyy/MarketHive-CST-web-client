@@ -11,7 +11,7 @@ import { useSearchResult } from '../../Context/SearchResultContext';
 export const SearchDrawer = () => {
   const navigate = useNavigate();
   const { setSearchResult } = useSearchResult();
-  const [searchTerm, setSearchTerm] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
   const { showSearchDrawer, setShowSearchDrawer } = useSearchDrawer();
   const { searchProducts, searchSuggestions } = useProductSearch(searchTerm);
   const searchResultHandler = () => {
@@ -48,7 +48,9 @@ export const SearchDrawer = () => {
           Search Products
         </Button>
 
-        {searchSuggestions.length > 0 ? (
+        {searchTerm.length === 0 ? (
+          <p className="text-xl font-semibold ms-2">Search for products.</p>
+        ) : searchSuggestions.length > 0 ? (
           searchSuggestions.map((prod) => (
             <div
               key={prod.value}
