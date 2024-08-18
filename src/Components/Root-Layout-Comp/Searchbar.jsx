@@ -8,7 +8,7 @@ export const SearchBar = () => {
   const { setSearchResult } = useSearchResult();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const { searchProducts, searchSuggestions } = useProductSearch(searchTerm);
+  const { searchProducts, getStoreNameFromId } = useProductSearch(searchTerm);
   const handleSelect = (value, title) => {
     setSearchTerm(title.label);
     navigate(`/products/${value}`);
@@ -22,6 +22,27 @@ export const SearchBar = () => {
       }
     }
   };
+
+  const searchSuggestions = searchProducts
+    .map((prod) => ({
+      label: (
+        <div className="search-item flex gap-2">
+          <img
+            src={prod.images[0]}
+            className="size-10 rounded-md object-contain"
+            alt={prod.title}
+          />
+          <div className="product-info flex flex-col w-full">
+            <h1 className="text-wrap line-clamp-2">{prod.title}</h1>
+            <p className="self-end text-gray-500">
+              {getStoreNameFromId(prod.storeId)}
+            </p>
+          </div>
+        </div>
+      ),
+      value: prod.id,
+    }))
+    .slice(0, 5);
   return (
     <AutoComplete
       options={searchSuggestions}
@@ -29,13 +50,13 @@ export const SearchBar = () => {
       onSelect={handleSelect}
       onKeyDown={searchHandler}
     >
-      <div className="group relative hidden sm:block">
+      <div className="hidden sm:block">
         <input
           type="search"
           placeholder="Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-[200px] sm:w-[200px] group-hover:w-[300px] transition-all duration-300 rounded-full
+          className="w-[300px] transition-all duration-300 rounded-full
           border border-gray-300 px-2 py-1 focus:outline-none focus:border-1 focus:border-primary"
         />
       </div>

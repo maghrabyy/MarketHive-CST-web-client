@@ -13,7 +13,8 @@ export const SearchDrawer = () => {
   const { setSearchResult } = useSearchResult();
   const [searchTerm, setSearchTerm] = useState('');
   const { showSearchDrawer, setShowSearchDrawer } = useSearchDrawer();
-  const { searchProducts, searchSuggestions } = useProductSearch(searchTerm);
+  const { searchProducts, getStoreNameFromId } = useProductSearch(searchTerm);
+  const searchSuggestions = searchProducts.slice(0, 5);
   const searchResultHandler = () => {
     if (searchProducts.length > 0) {
       setSearchResult(searchProducts);
@@ -27,6 +28,7 @@ export const SearchDrawer = () => {
     setShowSearchDrawer(false);
     setSearchTerm('');
   };
+
   return (
     <Drawer
       title="Search Products"
@@ -50,14 +52,24 @@ export const SearchDrawer = () => {
 
         {searchTerm.length === 0 ? (
           <p className="text-xl font-semibold ms-2">Search for products.</p>
-        ) : searchSuggestions.length > 0 ? (
+        ) : searchProducts.length > 0 ? (
           searchSuggestions.map((prod) => (
             <div
-              key={prod.value}
-              onClick={() => selectedProductHandler(prod.value)}
-              className="select-none cursor-pointer py-1 px-2 text-white font-semibold bg-primary hover:bg-primary/80 rounded-md"
+              key={prod.id}
+              onClick={() => selectedProductHandler(prod.id)}
+              className="select-none cursor-pointer py-1 px-2 text-white font-semibold bg-primary hover:bg-primary/80 rounded-md flex gap-2"
             >
-              {prod.label}
+              <img
+                src={prod.images[0]}
+                className="size-10 rounded-md object-contain"
+                alt={prod.title}
+              />
+              <div className="product-info flex flex-col w-full">
+                <h1>{prod.title}</h1>
+                <p className="self-end text-gray-200">
+                  {getStoreNameFromId(prod.storeId)}
+                </p>
+              </div>
             </div>
           ))
         ) : (

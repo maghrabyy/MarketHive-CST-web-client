@@ -37,12 +37,9 @@ export const useProductSearch = (searchTerm) => {
     (prod, index, array) =>
       array.map((product) => product.id).indexOf(prod.id) === index,
   );
-  const searchSuggestions = searchProducts
-    .map((product) => ({
-      label: product.title,
-      value: product.id,
-    }))
-    .slice(0, 5);
 
-  return { searchProducts, searchSuggestions };
+  const getStoreNameFromId = (storeId) => {
+    return stores.find((store) => store.id === storeId).name;
+  };
+  return { searchProducts, getStoreNameFromId };
 };
