@@ -122,10 +122,17 @@ export default function StoresPage() {
             />
             {/* Search for Stores */}
             <AutoComplete
+              onSelect={(value) => {
+                setStoresList([
+                  ...categorizedStoresFilter.current.filter((store) =>
+                    store.name.toLowerCase().includes(value.toLowerCase()),
+                  ),
+                ]);
+              }}
               filterOption={false}
               options={storesList.map((store) => ({
                 label: store.name,
-                value: store.id,
+                value: store.name,
               }))}
             >
               <Input

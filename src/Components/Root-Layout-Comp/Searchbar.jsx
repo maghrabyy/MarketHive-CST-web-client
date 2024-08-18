@@ -10,8 +10,8 @@ export const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { searchProducts, getStoreNameFromId } = useProductSearch(searchTerm);
 
-  const handleSelect = (value, title) => {
-    setSearchTerm(title.label);
+  const handleSelect = (value) => {
+    setSearchTerm(searchProducts.find((product) => product.id === value).title);
     navigate(`/products/${value}`);
   };
 
