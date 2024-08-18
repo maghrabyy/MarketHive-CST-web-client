@@ -2,13 +2,14 @@ import { AutoComplete } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSearchResult } from '../../Context/SearchResultContext';
-import { useProductSearch } from '../../Custom Hooks/useSearchResult';
+import { useProductSearch } from '../../Custom Hooks/useProductSearch';
 
 export const SearchBar = () => {
   const { setSearchResult } = useSearchResult();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const { searchProducts, getStoreNameFromId } = useProductSearch(searchTerm);
+
   const handleSelect = (value, title) => {
     setSearchTerm(title.label);
     navigate(`/products/${value}`);

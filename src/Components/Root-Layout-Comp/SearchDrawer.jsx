@@ -1,7 +1,7 @@
 import { Drawer } from 'antd';
 import { useSearchDrawer } from '../../Context/SearchDrawerContext';
 import { Input } from 'antd';
-import { useProductSearch } from '../../Custom Hooks/useSearchResult';
+import { useProductSearch } from '../../Custom Hooks/useProductSearch';
 import { useState } from 'react';
 import { Button } from 'antd';
 import { FaSearch } from 'react-icons/fa';
