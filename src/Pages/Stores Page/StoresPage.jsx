@@ -8,7 +8,7 @@ import { useOutlet } from 'react-router-dom';
 import { EmptyList } from '../../Components/EmptyList.jsx';
 
 export default function StoresPage() {
-  const [StoresList, setStoresList] = useState([]);
+  const [storesList, setStoresList] = useState([]);
   const [CategoryList, setCategoryList] = useState([]);
   const [filterStores, setFilterStores] = useState([]);
   const [isStoresLoading, setIsStoresLoading] = useState(true);
@@ -69,7 +69,7 @@ export default function StoresPage() {
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        filterData.push(...StoresList.filter((store) => store.id == doc.id));
+        filterData.push(...storesList.filter((store) => store.id == doc.id));
         setStoresList(filterData);
       });
     } catch (error) {
@@ -183,13 +183,13 @@ export default function StoresPage() {
           />
         </div>
 
-        {isStoresLoading ? (
-          Array(8)
-            .fill()
-            .map((_, index) => <SkeletonCollectionCard key={index} />)
-        ) : StoresList.length > 0 ? (
-          <div className="media">
-            {StoresList.map((store) => (
+        <div className="media">
+          {isStoresLoading ? (
+            Array(8)
+              .fill()
+              .map((_, index) => <SkeletonCollectionCard key={index} />)
+          ) : storesList.length > 0 ? (
+            storesList.map((store) => (
               <CollectionCard
                 key={store.id}
                 path={`/stores/${store.id}`}
@@ -197,11 +197,11 @@ export default function StoresPage() {
                 prodTitle={store.name}
                 contain
               />
-            ))}
-          </div>
-        ) : (
-          <EmptyList type="stores" />
-        )}
+            ))
+          ) : (
+            <EmptyList type="stores" />
+          )}
+        </div>
       </div>
     )
   );
