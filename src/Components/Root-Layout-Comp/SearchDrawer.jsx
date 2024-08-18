@@ -15,7 +15,8 @@ export const SearchDrawer = () => {
   const { showSearchDrawer, setShowSearchDrawer } = useSearchDrawer();
   const { searchProducts, getStoreNameFromId } = useProductSearch(searchTerm);
   const searchSuggestions = searchProducts.slice(0, 5);
-  const searchResultHandler = () => {
+  const searchResultHandler = (e) => {
+    e.preventDefault();
     if (searchTerm.length > 0) {
       setSearchResult(searchProducts);
       navigate(`/search-result/${searchTerm}`);
@@ -36,20 +37,21 @@ export const SearchDrawer = () => {
       open={showSearchDrawer}
       onClose={() => setShowSearchDrawer(false)}
     >
-      <div className="search-drawer-content flex flex-col gap-2">
-        <Input
-          placeholder="Search for products"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Button
-          onClick={searchResultHandler}
-          icon={<FaSearch />}
-          type="primary"
-        >
-          Search Products
-        </Button>
-
+      <div className="search-drawer-content space-y-2">
+        <form onSubmit={searchResultHandler} className="flex flex-col gap-2">
+          <Input
+            placeholder="Search for products"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Button
+            onClick={searchResultHandler}
+            icon={<FaSearch />}
+            type="primary"
+          >
+            Search Products
+          </Button>
+        </form>
         {searchTerm.length === 0 ? (
           <p className="text-xl font-semibold ms-2">Search for products.</p>
         ) : searchProducts.length > 0 ? (
