@@ -187,6 +187,7 @@ export default function ProductsPage({
               <ProductCard
                 key={product.id}
                 product={product}
+                showStore={productPath.base !== 'stores'}
               />
             ))}
           </div>
