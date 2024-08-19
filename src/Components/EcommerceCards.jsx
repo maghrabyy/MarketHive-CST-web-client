@@ -20,18 +20,18 @@ export const ProductCard = ({ product, showStore = true }) => {
             <FaShoppingCart className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75" />
             <FaRegHeart className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75" />
             {product.discount > 0 && (
-              <h2 className="discount absolute top-0 left-0 rounded-md bg-red-500 text-white select-none p-2">
+              <h2 className="discount absolute top-0 left-0 rounded-br-lg bg-red-500 text-white select-none p-2">
                 - {product.discount * 100}%
               </h2>
             )}
             {showStore && (
-              <div className="store-info absolute bottom-0 left-0 py-1 px-2 w-full flex gap-2 items-center bg-gray-100 bg-opacity-80 backdrop-blur-sm">
+              <div className="store-info absolute bottom-0 left-0 py-1 px-2 w-full flex justify-center gap-2 items-end bg-gray-100 bg-opacity-80 backdrop-blur-sm">
                 {isStoreLoading ? (
-                  <p>Loading...</p>
+                  <p className="text-lg">Loading...</p>
                 ) : (
                   <>
                     <img
-                      className="size-10 rounded-full object-contain"
+                      className="size-9 rounded-full object-contain"
                       src={store.logo}
                       alt={store.name}
                     />
