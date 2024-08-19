@@ -1,80 +1,64 @@
 import { CollectionCard } from '../../Components/EcommerceCards.jsx';
 import { SkeletonCollectionCard } from '../../Components/EcommerceCards.jsx';
-import { useEffect, useState } from 'react';
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { useEffect, useState, useRef } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase.js';
-import { Select } from 'antd';
+import { Select, Input, AutoComplete } from 'antd';
 import { useOutlet } from 'react-router-dom';
 import { EmptyList } from '../../Components/EmptyList.jsx';
 
 export default function StoresPage() {
   const [storesList, setStoresList] = useState([]);
   const [CategoryList, setCategoryList] = useState([]);
-  const [filterStores, setFilterStores] = useState([]);
+  const [storeSearchTerm, setStoreSearchTerm] = useState('');
   const [isStoresLoading, setIsStoresLoading] = useState(true);
-  const [getAll, setGetAll] = useState(false);
   const outlet = useOutlet();
-  const handleSelectChange = async (e) => {
-    try {
-      if (e == 'all') {
-        setGetAll(!getAll);
-      } else {
-        const filterData = [];
-        const q = query(collection(db, 'Stores'), where('categoryId', '==', e));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          filterData.push({ id: doc.id, ...doc.data() });
-        });
-        setStoresList(filterData);
-        setFilterStores(filterData);
+  const allStoresList = useRef();
+  const categorizedStoresFilter = useRef();
 
-        console.log(filterData);
-      }
-    } catch (error) {
-      console.log(error);
+  const handleCategoryChange = (e) => {
+    if (e == 'all') {
+      setStoresList(allStoresList.current);
+      categorizedStoresFilter.current = allStoresList.current;
+    } else {
+      const storesFilteredByCategory = allStoresList.current.filter(
+        (store) => store.categoryId === e,
+      );
+      setStoresList(storesFilteredByCategory);
+      categorizedStoresFilter.current = storesFilteredByCategory;
     }
   };
 
-  const handleStoresChange = async (e) => {
-    try {
-      if (e == 'all') {
-        setStoresList(filterStores);
-      } else {
-        const filterData = [];
-        const q = query(collection(db, 'Stores'), where('name', '==', e));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          filterData.push({ id: doc.id, ...doc.data() });
-        });
-        setStoresList(filterData);
-      }
-    } catch (error) {
-      console.log(error);
+  const handleStoreSearchTermChange = (e) => {
+    if (e.target.value.length > 0) {
+      setStoreSearchTerm(e.target.value);
+      setStoresList([
+        ...categorizedStoresFilter.current.filter((store) =>
+          store.name.toLowerCase().includes(storeSearchTerm.toLowerCase()),
+        ),
+      ]);
+    } else {
+      setStoresList(categorizedStoresFilter.current);
     }
   };
 
-  //===Old&NewStores=======//
-  const handleSortBy = async (e) => {
-    try {
-      const filterData = [];
-      let orderby = 'desc';
-      let fieldName = '';
-
-      if (e == 'OldToNew' || e == 'NewToOld') fieldName = 'creationDate';
-      if (e == 'most' || e == 'leastProducts') fieldName = 'productsCount';
-      if (e == 'leastProducts' || e == 'NewToOld') orderby = 'asc';
-
-      const productsCollection = collection(db, 'Stores');
-      const q = query(productsCollection, orderBy(fieldName, orderby));
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        filterData.push(...storesList.filter((store) => store.id == doc.id));
-        setStoresList(filterData);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSortBy = (e) => {
+    setStoresList((stores) => [
+      ...stores.sort((a, b) => {
+        switch (e) {
+          case 'NewToOld':
+            return b.creationDate - a.creationDate;
+          case 'OldToNew':
+            return a.creationDate - b.creationDate;
+          case 'mostProducts':
+            return b.products.length - a.products.length;
+          case 'leastProducts':
+            return a.products.length - b.products.length;
+          default:
+            break;
+        }
+      }),
+    ]);
   };
 
   useEffect(() => {
@@ -100,15 +84,17 @@ export default function StoresPage() {
         });
 
         setIsStoresLoading(false);
+        allStoresList.current = storeData;
+        categorizedStoresFilter.current = storeData;
         setStoresList(storeData);
-        setFilterStores(storeData);
       } catch (error) {
         console.log(error);
       }
     };
     fetchStores();
     fetchCategories();
-  }, [getAll]);
+  }, []);
+
   return (
     outlet || (
       <div className="paddingX space-y-2 py-4">
@@ -117,7 +103,7 @@ export default function StoresPage() {
             <Select
               className="min-w-36"
               onChange={(e) => {
-                handleSelectChange(e);
+                handleCategoryChange(e);
               }}
               showSearch
               placeholder="Category"
@@ -134,27 +120,27 @@ export default function StoresPage() {
                 })),
               ]}
             />
-            {/* Filter By Stores */}
-            <Select
-              className=" min-w-36"
-              onChange={(e) => {
-                handleStoresChange(e);
+            {/* Search for Stores */}
+            <AutoComplete
+              onSelect={(value) => {
+                setStoresList([
+                  ...categorizedStoresFilter.current.filter((store) =>
+                    store.name.toLowerCase().includes(value.toLowerCase()),
+                  ),
+                ]);
               }}
-              showSearch
-              placeholder="Search Stores"
-              filterOption={(input, option) =>
-                (option?.label ?? '')
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              options={[
-                { value: 'all', label: 'All' },
-                ...filterStores.map((store) => ({
-                  value: store.name,
-                  label: store.name,
-                })),
-              ]}
-            />
+              filterOption={false}
+              options={storesList.map((store) => ({
+                label: store.name,
+                value: store.name,
+              }))}
+            >
+              <Input
+                placeholder="Search for store"
+                value={storeSearchTerm}
+                onChange={handleStoreSearchTermChange}
+              />
+            </AutoComplete>
           </div>
           <Select
             className="min-w-36"
@@ -172,7 +158,7 @@ export default function StoresPage() {
                 label: 'Old to New',
               },
               {
-                value: 'most',
+                value: 'mostProducts',
                 label: 'Most Products',
               },
               {
