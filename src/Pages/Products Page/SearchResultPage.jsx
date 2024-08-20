@@ -4,11 +4,11 @@ import { useSearchResult } from '../../Context/SearchResultContext';
 export const SearchResultPage = () => {
   const { searchResult } = useSearchResult();
   return (
-    <>
-      <h2 className="paddingX pt-8 text-xl">
+    <div className="paddingX py-5 space-y-3">
+      <h2 className="text-xl">
         Search Results, {searchResult.length} item(s) found.
       </h2>
       <ProductsPage productsList={searchResult} />
-    </>
+    </div>
   );
 };

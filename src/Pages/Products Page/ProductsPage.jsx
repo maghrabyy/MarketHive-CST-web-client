@@ -82,7 +82,7 @@ export default function ProductsPage({ productsList, isLoading }) {
           />
           <Select
             defaultValue={'Sort By'}
-            className="min-w-36"
+            className="min-w-44"
             onChange={handleSort}
             options={[
               {
