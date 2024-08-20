@@ -13,41 +13,12 @@ import { ProductsStorePage } from './Pages/Products Page/ProductsStorePage.jsx';
 import { ProductsCategoryPage } from './Pages/Products Page/ProductsCategoryPage.jsx';
 import ProductDetailPage from './Pages/ProductDetail Page/ProductDetailPage.jsx';
 import { SearchResultPage } from './Pages/Products Page/SearchResultPage.jsx';
-import { useState, useEffect } from 'react';
-import { db } from './firebase.js';
-import { getDocs, collection } from 'firebase/firestore';
 
 function App() {
-  const [storesList, setStoresList] = useState([]);
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [isRoutesLoading, setIsRoutesLoading] = useState(true);
-  useEffect(() => {
-    const fetchStores = async () => {
-      const fetchedStores = [];
-      const res = await getDocs(collection(db, 'Stores'));
-      res.docs.forEach((store) => {
-        fetchedStores.push({ ...store.data(), id: store.id });
-      });
-      setStoresList(fetchedStores);
-      setIsRoutesLoading(false);
-    };
-    const fetchCategories = async () => {
-      const fetchedCategories = [];
-      const res = await getDocs(collection(db, 'Categories'));
-      res.docs.forEach((category) => {
-        fetchedCategories.push({ ...category.data(), id: category.id });
-      });
-      setCategoriesList(fetchedCategories);
-      setIsRoutesLoading(false);
-    };
-    fetchStores();
-    fetchCategories();
-  }, []);
-
   const routers = createBrowserRouter([
     {
       path: '',
-      element: <Layout isRoutesLoading={isRoutesLoading} />,
+      element: <Layout />,
       children: [
         { index: true, element: <HomePage /> },
         { path: 'cart', element: <CartPage /> },
@@ -55,18 +26,19 @@ function App() {
         {
           path: 'categories',
           element: <CategoriesPage />,
-          children: categoriesList.map((category) => ({
-            path: `/categories/${category.id}`,
-            element: <ProductsCategoryPage category={category} />,
-          })),
+          children: [
+            {
+              path: '/categories/:categoryId',
+              element: <ProductsCategoryPage />,
+            },
+          ],
         },
         {
           path: 'stores',
           element: <StoresPage />,
-          children: storesList.map((store) => ({
-            path: `/stores/${store.id}`,
-            element: <ProductsStorePage store={store} />,
-          })),
+          children: [
+            { path: '/stores/:storeId', element: <ProductsStorePage /> },
+          ],
         },
         {
           path: 'products',

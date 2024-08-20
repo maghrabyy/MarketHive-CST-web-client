@@ -20,7 +20,9 @@ export default function HomePage() {
   const popularProdList = products
     .sort((a, b) => b.reviews.length - a.reviews.length)
     .slice(0, 4);
-  const popularStoresList = stores.slice(0, 4);
+  const popularStoresList = stores
+    .sort((a, b) => b.products.length - a.products.length)
+    .slice(0, 4);
   const popularCategoryList = categories.slice(0, 4);
   return (
     <>
@@ -73,7 +75,7 @@ export default function HomePage() {
                 return (
                   <CollectionCard
                     key={cat.id}
-                    path={`/collections/${cat.id}`}
+                    path={`/categories/${cat.id}`}
                     prodImg={cat.categoryImage}
                     prodTitle={cat.categoryName}
                     cover

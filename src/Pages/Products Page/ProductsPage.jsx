@@ -1,28 +1,17 @@
 import { useOutlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Select } from 'antd';
-import { BreadCrumb } from '../../Components/BreadCrumb';
 import { ProductCard } from '../../Components/EcommerceCards';
-import { FaHome } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
-import { FaStore } from 'react-icons/fa';
-import { FaShoppingBag } from 'react-icons/fa';
 import { SkeletonProdsCard } from '../../Components/EcommerceCards';
 import { EmptyList } from '../../Components/EmptyList';
+import { useLocation } from 'react-router-dom';
 
-export default function ProductsPage({
-  productsList,
-  collectionName,
-  isLoading,
-}) {
+export default function ProductsPage({ productsList, isLoading }) {
   const outlet = useOutlet();
   const [products, setProducts] = useState([]);
   const location = useLocation().pathname;
-  const currentCollection = location.substring(1, location.lastIndexOf('/'));
-  const productPath = {
-    base: currentCollection,
-    collectionName: collectionName,
-  };
+  const productsOriginPath = location.substring(1, location.lastIndexOf('/'));
+
   useEffect(() => {
     setProducts(productsList);
   }, [productsList]);
@@ -67,51 +56,10 @@ export default function ProductsPage({
       }),
     ]);
   }
-  const categoriesPath = [
-    {
-      href: `/categories`,
-      icon: <FaShoppingBag />,
-      title: 'Categories',
-    },
-    {
-      title: productPath.collectionName,
-    },
-  ];
-  const storesPath = [
-    {
-      href: '/stores',
-      icon: <FaStore />,
-      title: 'Stores',
-    },
-    {
-      title: productPath.collectionName,
-    },
-  ];
+
   return (
     outlet || (
-      <div className="paddingX py-5 space-y-3 ">
-        {collectionName && (
-          <BreadCrumb
-            items={
-              (productPath.base === 'categories' && [
-                {
-                  href: '/',
-                  icon: <FaHome />,
-                  title: 'Home',
-                },
-                ...categoriesPath,
-              ]) ||
-              (productPath.base === 'stores' && [
-                {
-                  href: '/',
-                  icon: <FaHome />,
-                  title: 'Home',
-                },
-                ...storesPath,
-              ])
-            }
-          />
-        )}
+      <div className="space-y-3 ">
         <div className="flex gap-2">
           <Select
             defaultValue={'Filter By'}
@@ -187,7 +135,7 @@ export default function ProductsPage({
               <ProductCard
                 key={product.id}
                 product={product}
-                showStore={productPath.base !== 'stores'}
+                showStore={productsOriginPath !== 'stores'}
               />
             ))}
           </div>
