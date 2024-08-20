@@ -20,7 +20,7 @@ export const ProductDetails = ({ product, store, reviews }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="product-images relative">
         {product.discount > 0 && (
-          <div className="discount absolute top-1 right-1 rounded-md bg-red-500 text-white select-none py-2 px-4">
+          <div className="discount absolute top-0 right-0 rounded-bl-lg bg-red-500 text-white select-none p-2">
             - {product.discount * 100}%
           </div>
         )}
@@ -56,7 +56,7 @@ export const ProductDetails = ({ product, store, reviews }) => {
           </div>
           <h1 className="text-4xl font-bold">{product.title}</h1>
           <div className="product-rate flex items-center gap-2">
-            <Rate count={5} disabled value={avgRate} />(
+            <Rate count={5} allowHalf disabled value={avgRate} />(
             {reviews.length.toLocaleString()})
           </div>
           <h1
