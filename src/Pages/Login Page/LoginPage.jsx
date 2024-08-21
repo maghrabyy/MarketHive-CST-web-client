@@ -8,22 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
 import { authErrors } from '../../util/authErrors';
-import { Spin } from 'antd';
-import { useEffect } from 'react';
 
 export default function LoginPage() {
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
-  useEffect(() => {
-    auth.onAuthStateChanged((auth) => {
-      if (auth) {
-        navigate('/');
-      } else {
-        setIsAuthLoading(false);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
@@ -31,11 +17,7 @@ export default function LoginPage() {
     password: Yup.string().required('Enter your password '),
     email: Yup.string().email('Invalid email').required('Enter your email'),
   });
-  return isAuthLoading ? (
-    <div className="h-full absolute left-1/2 flex flex-col justify-center">
-      <Spin size="large" className="self-stretch " />
-    </div>
-  ) : (
+  return (
     <Formik
       initialValues={{
         email: '',
@@ -46,6 +28,7 @@ export default function LoginPage() {
         setIsLoading(true);
         try {
           await signInWithEmailAndPassword(auth, email, password);
+          navigate('/');
         } catch (error) {
           setAuthError(
             authErrors[error.code] ?? 'Unable to login, try again later.',

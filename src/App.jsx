@@ -13,6 +13,8 @@ import { ProductsStorePage } from './Pages/Products Page/ProductsStorePage.jsx';
 import { ProductsCategoryPage } from './Pages/Products Page/ProductsCategoryPage.jsx';
 import ProductDetailPage from './Pages/ProductDetail Page/ProductDetailPage.jsx';
 import { SearchResultPage } from './Pages/Products Page/SearchResultPage.jsx';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute.jsx';
+import UnAuthRoute from './Components/ProtectedRoute/UnAuthRoute.jsx';
 
 function App() {
   const routers = createBrowserRouter([
@@ -21,7 +23,14 @@ function App() {
       element: <Layout />,
       children: [
         { index: true, element: <HomePage /> },
-        { path: 'cart', element: <CartPage /> },
+        {
+          path: 'cart',
+          element: (
+            <ProtectedRoute>
+              <CartPage />
+            </ProtectedRoute>
+          ),
+        },
         { path: 'search-result/:keyword', element: <SearchResultPage /> },
         {
           path: 'categories',
@@ -47,8 +56,22 @@ function App() {
             { path: '/products/:prodId', element: <ProductDetailPage /> },
           ],
         },
-        { path: 'login', element: <LoginPage /> },
-        { path: 'register', element: <RegisterPage /> },
+        {
+          path: 'login',
+          element: (
+            <UnAuthRoute>
+              <LoginPage />
+            </UnAuthRoute>
+          ),
+        },
+        {
+          path: 'register',
+          element: (
+            <UnAuthRoute>
+              <RegisterPage />
+            </UnAuthRoute>
+          ),
+        },
         { path: '*', element: <NotFoundPage /> },
       ],
     },

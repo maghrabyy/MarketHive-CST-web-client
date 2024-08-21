@@ -10,22 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
 import { authErrors } from '../../util/authErrors.js';
-import { Spin } from 'antd';
-import { useEffect } from 'react';
 
 export default function RegisterPage() {
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
-  useEffect(() => {
-    auth.onAuthStateChanged((auth) => {
-      if (auth) {
-        navigate('/');
-      } else {
-        setIsAuthLoading(false);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
@@ -56,11 +42,7 @@ export default function RegisterPage() {
       .oneOf([Yup.ref('password')], 'Passwords must match')
       .required('Confirm your password'),
   });
-  return isAuthLoading ? (
-    <div className="h-full absolute left-1/2 flex flex-col justify-center">
-      <Spin size="large" className="self-stretch " />
-    </div>
-  ) : (
+  return (
     <Formik
       initialValues={{
         firstName: '',
@@ -92,6 +74,7 @@ export default function RegisterPage() {
           await updateProfile(user, {
             displayName: `${firstName} ${lastName}`,
           });
+          navigate('/');
         } catch (error) {
           setAuthError(
             authErrors[error.code] ?? 'Unable to register, try again later.',
