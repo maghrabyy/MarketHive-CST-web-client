@@ -5,6 +5,8 @@ import HomePage from './Pages/Home Page/HomePage.jsx';
 import NotFoundPage from './Pages/NotFound Page/NotFoundPage.jsx';
 import CartPage from './Pages/Cart Page/CartPage.jsx';
 import CheckoutPage from './Pages/Checkout Page/CheckoutPage';
+import MyOrdersPage from './Pages/My Orders Page/MyOrdersPage.jsx';
+import WishlistPage from './Pages/Wishlist Page/WishlistPage.jsx';
 import ProductsPage from './Pages/Products Page/ProductsPage.jsx';
 import LoginPage from './Pages/Login Page/LoginPage.jsx';
 import RegisterPage from './Pages/Register Page/RegisterPage.jsx';
@@ -37,6 +39,22 @@ function App() {
           element: (
             <ProtectedRoute>
               <CheckoutPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'wishlist',
+          element: (
+            <ProtectedRoute>
+              <WishlistPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'my-orders',
+          element: (
+            <ProtectedRoute>
+              <MyOrdersPage />
             </ProtectedRoute>
           ),
         },
