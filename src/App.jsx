@@ -4,6 +4,7 @@ import Layout from './Layout/Layout.jsx';
 import HomePage from './Pages/Home Page/HomePage.jsx';
 import NotFoundPage from './Pages/NotFound Page/NotFoundPage.jsx';
 import CartPage from './Pages/Cart Page/CartPage.jsx';
+import CheckoutPage from './Pages/Checkout Page/CheckoutPage';
 import ProductsPage from './Pages/Products Page/ProductsPage.jsx';
 import LoginPage from './Pages/Login Page/LoginPage.jsx';
 import RegisterPage from './Pages/Register Page/RegisterPage.jsx';
@@ -28,6 +29,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <CartPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'checkout',
+          element: (
+            <ProtectedRoute>
+              <CheckoutPage />
             </ProtectedRoute>
           ),
         },
