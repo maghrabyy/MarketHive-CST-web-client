@@ -16,6 +16,9 @@ export const ProductDetails = ({ product, store, reviews }) => {
   const avgRate =
     reviews.map((review) => review.rating).reduce((a, b) => a + b, 0) /
     reviews.length;
+    const addToWishlistHandler = ()=>{
+
+    }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="product-images relative">
@@ -48,7 +51,7 @@ export const ProductDetails = ({ product, store, reviews }) => {
       <div className="product-info space-y-4">
         <div className="product-details border-b border-b-gray-200 pb-2 flex flex-col gap-2">
           <div className="detail-header items-center flex justify-between">
-            <FaRegHeart className="text-xl cursor-pointer hover:text-red-500" />
+            <FaRegHeart onClick={addToWishlistHandler} className="text-xl cursor-pointer hover:text-red-500" />
             <div className="store-info items-center flex gap-2">
               <h1 className="text-2xl font-bold">{store.name}</h1>
               <Avatar src={store.logo} alt={store.name} size="large" />
