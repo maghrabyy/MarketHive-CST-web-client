@@ -8,6 +8,7 @@ import { FaShoppingBag } from 'react-icons/fa';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useFetchWishList } from '../../Custom Hooks/useFetchWishList';
 
+
 export const ProductDetails = ({ product, store, reviews }) => {
   const [selectedQty, setSelectedQty] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
@@ -22,6 +23,7 @@ export const ProductDetails = ({ product, store, reviews }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+       
       <div className="product-images relative">
         {product.discount > 0 && (
           <div className="discount absolute top-0 right-0 rounded-bl-lg bg-red-500 text-white select-none p-2">
