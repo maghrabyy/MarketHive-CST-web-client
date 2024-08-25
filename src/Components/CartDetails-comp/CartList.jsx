@@ -41,8 +41,6 @@ export default function CartList({ cartItems, setCartItems }) {
 const CartItem = ({ item, updateQuantity, removeItem }) => {
   const { product, store } = useFetchProduct(item.prodId);
 
-  const subtotal = item.subTotal;
-
   return (
     <div className="flex flex-col lg:flex-row items-center bg-white shadow p-4 rounded-md">
       <img
