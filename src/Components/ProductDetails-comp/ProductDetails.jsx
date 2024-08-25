@@ -1,11 +1,12 @@
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import { Rate } from 'antd';
 import { QuantitySelector } from '../../Components/ProductDetails-comp/QuantitySelector';
 import { Avatar } from 'antd';
 import { useState } from 'react';
-import { FaRegHeart } from 'react-icons/fa';
+import { FaRegHeart,FaHeart } from 'react-icons/fa';
 import { FaShoppingBag } from 'react-icons/fa';
 import { FaShoppingCart } from 'react-icons/fa';
+import { useFetchWishList } from '../../Custom Hooks/useFetchWishList';
 
 export const ProductDetails = ({ product, store, reviews }) => {
   const [selectedQty, setSelectedQty] = useState(1);
@@ -16,9 +17,9 @@ export const ProductDetails = ({ product, store, reviews }) => {
   const avgRate =
     reviews.map((review) => review.rating).reduce((a, b) => a + b, 0) /
     reviews.length;
-    const addToWishlistHandler = ()=>{
 
-    }
+    const {isAddedToWishlist,wishlistHandler,isLoading} =useFetchWishList(product.id)
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="product-images relative">
@@ -48,10 +49,16 @@ export const ProductDetails = ({ product, store, reviews }) => {
           })}
         </div>
       </div>
+      
       <div className="product-info space-y-4">
         <div className="product-details border-b border-b-gray-200 pb-2 flex flex-col gap-2">
           <div className="detail-header items-center flex justify-between">
-            <FaRegHeart onClick={addToWishlistHandler} className="text-xl cursor-pointer hover:text-red-500" />
+            {isLoading?<Spin size='small'/>:isAddedToWishlist()?<>
+             <FaHeart onClick={wishlistHandler} className="text-xl cursor-pointer text-red-500 hover:text-red-600" />
+            </>:<>
+            <FaRegHeart onClick={wishlistHandler} className="text-xl cursor-pointer hover:text-red-500" />
+            
+            </>}
             <div className="store-info items-center flex gap-2">
               <h1 className="text-2xl font-bold">{store.name}</h1>
               <Avatar src={store.logo} alt={store.name} size="large" />
