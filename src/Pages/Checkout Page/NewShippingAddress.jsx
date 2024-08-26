@@ -39,7 +39,7 @@ function NewShippingAddress({ customerAddress }) {
   };
 
   return (
-    <div className="flex justify-center items-center  min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center  min-h-screen bg-white">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-4xl w-full flex flex-col md:flex-row">
         <div className="hidden md:flex items-center justify-center w-full md:w-1/2">
           <img
