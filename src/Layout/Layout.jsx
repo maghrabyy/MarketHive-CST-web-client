@@ -13,7 +13,7 @@ export default function Layout() {
   }, [location]);
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <SearchDrawer />
       <Navbar />
       <div className="min-h-screen relative">
