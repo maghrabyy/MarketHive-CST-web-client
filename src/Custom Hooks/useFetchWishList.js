@@ -27,7 +27,7 @@ export const useFetchWishList = (productId) => {
   const { customer, isLoading } = useCustomerSnapshot(customerId);
   const wishlistHandler = () => {
     if (auth.currentUser !== null) {
-      if (customer.wishlist.includes(productId)) {
+      if (isAddedToWishlist()) {
         updateDoc(doc(db, 'Customers', customerId), {
           wishlist: arrayRemove(productId),
         });
