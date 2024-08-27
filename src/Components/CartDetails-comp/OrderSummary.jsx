@@ -27,11 +27,7 @@ export default function OrderSummary({ cartItems }) {
           <span>Shipping Fee</span>
           <span className="text-green-600 bold font-bold">Free</span>
         </div>
-        <Divider
-          style={{
-            borderColor: '#F39932',
-          }}
-        />
+        <Divider />
         <div className="flex justify-between font-bold">
           <span>Total</span>
           <span>{subtotal.toLocaleString()} EGP</span>

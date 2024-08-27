@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { SearchBar } from './Searchbar';
 import { IoMdSearch } from 'react-icons/io';
 import { useSearchDrawer } from '../../Context/SearchDrawerContext';
+import { Badge } from 'antd';
+import { useFetchCartItems } from '../../Custom Hooks/useFetchCartItems';
 
 export default function NavBar() {
   const { setShowSearchDrawer } = useSearchDrawer();
@@ -23,6 +25,8 @@ export default function NavBar() {
   useEffect(() => {
     auth.onAuthStateChanged(setAuthUser);
   }, [authUser]);
+  const { cartItems, isCartLoading } = useFetchCartItems();
+
   return (
     <div className="shadow-md bg-white  ">
       {/* Upper */}
@@ -46,7 +50,12 @@ export default function NavBar() {
             className="text-primary hover:text-primary/80 group  rounded-full"
             to="/cart"
           >
-            <FaShoppingCart className="text-xl drop-shadow-sm cursor-pointer" />
+            <Badge
+              count={isCartLoading ? 0 : cartItems.length}
+              className="flex items-center"
+            >
+              <FaShoppingCart className="text-xl drop-shadow-sm cursor-pointer text-primary" />
+            </Badge>
           </Link>
           <div className="action sm:order-first">
             {authUser !== null ? (
