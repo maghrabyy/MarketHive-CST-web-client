@@ -2,7 +2,6 @@ import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useFetchProduct } from '../../Custom Hooks/useFetchProduct';
 import { Select } from 'antd';
-
 export default function CartList({ cartItems, setCartItems }) {
   const updateQuantity = async (itemId, newQuantity, prodPrice) => {
     const itemRef = doc(db, 'ShoppingCart', itemId);
@@ -25,7 +24,7 @@ export default function CartList({ cartItems, setCartItems }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {cartItems.map((item) => (
         <CartItem
           key={item.prodId}
@@ -40,7 +39,9 @@ export default function CartList({ cartItems, setCartItems }) {
 
 const CartItem = ({ item, updateQuantity, removeItem }) => {
   const { product, store } = useFetchProduct(item.prodId);
-
+  const productPrice = product.discount
+    ? product.price - product.price * product.discount
+    : product.price;
   return (
     <div className="flex flex-col lg:flex-row items-center bg-white shadow p-4 rounded-md">
       <img
@@ -51,7 +52,7 @@ const CartItem = ({ item, updateQuantity, removeItem }) => {
       <div className="flex-grow lg:ml-6">
         <h3 className="text-lg font-medium">{product.title}</h3>
         <p className="text-gray-500">Store: {store.name}</p>
-        <p className="text-gray-500">Price: {product.price} EGP</p>
+        <p className="text-gray-500">Price: {item.subTotal} EGP</p>
         <div className="mt-2">
           <Select
             defaultValue={item.quantity}
@@ -59,7 +60,7 @@ const CartItem = ({ item, updateQuantity, removeItem }) => {
               width: 120,
             }}
             onChange={(newQuantity) =>
-              updateQuantity(item.id, newQuantity, product.price)
+              updateQuantity(item.id, newQuantity, productPrice)
             }
             options={Array.from(
               { length: product.stockQuantity },

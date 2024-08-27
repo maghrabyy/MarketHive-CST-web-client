@@ -21,7 +21,7 @@ export default function OrderSummary({ cartItems }) {
           <span>
             Subtotal ({totalItems} {wordItem})
           </span>
-          <span>{subtotal.toFixed(2)} EGP</span>
+          <span>{subtotal.toLocaleString()} EGP</span>
         </div>
         <div className="flex justify-between">
           <span>Shipping Fee</span>
@@ -34,7 +34,7 @@ export default function OrderSummary({ cartItems }) {
         />
         <div className="flex justify-between font-bold">
           <span>Total</span>
-          <span>{subtotal.toFixed(2)} EGP</span>
+          <span>{subtotal.toLocaleString()} EGP</span>
         </div>
       </div>
       <button

@@ -115,7 +115,6 @@ export const ProductDetails = ({ product, store, reviews }) => {
       <div className="product-info space-y-4">
         <div className="product-details border-b border-b-gray-200 pb-2 flex flex-col gap-2">
           <div className="detail-header items-center flex justify-between">
-            <FaRegHeart className="text-xl cursor-pointer hover:text-red-500" />
             {isLoading ? (
               <Spin size="small" />
             ) : isAddedToWishlist() ? (
