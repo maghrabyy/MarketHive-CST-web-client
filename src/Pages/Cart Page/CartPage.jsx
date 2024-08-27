@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { EmptyList } from '../../Components/EmptyList';
-import { getAuth } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { Spin } from 'antd';
 import CartList from '../../Components/CartDetails-comp/CartList';
 import OrderSummary from '../../Components/CartDetails-comp/OrderSummary';
@@ -10,7 +9,6 @@ import OrderSummary from '../../Components/CartDetails-comp/OrderSummary';
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [isCartLoading, setIsCartLoading] = useState(true);
-  const auth = getAuth();
 
   useEffect(() => {
     const fetchShoppingCartData = async () => {
