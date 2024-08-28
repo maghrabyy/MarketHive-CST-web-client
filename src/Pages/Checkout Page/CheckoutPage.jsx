@@ -1,11 +1,10 @@
-import { auth } from '../../firebase';
-import NewShippingAddress from './NewShippingAddress';
-import { useCustomerSnapshot } from '../../Custom Hooks/useFetchCustomer';
 import { Spin } from 'antd';
+import { useCustomerSnapshot } from '../../Custom Hooks/useFetchCustomer';
+import { auth } from '../../firebase';
+import PlaceOrderPage from './PlaceOrderPage';
 
 function CheckoutPage() {
   const { customer, isLoading } = useCustomerSnapshot(auth.currentUser.uid);
-
   return (
     <div>
       {isLoading ? (
@@ -13,7 +12,7 @@ function CheckoutPage() {
           <Spin size="large" className="self-stretch " />
         </div>
       ) : (
-        <NewShippingAddress customerAddress={customer?.address} />
+        <PlaceOrderPage customer={customer} />
       )}
     </div>
   );

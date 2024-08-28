@@ -1,6 +1,7 @@
 import noProductsImg from '../assets/no-products.svg';
 import noStoresImg from '../assets/no-stores.svg';
 import emptyDefaultImg from '../assets/empty-default.svg';
+import cartImg from '../assets/Add-to-Cart.svg';
 import { useNavigate } from 'react-router-dom';
 
 export const EmptyList = ({ type }) => {
@@ -12,6 +13,9 @@ export const EmptyList = ({ type }) => {
   } else if (type === 'products') {
     imgSrc = noProductsImg;
     emptyMsg = 'There are no products here.';
+  } else if (type === 'cart') {
+    imgSrc = cartImg;
+    emptyMsg = 'There are no items here.';
   } else {
     imgSrc = emptyDefaultImg;
     emptyMsg = 'Nothing is in here.';

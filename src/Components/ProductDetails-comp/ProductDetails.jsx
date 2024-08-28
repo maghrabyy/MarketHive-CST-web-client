@@ -1,24 +1,87 @@
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import { Rate } from 'antd';
 import { QuantitySelector } from '../../Components/ProductDetails-comp/QuantitySelector';
 import { Avatar } from 'antd';
 import { useState } from 'react';
-import { FaRegHeart } from 'react-icons/fa';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { FaShoppingBag } from 'react-icons/fa';
 import { FaShoppingCart } from 'react-icons/fa';
+import { auth } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../firebase';
+import toast from 'react-hot-toast';
+import { useFetchWishList } from '../../Custom Hooks/useFetchWishList';
 
 export const ProductDetails = ({ product, store, reviews }) => {
+  const navigate = useNavigate();
   const [selectedQty, setSelectedQty] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
+
   const productPrice = product.discount
     ? product.price - product.price * product.discount
     : product.price;
+
+  const user = auth.currentUser;
+  const customerId = user?.uid;
+  const prodId = product.id;
+
+  const cartData = {
+    prodId,
+    customerId,
+    quantity: selectedQty,
+    subTotal: productPrice * selectedQty,
+  };
+
   const avgRate =
     reviews.map((review) => review.rating).reduce((a, b) => a + b, 0) /
     reviews.length;
-    const addToWishlistHandler = ()=>{
 
+  function addProductToCart() {
+    addDoc(collection(db, 'ShoppingCart'), cartData);
+  }
+
+  async function isProductInShoppingCart() {
+    const q = query(
+      collection(db, 'ShoppingCart'),
+      where('prodId', '==', prodId),
+      where('customerId', '==', customerId),
+    );
+    const response = await getDocs(q);
+    const shoppingCartDoc = response.docs.map((doc) => ({ ...doc.data() }))[0];
+    return shoppingCartDoc?.prodId === prodId;
+  }
+
+  async function handleCart() {
+    if (user) {
+      if (await isProductInShoppingCart()) {
+        toast.success('product is already in cart');
+      } else {
+        toast.success('product is added to cart');
+        addProductToCart();
+      }
+    } else {
+      navigate('/login');
     }
+  }
+
+  async function handleBuyNow() {
+    if (user) {
+      if (await isProductInShoppingCart()) {
+        navigate('/checkout');
+      } else {
+        addProductToCart();
+        navigate('/checkout');
+      }
+    } else {
+      navigate('/login');
+    }
+  }
+
+  const { isAddedToWishlist, wishlistHandler, isLoading } = useFetchWishList(
+    product.id,
+  );
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="product-images relative">
@@ -48,10 +111,27 @@ export const ProductDetails = ({ product, store, reviews }) => {
           })}
         </div>
       </div>
+
       <div className="product-info space-y-4">
         <div className="product-details border-b border-b-gray-200 pb-2 flex flex-col gap-2">
           <div className="detail-header items-center flex justify-between">
-            <FaRegHeart onClick={addToWishlistHandler} className="text-xl cursor-pointer hover:text-red-500" />
+            {isLoading ? (
+              <Spin size="small" />
+            ) : isAddedToWishlist() ? (
+              <>
+                <FaHeart
+                  onClick={wishlistHandler}
+                  className="text-xl cursor-pointer text-red-500 hover:text-red-600"
+                />
+              </>
+            ) : (
+              <>
+                <FaRegHeart
+                  onClick={wishlistHandler}
+                  className="text-xl cursor-pointer hover:text-red-500"
+                />
+              </>
+            )}
             <div className="store-info items-center flex gap-2">
               <h1 className="text-2xl font-bold">{store.name}</h1>
               <Avatar src={store.logo} alt={store.name} size="large" />
@@ -105,12 +185,17 @@ export const ProductDetails = ({ product, store, reviews }) => {
             />
             <Button
               type="primary"
+              onClick={handleBuyNow}
               icon={<FaShoppingBag />}
               className="flex-grow"
             >
               Buy Now
             </Button>
-            <Button icon={<FaShoppingCart />} className="flex-grow">
+            <Button
+              onClick={handleCart}
+              icon={<FaShoppingCart />}
+              className="flex-grow"
+            >
               Add to Cart
             </Button>
           </div>

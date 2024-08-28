@@ -21,7 +21,6 @@ export const useFetchCustomer = (customerId) => {
   }, [customerId]);
   return { customer, isLoading, error };
 };
-
 export const useCustomerSnapshot = (customerId) => {
   const [customer, setCustomer] = useState({});
   const [isLoading, setIsLoading] = useState(true);
