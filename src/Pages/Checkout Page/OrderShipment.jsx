@@ -40,7 +40,8 @@ function OrderShipment() {
           </div>
 
           <p className="pt-3">
-            Get it by <span className="text-primary">{orderDate}</span>
+            Get it by{' '}
+            <span className="text-primary font-bold">{orderDate}</span>
           </p>
         </div>
       </div>
