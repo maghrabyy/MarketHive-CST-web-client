@@ -8,31 +8,19 @@ import AddressForm from './AddressForm';
 import Payment from './Payment';
 
 function PlaceOrderPage({ customer }) {
-  const [address, setAddress] = useState(customer.address || null);
-  const [editing, setEditing] = useState(!address);
+  const [editing, setEditing] = useState(!customer.address?.city);
   const [update, setUpdate] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const { cartItems } = useFetchCartItems();
-
   return (
     <div>
       <div className="flex justify-center items-start  min-h-screen bg-white">
         <div className="bg-white shadow-lg rounded-lg p-8 w-full flex ">
           <div className="w-full p-4">
             {editing ? (
-              <h2 className="text-2xl sm:text-4xl font-semibold text-center text-primary mb-6">
-                {address
-                  ? 'Update Your Shipping Address'
-                  : 'Enter a new shipping address'}
-              </h2>
-            ) : (
-              ''
-            )}
-            {editing ? (
               <>
                 <AddressForm
-                  address={address}
-                  setAddress={setAddress}
+                  address={customer.address}
                   setEditing={setEditing}
                   update={update}
                 />
@@ -41,7 +29,6 @@ function PlaceOrderPage({ customer }) {
               <div className="grid md:grid-cols-3 gap-4 ">
                 <div className="md:col-span-2 ">
                   <ShippingAddress
-                    customerAddress={address}
                     setEditing={setEditing}
                     setUpdate={setUpdate}
                     customer={customer}

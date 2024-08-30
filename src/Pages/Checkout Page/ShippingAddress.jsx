@@ -2,13 +2,7 @@ import { Button, Divider } from 'antd';
 import { FaEdit } from 'react-icons/fa';
 import { EnvironmentOutlined, CheckCircleFilled } from '@ant-design/icons';
 
-function ShippingAddress({
-  customerAddress,
-  setEditing,
-  setUpdate,
-  customer,
-  setIsDisabled,
-}) {
+function ShippingAddress({ setEditing, setUpdate, customer, setIsDisabled }) {
   return (
     <div>
       <h2 className="text-2xl">Shipping Address</h2>
@@ -40,26 +34,28 @@ function ShippingAddress({
             </p>
 
             <p>
-              <strong>City:</strong> {customerAddress.city}
+              <strong>City:</strong> {customer?.address?.city}
             </p>
 
             <p>
-              <strong>Street Address:</strong> {customerAddress.streetAddress}
+              <strong>Street Address:</strong>{' '}
+              {customer?.address?.streetAddress}
             </p>
             <p>
-              <strong>Building Number:</strong> {customerAddress.buildingNumber}
+              <strong>Building Number:</strong>{' '}
+              {customer?.address?.buildingNumber}
             </p>
             <p>
-              <strong>Floor:</strong> {customerAddress.floor}
+              <strong>Floor:</strong> {customer?.address?.floor}
             </p>
             <p>
-              <strong>Apt Number:</strong> {customerAddress.aptNumber}
+              <strong>Apt Number:</strong> {customer?.address?.aptNumber}
             </p>
 
-            {customerAddress.nearestLandmark && (
+            {customer?.address?.nearestLandmark && (
               <p>
                 <strong>Nearest Landmark:</strong>{' '}
-                {customerAddress.nearestLandmark}
+                {customer?.address?.nearestLandmark}
               </p>
             )}
             <p>

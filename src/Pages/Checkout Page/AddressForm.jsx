@@ -5,7 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
 import * as Yup from 'yup';
 
-function AddressForm({ address, setAddress, setEditing, update }) {
+function AddressForm({ address, setEditing, update }) {
   const checkoutSchema = Yup.object().shape({
     city: Yup.string().required('Required'),
     streetAddress: Yup.string().required('Required'),
@@ -22,16 +22,20 @@ function AddressForm({ address, setAddress, setEditing, update }) {
         buildingNumber: values.buildingNumber,
         floor: values.floor,
         aptNumber: values.aptNumber,
-        nearestLandmark: values.nearestLandmark,
+        nearestLandmark: values.nearestLandmark ?? '',
       },
     });
-    setAddress(values);
     setEditing(false);
     action.resetForm();
   };
 
   return (
     <div>
+      <h2 className="text-2xl sm:text-4xl font-semibold text-center text-primary mb-6">
+        {update
+          ? 'Update Your Shipping Address'
+          : 'Enter a new shipping address'}
+      </h2>
       <Formik
         initialValues={
           address || {
