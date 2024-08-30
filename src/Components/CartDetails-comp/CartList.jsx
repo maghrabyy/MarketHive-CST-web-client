@@ -49,7 +49,9 @@ const CartItem = ({ item, updateQuantity, removeItem }) => {
           <div className="flex-grow lg:ml-6">
             <h3 className="text-lg font-medium">{product.title}</h3>
             <p className="text-gray-500">Store: {store.name}</p>
-            <p className="text-gray-500">Price: {item.subTotal} EGP</p>
+            <p className="text-gray-500">
+              Price: {item.subTotal.toLocaleString()} EGP
+            </p>
             <div className="mt-2">
               <Select
                 defaultValue={item.quantity}

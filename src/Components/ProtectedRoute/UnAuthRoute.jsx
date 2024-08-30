@@ -3,13 +3,15 @@ import { auth } from '../../firebase.js';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useState } from 'react';
 import { Spin } from 'antd';
+import { useEffect } from 'react';
 
 export default function UnAuthRoute({ children }) {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
-
-  onAuthStateChanged(auth, () => {
-    setIsAuthLoading(false);
-  });
+  useEffect(() => {
+    onAuthStateChanged(auth, () => {
+      setIsAuthLoading(false);
+    });
+  }, []);
 
   return isAuthLoading ? (
     <div className="h-full absolute left-1/2 flex flex-col justify-center">
