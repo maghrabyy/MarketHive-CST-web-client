@@ -84,7 +84,7 @@ export default function NavBar() {
       <div className=" bg-gray-50 py-2 paddingX flex justify-between items-center">
         <div>
           <Link to="/" className="font-bold text-2xl sm:text-3xl flex gap-2">
-            <img src={logo} alt="logo" className="w-28 uppercase" />{' '}
+            <img src={logo} alt="logo" className="w-28" />
           </Link>
         </div>
         {/* Search */}

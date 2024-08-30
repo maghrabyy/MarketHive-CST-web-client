@@ -1,7 +1,15 @@
 import { Divider } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PlaceOrderModal from '../../Pages/Checkout Page/PlaceOrderModal';
-import { addDoc, collection, doc, deleteDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  deleteDoc,
+  updateDoc,
+  getDoc,
+  arrayUnion,
+} from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import { Button } from 'antd';
 import { useState } from 'react';
@@ -33,22 +41,43 @@ export default function OrderSummary({
     });
   };
 
+  const updateStoresDocWithNewOrderDate = (orderId) => {
+    cartItems.forEach(async (cartItem) => {
+      const store = await getDoc(doc(db, 'Products', cartItem.prodId));
+      const storeId = store.data().storeId;
+      await updateDoc(doc(db, 'Stores', storeId), {
+        orders: arrayUnion(orderId),
+        customers: arrayUnion(auth.currentUser.uid),
+      });
+    });
+  };
+
+  const updateCustomerDocWithNewOrder = async (orderId) => {
+    await updateDoc(doc(db, 'Customers', auth.currentUser.uid), {
+      orders: arrayUnion(orderId),
+    });
+  };
+
   const placeOrderHandler = async () => {
     setIsPlaceOrderLoading(true);
     try {
-      await addDoc(collection(db, 'Orders'), {
+      const order = await addDoc(collection(db, 'Orders'), {
         customerId: auth.currentUser?.uid,
-        products: cartItems.map((cartItem) => ({
-          prodId: cartItem.prodId,
-          quantity: cartItem.quantity,
-          subTotal: cartItem.subTotal,
-        })),
+        products: cartItems.map((cartItem) => {
+          return {
+            prodId: cartItem.prodId,
+            quantity: cartItem.quantity,
+            subTotal: cartItem.subTotal,
+          };
+        }),
         shippingFees,
         totalAmount,
         orderHistory: [{ orderStatus: 'pending', date: new Date() }],
         destinationAddress: customerAddress,
         paymentMethod: 'Cash on delivery',
       });
+      updateStoresDocWithNewOrderDate(order.id);
+      updateCustomerDocWithNewOrder(order.id);
       emptyShoppingCart();
       navigate('/');
       PlaceOrderModal();
