@@ -38,7 +38,11 @@ function PlaceOrderPage({ customer }) {
                   <Payment setIsDisabled={setIsDisabled} />
                 </div>
                 <div className="md:col-span-1">
-                  <OrderSummary cartItems={cartItems} isDisabled={isDisabled} />
+                  <OrderSummary
+                    cartItems={cartItems}
+                    isDisabled={isDisabled}
+                    customerAddress={customer.address}
+                  />
                 </div>
               </div>
             )}
