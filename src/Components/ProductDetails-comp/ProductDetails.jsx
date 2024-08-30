@@ -8,10 +8,8 @@ import { FaShoppingBag } from 'react-icons/fa';
 import { FaShoppingCart } from 'react-icons/fa';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../../firebase';
-import toast from 'react-hot-toast';
 import { useFetchWishList } from '../../Custom Hooks/useFetchWishList';
+import { useAddToCart } from '../../Custom Hooks/useAddToCart';
 
 export const ProductDetails = ({ product, store, reviews }) => {
   const navigate = useNavigate();
@@ -23,47 +21,13 @@ export const ProductDetails = ({ product, store, reviews }) => {
     : product.price;
 
   const user = auth.currentUser;
-  const customerId = user?.uid;
-  const prodId = product.id;
 
-  const cartData = {
-    prodId,
-    customerId,
-    quantity: selectedQty,
-    subTotal: productPrice * selectedQty,
-  };
+  const { handleCart, isProductInShoppingCart, addProductToCart } =
+    useAddToCart(product, selectedQty, productPrice);
 
   const avgRate =
     reviews.map((review) => review.rating).reduce((a, b) => a + b, 0) /
     reviews.length;
-
-  function addProductToCart() {
-    addDoc(collection(db, 'ShoppingCart'), cartData);
-  }
-
-  async function isProductInShoppingCart() {
-    const q = query(
-      collection(db, 'ShoppingCart'),
-      where('prodId', '==', prodId),
-      where('customerId', '==', customerId),
-    );
-    const response = await getDocs(q);
-    const shoppingCartDoc = response.docs.map((doc) => ({ ...doc.data() }))[0];
-    return shoppingCartDoc?.prodId === prodId;
-  }
-
-  async function handleCart() {
-    if (user) {
-      if (await isProductInShoppingCart()) {
-        toast.success('product is already in cart');
-      } else {
-        toast.success('product is added to cart');
-        addProductToCart();
-      }
-    } else {
-      navigate('/login');
-    }
-  }
 
   async function handleBuyNow() {
     if (user) {

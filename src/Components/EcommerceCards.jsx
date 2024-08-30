@@ -5,46 +5,57 @@ import { Skeleton, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import { useFetchStore } from '../Custom Hooks/useFetchStore';
 import { useFetchWishList } from '../Custom Hooks/useFetchWishList';
+import { useAddToCart } from '../Custom Hooks/useAddToCart';
 
 export const ProductCard = ({ product, showStore = true }) => {
-  const {isAddedToWishlist,wishlistHandler,isLoading} =useFetchWishList(product.id)
+  const { isAddedToWishlist, wishlistHandler, isLoading } = useFetchWishList(
+    product.id,
+  );
 
   const { store, isStoreLoading } = useFetchStore(product.storeId);
   const productPrice = product.discount
     ? product.price - product.price * product.discount
     : product.price;
+  const { handleCart } = useAddToCart(product, 1, productPrice);
   return (
-    
-      <Card
-        hoverable
-        className="overflow-hidden"
-        cover={
-          <div className="relative">
-            <FaShoppingCart className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75" />
-            {isLoading?<Spin size='small'/>:isAddedToWishlist()?<>
-             <FaHeart onClick={wishlistHandler}  className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"  />
-            </>:<>
-            <FaRegHeart onClick={
-              wishlistHandler}  className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"  />
-            
-            </>}
-            {product.discount > 0 && (
-              <h2 className="discount absolute top-0 left-0 rounded-br-lg bg-red-500 text-white select-none p-2">
-                - {product.discount * 100}%
-              </h2>
-            )}
-            {showStore && (
-              <Link to={`/products/${product.id}`} className=''>
-
+    <Card
+      hoverable
+      className="overflow-hidden"
+      cover={
+        <div className="relative">
+          <FaShoppingCart
+            onClick={handleCart}
+            className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75"
+          />
+          {isLoading ? (
+            <Spin size="small" />
+          ) : isAddedToWishlist() ? (
+            <>
+              <FaHeart
+                onClick={wishlistHandler}
+                className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
+              />
+            </>
+          ) : (
+            <>
+              <FaRegHeart
+                onClick={wishlistHandler}
+                className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
+              />
+            </>
+          )}
+          {product.discount > 0 && (
+            <h2 className="discount absolute top-0 left-0 rounded-br-lg bg-red-500 text-white select-none p-2">
+              - {product.discount * 100}%
+            </h2>
+          )}
+          {showStore && (
+            <Link to={`/products/${product.id}`} className="">
               <div className="store-info absolute bottom-0 left-0 py-1 px-2 w-full flex justify-center gap-2 items-end bg-gray-100 bg-opacity-80 backdrop-blur-sm">
                 {isStoreLoading ? (
                   <p className="text-lg">Loading...</p>
                 ) : (
-
                   <>
-
-                  
-
                     <img
                       className="size-9 rounded-full object-contain"
                       src={store.logo}
@@ -53,24 +64,22 @@ export const ProductCard = ({ product, showStore = true }) => {
                     <h2 className="text-xl text-slate-800 font-semibold">
                       {store.name}
                     </h2>
-
                   </>
                 )}
               </div>
-              </Link>
-
-            )}
-            <Link to={`/products/${product.id}`}>
+            </Link>
+          )}
+          <Link to={`/products/${product.id}`}>
             <img
               alt={product.title}
               className="pt-2 h-[300px] w-full object-contain"
               src={product.images[0]}
             />
-            </Link>
-          </div>
-        }
-      >
-                    <Link to={`/products/${product.id}`}>
+          </Link>
+        </div>
+      }
+    >
+      <Link to={`/products/${product.id}`}>
         <h1 className="font-bold truncate">{product.title}</h1>
         {product.discount ? (
           <div className="product-price flex items-center gap-2">
@@ -86,10 +95,8 @@ export const ProductCard = ({ product, showStore = true }) => {
             {productPrice.toLocaleString()} EGP
           </p>
         )}
-        </Link>
-
-      </Card>
-  
+      </Link>
+    </Card>
   );
 };
 
