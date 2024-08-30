@@ -117,18 +117,16 @@ export default function NavBar() {
             </Badge>
           </Link>
 
-          {auth.currentUser === null ? (
-            <Dropdown
-              menu={{ items: unAuthProfileItems }}
-              className="block sm:hidden"
-            >
-              <FaUser className="text-primary" />
-            </Dropdown>
-          ) : (
-            <Dropdown menu={{ items: profileItems }}>
-              <FaUser className="text-primary" />
-            </Dropdown>
-          )}
+          <Dropdown
+            menu={{
+              items:
+                auth.currentUser === null ? unAuthProfileItems : profileItems,
+            }}
+          >
+            <FaUser
+              className={`text-primary ${auth.currentUser === null && 'block sm:hidden'}`}
+            />
+          </Dropdown>
         </div>
       </div>
       {/* Lower */}
