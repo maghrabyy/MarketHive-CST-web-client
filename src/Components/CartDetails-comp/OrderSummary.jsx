@@ -27,7 +27,7 @@ export default function OrderSummary({
   const wordItem = wordPlusS();
   const location = useLocation();
 
-  const emptyShoppingCart = async () => {
+  const emptyShoppingCart = () => {
     cartItems.forEach(async (cartItem) => {
       await deleteDoc(doc(db, 'ShoppingCart', cartItem.id));
     });
@@ -43,12 +43,13 @@ export default function OrderSummary({
           quantity: cartItem.quantity,
           subTotal: cartItem.subTotal,
         })),
+        shippingFees,
         totalAmount,
         orderHistory: [{ orderStatus: 'pending', date: new Date() }],
         destinationAddress: customerAddress,
         paymentMethod: 'Cash on delivery',
       });
-      await emptyShoppingCart();
+      emptyShoppingCart();
       navigate('/');
       PlaceOrderModal();
       setIsPlaceOrderLoading(false);
@@ -58,7 +59,7 @@ export default function OrderSummary({
   };
 
   return (
-    <div className="bg-white shadow p-6 rounded-md sticky top-0">
+    <div className="bg-white shadow p-6 rounded-md sticky top-0 space-y-2">
       <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
       <div className="space-y-2">
         <div className="flex justify-between">

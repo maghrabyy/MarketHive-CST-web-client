@@ -57,12 +57,12 @@ export default function NavBar() {
     {
       key: '2',
       label: <Link to={'/wishlist'}>My Wishlist</Link>,
-      icon: <FaHeart />,
+      icon: <FaHeart className="text-primary" />,
     },
     {
       key: '3',
       label: <Link to="/my-orders">My Orders</Link>,
-      icon: <FaShoppingBag />,
+      icon: <FaShoppingBag className="text-primary" />,
     },
     {
       type: 'divider',
