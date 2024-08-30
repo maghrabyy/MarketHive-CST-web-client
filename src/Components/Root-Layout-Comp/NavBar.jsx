@@ -41,7 +41,7 @@ export default function NavBar() {
     },
   ];
 
-  const profileItems = [
+  const authProfileItems = [
     {
       key: '1',
       type: 'group',
@@ -120,7 +120,9 @@ export default function NavBar() {
           <Dropdown
             menu={{
               items:
-                auth.currentUser === null ? unAuthProfileItems : profileItems,
+                auth.currentUser === null
+                  ? unAuthProfileItems
+                  : authProfileItems,
             }}
           >
             <FaUser
