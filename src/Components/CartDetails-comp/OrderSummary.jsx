@@ -13,6 +13,7 @@ import {
 import { db, auth } from '../../firebase';
 import { Button } from 'antd';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function OrderSummary({
   cartItems,
@@ -83,7 +84,8 @@ export default function OrderSummary({
       PlaceOrderModal();
       setIsPlaceOrderLoading(false);
     } catch (error) {
-      console.log(error);
+      setIsPlaceOrderLoading(false);
+      toast.error('Error occurred, please try again later.');
     }
   };
 
