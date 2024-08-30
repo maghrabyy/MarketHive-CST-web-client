@@ -45,7 +45,7 @@ export const useFetchWishList = (productId) => {
 
   const isAddedToWishlist = () => {
     if (auth.currentUser !== null) {
-      if (customer.wishlist.includes(productId)) {
+      if (customer.wishlist?.includes(productId)) {
         return true;
       } else {
         return false;

@@ -4,7 +4,7 @@ import { ProductDetails } from '../../Components/ProductDetails-comp/ProductDeta
 import { ReviewForm } from '../../Components/ProductDetails-comp/ReviewForm';
 import { CustomersReviews } from '../../Components/ProductDetails-comp/CustomersReviews';
 import { BreadCrumb } from '../../Components/BreadCrumb';
-import { Spin } from 'antd';
+import { PageSpiner } from '../../Components/PageSpiner';
 import { FaHome, FaStore, FaShoppingBag } from 'react-icons/fa';
 import { auth } from '../../firebase';
 
@@ -13,9 +13,7 @@ function ProductDetailPage() {
   const { product, store, category, productReviews, isProductLoading } =
     useFetchProduct(prodId);
   return isProductLoading ? (
-    <div className="h-full absolute left-1/2 flex flex-col justify-center">
-      <Spin size="large" className="self-stretch " />
-    </div>
+    <PageSpiner />
   ) : (
     <div className="product-details-page paddingX py-5 space-y-5">
       <BreadCrumb

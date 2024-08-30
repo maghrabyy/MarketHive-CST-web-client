@@ -69,7 +69,7 @@ export default function RegisterPage() {
             address: {},
             orders: [],
             shoppingCart: [],
-            wishlist:[],
+            wishlist: [],
             registrationDate: new Date(),
           });
           await updateProfile(user, {
