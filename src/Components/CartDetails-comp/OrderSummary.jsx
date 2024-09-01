@@ -42,7 +42,7 @@ export default function OrderSummary({
     });
   };
 
-  const updateStoresDocWithNewOrderDate = (orderId) => {
+  const updateStoresDocWithNewOrderData = (orderId) => {
     cartItems.forEach(async (cartItem) => {
       const store = await getDoc(doc(db, 'Products', cartItem.prodId));
       const storeId = store.data().storeId;
@@ -77,7 +77,7 @@ export default function OrderSummary({
         destinationAddress: customerAddress,
         paymentMethod: 'Cash on delivery',
       });
-      updateStoresDocWithNewOrderDate(order.id);
+      updateStoresDocWithNewOrderData(order.id);
       updateCustomerDocWithNewOrder(order.id);
       emptyShoppingCart();
       navigate('/');
