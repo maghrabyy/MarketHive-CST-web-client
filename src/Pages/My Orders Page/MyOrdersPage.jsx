@@ -2,11 +2,12 @@ import { Skeleton } from 'antd';
 import { PageSpiner } from '../../Components/PageSpiner';
 import { useFetchOrders } from '../../Custom Hooks/useFetchOrders';
 import { useFetchProduct } from '../../Custom Hooks/useFetchProduct';
+import { EmptyList } from '../../Components/EmptyList';
 
 function MyOrdersPage() {
   const { order, isOrderLoading } = useFetchOrders();
   return (
-    <div className="container mx-auto px-4 py-8 space-y-4">
+    <div className="container paddingX space-y-2 py-4">
       {isOrderLoading ? (
         <PageSpiner />
       ) : order.length > 0 ? (
@@ -54,7 +55,7 @@ function MyOrdersPage() {
           ))}
         </div>
       ) : (
-        <div>0 orders placed in</div>
+        <EmptyList type={'order'} />
       )}
     </div>
   );
