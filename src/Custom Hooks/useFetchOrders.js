@@ -18,6 +18,10 @@ export const useFetchOrders = () => {
           id: doc.id,
           ...doc.data(),
         }));
+        orderData.sort(
+          (a, b) =>
+            b.orderHistory[0].date.seconds - a.orderHistory[0].date.seconds,
+        );
         setOrder(orderData);
         setIsOrderLoading(false);
       });
