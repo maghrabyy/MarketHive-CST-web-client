@@ -20,9 +20,14 @@ function MyOrdersPage() {
               {/* Order Details */}
               <div className="text-lg font-semibold">
                 Order Placed:{' '}
-                {new Date(
-                  item.orderHistory[0].date.seconds * 1000,
-                ).toLocaleDateString()}
+                {item.orderHistory[0].date.toDate().toLocaleString('en-AU', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                  hour12: true,
+                  minute: 'numeric',
+                  hour: 'numeric',
+                })}
               </div>
               <div className="text-gray-500">
                 Shipping Fees:{' '}
