@@ -5,7 +5,7 @@ import toast, { useToasterStore } from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const useFetchWishList = (productId) => {
+export const useFetchWishList = (productId="") => {
   const navigate = useNavigate();
   const notify = (text, icon = '') => {
     if (icon == '') {
@@ -25,6 +25,7 @@ export const useFetchWishList = (productId) => {
 
   const customerId = auth.currentUser?.uid;
   const { customer, isLoading } = useCustomerSnapshot(customerId);
+  const wishlistItems=customer.wishlist
   const wishlistHandler = () => {
     if (auth.currentUser !== null) {
       if (isAddedToWishlist()) {
@@ -54,5 +55,5 @@ export const useFetchWishList = (productId) => {
       return false;
     }
   };
-  return { isAddedToWishlist, wishlistHandler, isLoading };
+  return { isAddedToWishlist, wishlistHandler, isLoading ,wishlistItems};
 };
