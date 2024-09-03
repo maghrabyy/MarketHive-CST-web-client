@@ -1,14 +1,16 @@
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { FaRegHeart } from 'react-icons/fa';
 import Card from 'antd/es/card/Card';
-import { Skeleton, Spin } from 'antd';
+import { Button, Skeleton, Spin } from 'antd';
+import { FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useFetchStore } from '../Custom Hooks/useFetchStore';
 import { useFetchWishList } from '../Custom Hooks/useFetchWishList';
 import { useAddToCart } from '../Custom Hooks/useAddToCart';
 
-export const ProductCard = ({ product, showStore = true }) => {
-  const { isAddedToWishlist, wishlistHandler, isLoading } = useFetchWishList(product.id);
+export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
+  const { isAddedToWishlist, wishlistHandler, isLoading, removeFromWishlist } =
+    useFetchWishList(product.id);
 
   const { store, isStoreLoading } = useFetchStore(product.storeId);
   const productPrice = product.discount
@@ -21,25 +23,25 @@ export const ProductCard = ({ product, showStore = true }) => {
       className="overflow-hidden"
       cover={
         <div className="relative">
-          <FaShoppingCart
-            onClick={handleCart}
-            className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75"
-          />
-          {isLoading ? (
-            <Spin size="small" />
-          ) : isAddedToWishlist() ? (
+          {!isWishlistItem && (
             <>
-              <FaHeart
-                onClick={wishlistHandler}
-                className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
+              <FaShoppingCart
+                onClick={handleCart}
+                className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75"
               />
-            </>
-          ) : (
-            <>
-              <FaRegHeart
-                onClick={wishlistHandler}
-                className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
-              />
+              {isLoading ? (
+                <Spin size="small" />
+              ) : isAddedToWishlist() ? (
+                <FaHeart
+                  onClick={wishlistHandler}
+                  className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
+                />
+              ) : (
+                <FaRegHeart
+                  onClick={wishlistHandler}
+                  className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
+                />
+              )}
             </>
           )}
           {product.discount > 0 && (
@@ -77,23 +79,34 @@ export const ProductCard = ({ product, showStore = true }) => {
         </div>
       }
     >
-      <Link to={`/products/${product.id}`}>
-        <h1 className="font-bold truncate">{product.title}</h1>
-        {product.discount ? (
-          <div className="product-price flex items-center gap-2">
+      <div className="card-content space-y-2">
+        <Link to={`/products/${product.id}`}>
+          <h1 className="font-bold truncate">{product.title}</h1>
+          {product.discount ? (
+            <div className="product-price flex items-center gap-2">
+              <p className="text-gray-400 text-lg">
+                {productPrice.toLocaleString()} EGP
+              </p>
+              <p className="text-gray-400 text-sm line-through">
+                {product.price.toLocaleString()} EGP
+              </p>
+            </div>
+          ) : (
             <p className="text-gray-400 text-lg">
               {productPrice.toLocaleString()} EGP
             </p>
-            <p className="text-gray-400 text-sm line-through">
-              {product.price.toLocaleString()} EGP
-            </p>
-          </div>
-        ) : (
-          <p className="text-gray-400 text-lg">
-            {productPrice.toLocaleString()} EGP
-          </p>
+          )}
+        </Link>
+        {isWishlistItem && (
+          <Button
+            onClick={removeFromWishlist}
+            icon={<FaTrash />}
+            className="w-full"
+          >
+            Remove from wishlist
+          </Button>
         )}
-      </Link>
+      </div>
     </Card>
   );
 };

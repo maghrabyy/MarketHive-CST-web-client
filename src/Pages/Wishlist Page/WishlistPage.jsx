@@ -1,52 +1,47 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from 'firebase/firestore';
 import { useFetchProduct } from '../../Custom Hooks/useFetchProduct';
-import { useFetchWishList } from '../../Custom Hooks/useFetchWishList';
-import { CustomersReviews } from './../../Components/ProductDetails-comp/CustomersReviews';
-import { auth, db } from '../../firebase';
-import { useEffect, useState } from 'react';
+import { auth } from '../../firebase';
 import { ProductCard } from '../../Components/EcommerceCards';
 import { useCustomerSnapshot } from '../../Custom Hooks/useFetchCustomer';
+import { SkeletonProdsCard } from '../../Components/EcommerceCards';
+import { PageSpiner } from '../../Components/PageSpiner';
+import { EmptyList } from '../../Components/EmptyList';
 
 function WishlistPage() {
   const { customer, isLoading } = useCustomerSnapshot(auth.currentUser.uid);
-console.log(customer.wishlist);
-
-  return <div>      
-    <div className="paddingX space-y-2 py-4">
-    <div className="media">
-   {isLoading?<>loooooooooooooooooood</>:
-   customer.wishlist.map((item,index)=><WishlistItem key={index} id={item}></WishlistItem>
-
-  
-    )
-   }
-   </div>
-   </div>
-  </div>;
+  return (
+    <div>
+      <div className="paddingX space-y-2 py-4">
+        {isLoading ? (
+          <PageSpiner />
+        ) : customer.wishlist.length > 0 ? (
+          <div className="media">
+            {customer.wishlist
+              .map((item, index) => (
+                <WishlistItem key={index} id={item}></WishlistItem>
+              ))
+              .reverse()}
+          </div>
+        ) : (
+          <EmptyList />
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default WishlistPage;
 
-
-
-
-function WishlistItem({id}){
-  const { product, isProductLoading}=useFetchProduct(id)
+function WishlistItem({ id }) {
+  const { product, isProductLoading } = useFetchProduct(id);
   console.log(product);
-  
+
   return (
-    <>{
-      isProductLoading?<div>lllllllllllllllllllllllllllllllll</div>:<ProductCard product={product} ></ProductCard>
-
-    }
+    <>
+      {isProductLoading ? (
+        <SkeletonProdsCard />
+      ) : (
+        <ProductCard product={product} isWishlistItem />
+      )}
     </>
-  )
+  );
 }
-

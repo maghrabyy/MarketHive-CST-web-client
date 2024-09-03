@@ -31,7 +31,7 @@ export default function HomePage() {
         <HomeSection
           title="Popular Products"
           pathTitle={'Products'}
-          sectionPath={'/products'}
+          sectionPath={'/popular-products'}
         >
           {isProdsLoading
             ? Array.from(Array(4)).map((_, index) => (

@@ -18,6 +18,7 @@ import ProductDetailPage from './Pages/ProductDetail Page/ProductDetailPage.jsx'
 import { SearchResultPage } from './Pages/Products Page/SearchResultPage.jsx';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute.jsx';
 import UnAuthRoute from './Components/ProtectedRoute/UnAuthRoute.jsx';
+import { PopularProductsPage } from './Pages/Products Page/PopularProductsPage.jsx';
 
 function App() {
   const routers = createBrowserRouter([
@@ -75,6 +76,10 @@ function App() {
           children: [
             { path: '/stores/:storeId', element: <ProductsStorePage /> },
           ],
+        },
+        {
+          path: 'popular-products',
+          element: <PopularProductsPage />,
         },
         {
           path: 'products',

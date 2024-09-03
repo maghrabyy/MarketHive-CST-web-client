@@ -5,7 +5,7 @@ import toast, { useToasterStore } from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const useFetchWishList = (productId="") => {
+export const useFetchWishList = (productId = '') => {
   const navigate = useNavigate();
   const notify = (text, icon = '') => {
     if (icon == '') {
@@ -25,19 +25,27 @@ export const useFetchWishList = (productId="") => {
 
   const customerId = auth.currentUser?.uid;
   const { customer, isLoading } = useCustomerSnapshot(customerId);
-  const wishlistItems=customer.wishlist
+
+  const removeFromWishlist = () => {
+    updateDoc(doc(db, 'Customers', customerId), {
+      wishlist: arrayRemove(productId),
+    });
+    notify('item removed from wishlist', '🗑');
+  };
+
+  const addToWishlist = () => {
+    updateDoc(doc(db, 'Customers', customerId), {
+      wishlist: arrayUnion(productId),
+    });
+    notify('Item added to wishlist');
+  };
+
   const wishlistHandler = () => {
     if (auth.currentUser !== null) {
       if (isAddedToWishlist()) {
-        updateDoc(doc(db, 'Customers', customerId), {
-          wishlist: arrayRemove(productId),
-        });
-        notify('item removed from wishlist', '🗑');
+        removeFromWishlist();
       } else {
-        updateDoc(doc(db, 'Customers', customerId), {
-          wishlist: arrayUnion(productId),
-        });
-        notify('Item added to wishlist');
+        addToWishlist();
       }
     } else {
       navigate('/login');
@@ -55,5 +63,5 @@ export const useFetchWishList = (productId="") => {
       return false;
     }
   };
-  return { isAddedToWishlist, wishlistHandler, isLoading ,wishlistItems};
+  return { isAddedToWishlist, wishlistHandler, removeFromWishlist, isLoading };
 };
