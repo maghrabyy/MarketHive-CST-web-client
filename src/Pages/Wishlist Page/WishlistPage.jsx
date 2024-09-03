@@ -33,8 +33,6 @@ export default WishlistPage;
 
 function WishlistItem({ id }) {
   const { product, isProductLoading } = useFetchProduct(id);
-  console.log(product);
-
   return (
     <>
       {isProductLoading ? (
