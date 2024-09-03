@@ -8,9 +8,7 @@ import { useFetchWishList } from '../Custom Hooks/useFetchWishList';
 import { useAddToCart } from '../Custom Hooks/useAddToCart';
 
 export const ProductCard = ({ product, showStore = true }) => {
-  const { isAddedToWishlist, wishlistHandler, isLoading } = useFetchWishList(
-    product.id,
-  );
+  const { isAddedToWishlist, wishlistHandler, isLoading } = useFetchWishList(product.id);
 
   const { store, isStoreLoading } = useFetchStore(product.storeId);
   const productPrice = product.discount
