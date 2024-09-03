@@ -7,7 +7,6 @@ import CartPage from './Pages/Cart Page/CartPage.jsx';
 import CheckoutPage from './Pages/Checkout Page/CheckoutPage';
 import MyOrdersPage from './Pages/My Orders Page/MyOrdersPage.jsx';
 import WishlistPage from './Pages/Wishlist Page/WishlistPage.jsx';
-import ProductsPage from './Pages/Products Page/ProductsPage.jsx';
 import LoginPage from './Pages/Login Page/LoginPage.jsx';
 import RegisterPage from './Pages/Register Page/RegisterPage.jsx';
 import StoresPage from './Pages/Stores Page/StoresPage.jsx';
@@ -74,20 +73,23 @@ function App() {
           path: 'stores',
           element: <StoresPage />,
           children: [
-            { path: '/stores/:storeId', element: <ProductsStorePage /> },
+            {
+              path: '/stores/:storeId',
+              element: <ProductsStorePage />,
+              children: [
+                {
+                  path: '/stores/:storeId/:prodId',
+                  element: <ProductDetailPage />,
+                },
+              ],
+            },
           ],
         },
         {
           path: 'popular-products',
           element: <PopularProductsPage />,
         },
-        {
-          path: 'products',
-          element: <ProductsPage />,
-          children: [
-            { path: '/products/:prodId', element: <ProductDetailPage /> },
-          ],
-        },
+
         {
           path: 'login',
           element: (

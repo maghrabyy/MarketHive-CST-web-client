@@ -126,7 +126,7 @@ export default function NavBar() {
             }}
           >
             <FaUser
-              className={`text-primary ${auth.currentUser === null && 'block sm:hidden'}`}
+              className={`text-primary cursor-pointer ${auth.currentUser === null && 'block sm:hidden'}`}
             />
           </Dropdown>
         </div>

@@ -50,7 +50,7 @@ export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
             </h2>
           )}
           {showStore && (
-            <Link to={`/products/${product.id}`} className="">
+            <Link to={`/stores/${store.id}/${product.id}`} className="">
               <div className="store-info absolute bottom-0 left-0 py-1 px-2 w-full flex justify-center gap-2 items-end bg-gray-100 bg-opacity-80 backdrop-blur-sm">
                 {isStoreLoading ? (
                   <p className="text-lg">Loading...</p>
@@ -69,7 +69,7 @@ export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
               </div>
             </Link>
           )}
-          <Link to={`/products/${product.id}`}>
+          <Link to={`/stores/${store.id}/${product.id}`}>
             <img
               alt={product.title}
               className="pt-2 h-[300px] w-full object-contain"
@@ -80,7 +80,7 @@ export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
       }
     >
       <div className="card-content space-y-2">
-        <Link to={`/products/${product.id}`}>
+        <Link to={`/stores/${store.id}/${product.id}`}>
           <h1 className="font-bold truncate">{product.title}</h1>
           {product.discount ? (
             <div className="product-price flex items-center gap-2">
