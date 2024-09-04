@@ -80,7 +80,7 @@ export default function OrderSummary({
       updateStoresDocWithNewOrderData(order.id);
       updateCustomerDocWithNewOrder(order.id);
       emptyShoppingCart();
-      navigate('/');
+      navigate('/my-orders');
       PlaceOrderModal();
       setIsPlaceOrderLoading(false);
     } catch (error) {
