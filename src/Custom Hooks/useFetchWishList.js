@@ -26,15 +26,15 @@ export const useFetchWishList = (productId = '') => {
   const customerId = auth.currentUser?.uid;
   const { customer, isLoading } = useCustomerSnapshot(customerId);
 
-  const removeFromWishlist = () => {
-    updateDoc(doc(db, 'Customers', customerId), {
+  const removeFromWishlist = async () => {
+    await updateDoc(doc(db, 'Customers', customerId), {
       wishlist: arrayRemove(productId),
     });
     notify('item removed from wishlist', '🗑');
   };
 
-  const addToWishlist = () => {
-    updateDoc(doc(db, 'Customers', customerId), {
+  const addToWishlist = async () => {
+    await updateDoc(doc(db, 'Customers', customerId), {
       wishlist: arrayUnion(productId),
     });
     notify('Item added to wishlist');
