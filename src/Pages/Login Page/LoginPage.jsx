@@ -1,13 +1,15 @@
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'antd';
 import { authErrors } from '../../util/authErrors';
+import { getDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +30,16 @@ export default function LoginPage() {
         setIsLoading(true);
         try {
           await signInWithEmailAndPassword(auth, email, password);
-          navigate('/');
+          const customerDoc = await getDoc(
+            doc(db, 'Customers', auth.currentUser.uid),
+          );
+          if (customerDoc.exists()) {
+            navigate('/');
+          } else {
+            setAuthError('Unauthorized Access.');
+            signOut(auth);
+            setIsLoading(false);
+          }
         } catch (error) {
           setAuthError(
             authErrors[error.code] ?? 'Unable to login, try again later.',

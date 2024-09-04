@@ -48,7 +48,7 @@ export default function NavBar() {
       label: (
         <div className="user-full-name flex gap-2">
           <Avatar size="small">
-            {auth.currentUser?.displayName.substring(0, 1)}
+            {auth.currentUser?.displayName?.substring(0, 1)}
           </Avatar>
           <span>{auth.currentUser?.displayName}</span>
         </div>

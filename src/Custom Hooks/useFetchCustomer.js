@@ -27,18 +27,18 @@ export const useCustomerSnapshot = (customerId) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      doc(db, 'Customers', customerId),
-      (customerSnapshot) => {
-        setCustomer({ ...customerSnapshot.data(), id: customerSnapshot.id });
-        setIsLoading(false);
-      },
-      (error) => {
+    const fetchCustomer = async () => {
+      try {
+        onSnapshot(doc(db, 'Customers', customerId), (customerSnapshot) => {
+          setCustomer({ ...customerSnapshot.data(), id: customerSnapshot.id });
+          setIsLoading(false);
+        });
+      } catch (error) {
         setIsLoading(false);
         setError(error.message);
-      },
-    );
-    () => unsubscribe;
+      }
+    };
+    fetchCustomer();
   }, [customerId]);
   return { customer, isLoading, error };
 };
