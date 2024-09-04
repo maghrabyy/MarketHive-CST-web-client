@@ -11,8 +11,11 @@ export const SearchBar = () => {
   const { searchProducts, getStoreNameFromId } = useProductSearch(searchTerm);
 
   const handleSelect = (value) => {
-    setSearchTerm(searchProducts.find((product) => product.id === value).title);
-    navigate(`/products/${value}`);
+    const valueArr = value.split(',');
+    setSearchTerm(
+      searchProducts.find((product) => product.id === valueArr[0]).title,
+    );
+    navigate(`/stores/${valueArr[1]}/${valueArr[0]}`);
   };
 
   const searchHandler = (e) => {
@@ -41,7 +44,7 @@ export const SearchBar = () => {
           </div>
         </div>
       ),
-      value: prod.id,
+      value: `${prod.id},${prod.storeId}`,
     }))
     .slice(0, 5);
   return (

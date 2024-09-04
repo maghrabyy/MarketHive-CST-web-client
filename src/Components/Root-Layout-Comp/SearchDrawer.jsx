@@ -24,8 +24,8 @@ export const SearchDrawer = () => {
       setSearchTerm('');
     }
   };
-  const selectedProductHandler = (prodId) => {
-    navigate(`/products/${prodId}`);
+  const selectedProductHandler = (prod) => {
+    navigate(`/stores/${prod.storeId}/${prod.prodId}`);
     setShowSearchDrawer(false);
     setSearchTerm('');
   };
@@ -58,7 +58,12 @@ export const SearchDrawer = () => {
           searchSuggestions.map((prod) => (
             <div
               key={prod.id}
-              onClick={() => selectedProductHandler(prod.id)}
+              onClick={() =>
+                selectedProductHandler({
+                  prodId: prod.id,
+                  storeId: prod.storeId,
+                })
+              }
               className="select-none cursor-pointer py-1 px-2 text-white font-semibold bg-primary hover:bg-primary/80 rounded-md flex gap-2"
             >
               <img
