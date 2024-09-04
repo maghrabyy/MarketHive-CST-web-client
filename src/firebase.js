@@ -4,12 +4,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCNe-2bjODUuBu7PdcWbKJT6WFHW8HYD5Y',
-  authDomain: 'markethive-258a5.firebaseapp.com',
-  projectId: 'markethive-258a5',
-  storageBucket: 'markethive-258a5.appspot.com',
-  messagingSenderId: '363669259057',
-  appId: '1:363669259057:web:90472dc96bb7e191022610',
+  apiKey: 'AIzaSyB3YpaMtjcLBNF9V5S_T7O4ALpqxaLCOAM',
+  authDomain: 'markethive-recovery.firebaseapp.com',
+  projectId: 'markethive-recovery',
+  storageBucket: 'markethive-recovery.appspot.com',
+  messagingSenderId: '113383015154',
+  appId: '1:113383015154:web:8005a74f003b5b0932066b',
+  measurementId: 'G-JEZYYHVKGT',
 };
 
 const app = initializeApp(firebaseConfig);
