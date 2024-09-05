@@ -3,7 +3,7 @@ import logo from '../../assets/MHLogo.png';
 export default function Footer() {
   return (
     <footer className="flex flex-col md:flex-row items-center bg-slate-700 w-full justify-around md:space-x-5 text-slate-100 py-10 px-6 md:px-10">
-      <div className="flex flex-col space-y-4 mb-6 items-start">
+      <div className="flex flex-col space-y-4 mb-6 items-center md:items-start">
         <img src={logo} alt="MarketHive Logo" className="w-48" />
         <p>A miscellaneous shopping experience.</p>
       </div>
