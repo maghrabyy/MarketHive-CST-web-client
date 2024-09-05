@@ -125,7 +125,7 @@ export const ProductDetails = ({ product, store, reviews }) => {
         </div>
         <div className="product-action space-y-2">
           <div className="product-price">
-            {product.discount ? (
+            {Number(product.discount) ? (
               <h1>
                 <span className="discounted-price text-4xl font-bold">
                   {productPrice.toLocaleString()} EGP

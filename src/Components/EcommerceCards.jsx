@@ -82,7 +82,7 @@ export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
       <div className="card-content space-y-2">
         <Link to={`/stores/${store.id}/${product.id}`}>
           <h1 className="font-bold truncate">{product.title}</h1>
-          {product.discount ? (
+          {Number(product.discount) ? (
             <div className="product-price flex items-center gap-2">
               <p className="text-gray-400 text-lg">
                 {productPrice.toLocaleString()} EGP

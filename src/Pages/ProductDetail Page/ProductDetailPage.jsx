@@ -12,6 +12,7 @@ function ProductDetailPage() {
   const { prodId } = useParams();
   const { product, store, category, productReviews, isProductLoading } =
     useFetchProduct(prodId);
+  console.log(productReviews);
   return isProductLoading ? (
     <PageSpiner />
   ) : (
