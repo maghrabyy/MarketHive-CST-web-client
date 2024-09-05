@@ -44,7 +44,8 @@ function MyOrdersPage() {
                 Payment Method: {item.paymentMethod}
               </div>
               <div className="text-gray-500">
-                Status: {item.orderHistory[0].orderStatus}
+                Status:{' '}
+                {item.orderHistory[item.orderHistory.length - 1].orderStatus}
               </div>
               {/* Product Items */}
               <div className="space-y-4">
