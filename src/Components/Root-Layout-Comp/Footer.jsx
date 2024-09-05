@@ -1,32 +1,12 @@
 import logo from '../../assets/MHLogo.png';
-import {
-  TiSocialFacebook,
-  TiSocialTwitter,
-  TiSocialGithub,
-} from 'react-icons/ti';
-import { SlSocialGoogle } from 'react-icons/sl';
 
 export default function Footer() {
   return (
     <footer className="flex flex-col md:flex-row items-center bg-slate-700 w-full justify-around md:space-x-5 text-slate-100 py-10 px-6 md:px-10">
-      <div className="flex flex-col space-y-4 mb-6 items-center">
+      <div className="flex flex-col space-y-4 mb-6 items-start">
         <img src={logo} alt="MarketHive Logo" className="w-48" />
-        <div className="flex space-x-4 text-2xl">
-          <a href="https://facebook.com" aria-label="Facebook">
-            <TiSocialFacebook />
-          </a>
-          <a href="https://twitter.com" aria-label="Twitter">
-            <TiSocialTwitter />
-          </a>
-          <a href="https://google.com" aria-label="Google">
-            <SlSocialGoogle />
-          </a>
-          <a href="https://github.com" aria-label="GitHub">
-            <TiSocialGithub />
-          </a>
-        </div>
+        <p>A miscellaneous shopping experience.</p>
       </div>
-
       <nav className="flex space-x-14 mb-6">
         <ul className="space-y-4">
           <li>
