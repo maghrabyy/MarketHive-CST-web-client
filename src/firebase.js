@@ -14,21 +14,18 @@ import { getAuth } from 'firebase/auth';
 // } from '@env';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  apiKey: 'AIzaSyB3YpaMtjcLBNF9V5S_T7O4ALpqxaLCOAM',
+  authDomain: 'markethive-recovery.firebaseapp.com',
+  projectId: 'markethive-recovery',
+  storageBucket: 'markethive-recovery.appspot.com',
+  messagingSenderId: '113383015154',
+  appId: '1:113383015154:web:8005a74f003b5b0932066b',
+  measurementId: 'G-JEZYYHVKGT',
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(
-  app,
-  process.env.REACT_APP_FIREBASE_STORAGE_BUCKET_URL,
-);
+const storage = getStorage(app, 'gs://markethive-recovery.appspot.com');
 
 const auth = getAuth(app);
 
