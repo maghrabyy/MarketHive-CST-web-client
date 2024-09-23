@@ -70,6 +70,7 @@ export default function RegisterPage() {
             orders: [],
             shoppingCart: [],
             wishlist: [],
+            purchasedProducts:[],
             registrationDate: new Date(),
           });
           await updateProfile(user, {
