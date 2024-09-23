@@ -57,6 +57,11 @@ export default function OrderSummary({
     await updateDoc(doc(db, 'Customers', auth.currentUser.uid), {
       orders: arrayUnion(orderId),
     });
+    cartItems.forEach(async (cartItem) => {
+      await updateDoc(doc(db, 'Customers', auth.currentUser.uid), {
+        purchasedProducts: arrayUnion(cartItem.prodId),
+      });
+    });
   };
 
   const placeOrderHandler = async () => {

@@ -34,7 +34,7 @@ function MyOrdersPage() {
                 {item.shippingFees === 0 ? 'Free' : `${item.shippingFees} EGP`}
               </div>
               <div className="text-gray-500">
-                Total Amount: {item.totalAmount} EGP
+                Total Amount: {item.totalAmount.toLocaleString()} EGP
               </div>
               <div className="text-gray-500">
                 Destination: {item.destinationAddress.streetAddress},{' '}
@@ -69,7 +69,9 @@ function MyOrdersPage() {
 
 export function ProductDetails({ prodId, quantity }) {
   const { product, store, isProductLoading } = useFetchProduct(prodId);
-
+  const productPrice = product.discount
+    ? product.price - product.price * product.discount
+    : product.price;
   return (
     <div>
       {isProductLoading ? (
@@ -95,7 +97,7 @@ export function ProductDetails({ prodId, quantity }) {
             <div className="font-medium">{product.title}</div>
             <div className="text-sm text-gray-500">{store.name}</div>
           </div>
-          <div className="font-medium">{product.price} EGP</div>
+          <div className="font-medium">{productPrice.toLocaleString()} EGP</div>
         </div>
       )}
     </div>
