@@ -7,12 +7,15 @@ import { BreadCrumb } from '../../Components/BreadCrumb';
 import { PageSpiner } from '../../Components/PageSpiner';
 import { FaHome, FaStore, FaShoppingBag } from 'react-icons/fa';
 import { auth } from '../../firebase';
+import { useFetchCustomer } from '../../Custom Hooks/useFetchCustomer';
 
 function ProductDetailPage() {
   const { prodId } = useParams();
   const { product, store, category, productReviews, isProductLoading } =
     useFetchProduct(prodId);
-  console.log(productReviews);
+  const { customer, isLoading: isCustomerLoading } = useFetchCustomer(
+    auth.currentUser.uid,
+  );
   return isProductLoading ? (
     <PageSpiner />
   ) : (
@@ -45,7 +48,9 @@ function ProductDetailPage() {
         store={store}
         reviews={productReviews}
       />
-      {auth.currentUser && <ReviewForm productId={prodId} />}
+      {auth.currentUser && customer.purchasedProducts.includes(prodId) && (
+        <ReviewForm productId={prodId} />
+      )}
       <CustomersReviews reviews={productReviews} />
     </div>
   );
