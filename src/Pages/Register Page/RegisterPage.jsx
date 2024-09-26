@@ -11,7 +11,6 @@ import { useState } from 'react';
 import { Button } from 'antd';
 import { authErrors } from '../../util/authErrors.js';
 import registerImg from '../../assets/register.png';
-
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
@@ -89,8 +88,8 @@ export default function RegisterPage() {
         }}
       >
         {({ errors, touched }) => (
-          <div className="md:col-span-5 bg-white col-span-12 shadow-md rounded-md border border-gray-200 px-6 py-8">
-            <h2 className="text-xl md:text-2xl font-bold text-primary">
+          <div className="flex flex-col gap-4 md:col-span-5 bg-white col-span-12 shadow-md rounded-md border border-gray-200 px-6 py-8">
+            <h2 className="text-lg md:text-2xl font-bold text-primary">
               Get Started with a free account.
             </h2>
             <div className="">

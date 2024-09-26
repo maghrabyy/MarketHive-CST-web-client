@@ -59,7 +59,7 @@ export default function LoginPage() {
         }}
       >
         {({ errors, touched }) => (
-          <div className="flex flex-col bg-white gap-4 md:col-span-5 col-span-12 shadow-md rounded-md border border-gray-100 px-5 py-8">
+          <div className="flex flex-col bg-white gap-4 md:col-span-5 col-span-12 shadow-md rounded-md border border-gray-100 px-6 py-8">
             <img
               src={marketHiveLogo}
               alt="Market Hive logo"
