@@ -69,7 +69,7 @@ export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
           <Link to={`/stores/${store.id}/${product.id}`}>
             <img
               alt={product.title}
-              className="h-[300px] w-full object-cover"
+              className="h-[300px] w-full object-contain"
               src={product.images[0]}
             />
           </Link>
