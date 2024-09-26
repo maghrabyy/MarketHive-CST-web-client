@@ -25,22 +25,19 @@ export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
         <div className="relative">
           {!isWishlistItem && (
             <>
-              <FaShoppingCart
-                onClick={handleCart}
-                className="absolute top-4 right-4 cursor-pointer text-primary hover:text-primary/75"
-              />
+              <div className="icon-btn bg-primary hover:bg-primary/70 p-1.5 rounded-full absolute top-2 right-2 cursor-pointer text-white">
+                <FaShoppingCart onClick={handleCart} />
+              </div>
               {isLoading ? (
                 <Spin size="small" />
               ) : isAddedToWishlist() ? (
-                <FaHeart
-                  onClick={wishlistHandler}
-                  className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
-                />
+                <div className="icon-btn bg-primary hover:bg-primary/70 p-1.5 rounded-full absolute top-2 right-10 cursor-pointer text-white">
+                  <FaHeart onClick={wishlistHandler} />
+                </div>
               ) : (
-                <FaRegHeart
-                  onClick={wishlistHandler}
-                  className="absolute top-4 right-10 cursor-pointer text-primary hover:text-primary/75"
-                />
+                <div className="icon-btn bg-primary hover:bg-primary/70 p-1.5 rounded-full absolute top-2 right-10 cursor-pointer text-white">
+                  <FaRegHeart onClick={wishlistHandler} />
+                </div>
               )}
             </>
           )}
@@ -72,7 +69,7 @@ export const ProductCard = ({ product, showStore = true, isWishlistItem }) => {
           <Link to={`/stores/${store.id}/${product.id}`}>
             <img
               alt={product.title}
-              className="pt-2 h-[300px] w-full object-contain"
+              className="h-[300px] w-full object-cover"
               src={product.images[0]}
             />
           </Link>

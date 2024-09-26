@@ -9,11 +9,15 @@ import { FaStore } from 'react-icons/fa';
 import { useFetchStore } from '../../Custom Hooks/useFetchStore';
 import { Avatar, Spin } from 'antd';
 import { useOutlet } from 'react-router-dom';
+import { Divider } from 'antd';
+import { useFetchCategory } from '../../Custom Hooks/useFetchCategory';
+import { BsFillGridFill } from 'react-icons/bs';
 
 export const ProductsStorePage = () => {
   const outlet = useOutlet();
   const { storeId } = useParams();
   const { store, isStoreLoading } = useFetchStore(storeId);
+  const { category, isCategoryLoading } = useFetchCategory(store.categoryId);
   const [storesProducts, setStoresProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const handleImageLoad = () => {
@@ -61,6 +65,16 @@ export const ProductsStorePage = () => {
           <h2 className="text-xl text-slate-800 font-semibold text-center">
             {store.name}
           </h2>
+          <Divider className="my-2" />
+          <div className="category-badge border border-gray-300 px-2 py-1 rounded-md">
+            {isCategoryLoading ? (
+              'Loading...'
+            ) : (
+              <div className="category flex gap-1 items-center">
+                <BsFillGridFill /> {category.categoryName}
+              </div>
+            )}
+          </div>
           <h4 className="text-lg text-slate-800 font-semibold text-center">
             {store.storeDescription}
           </h4>
