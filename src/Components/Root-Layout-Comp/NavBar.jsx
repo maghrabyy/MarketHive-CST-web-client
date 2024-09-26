@@ -3,7 +3,7 @@ import logo from '../../assets/MHLogo.png';
 import { FaShoppingCart } from 'react-icons/fa';
 import { auth } from '../../firebase';
 import { FaUser } from 'react-icons/fa';
-import { Dropdown } from 'antd';
+import { Dropdown, Spin } from 'antd';
 import { FaHeart } from 'react-icons/fa';
 import { FaShoppingBag } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
@@ -20,14 +20,16 @@ import { useFetchCartItems } from '../../Custom Hooks/useFetchCartItems';
 export default function NavBar() {
   const { setShowSearchDrawer } = useSearchDrawer();
   const navigate = useNavigate();
-  const [authUser, setAuthUser] = useState();
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const logoutHandler = async () => {
     await signOut(auth);
     navigate('/login');
   };
   useEffect(() => {
-    auth.onAuthStateChanged(setAuthUser);
-  }, [authUser]);
+    auth.onAuthStateChanged((_) => {
+      setIsAuthLoading(false);
+    });
+  }, []);
   const { cartItems, isCartLoading } = useFetchCartItems();
 
   const unAuthProfileItems = [
@@ -47,9 +49,7 @@ export default function NavBar() {
       type: 'group',
       label: (
         <div className="user-full-name flex gap-2">
-          <Avatar size="small">
-            {auth.currentUser?.displayName?.substring(0, 1)}
-          </Avatar>
+          <Avatar size="small">{auth.currentUser?.displayName[0]}</Avatar>
           <span>{auth.currentUser?.displayName}</span>
         </div>
       ),
@@ -97,13 +97,17 @@ export default function NavBar() {
             onClick={() => setShowSearchDrawer(true)}
             className="text-primary  hover:text-primary/80 text-xl cursor-pointer group-hover:text-primary block sm:hidden "
           />
-          {auth.currentUser === null && (
-            <div className="space-x-2 divide-x-2 hidden sm:block">
-              <Link to="/login">Login</Link>
-              <Link to="/register" className="ps-2">
-                Register
-              </Link>
-            </div>
+          {isAuthLoading ? (
+            <Spin />
+          ) : (
+            auth.currentUser === null && (
+              <div className="space-x-2 divide-x-2 hidden sm:block">
+                <Link to="/login">Login</Link>
+                <Link to="/register" className="ps-2">
+                  Register
+                </Link>
+              </div>
+            )
           )}
           <Link
             className="text-primary hover:text-primary/80 group  rounded-full"

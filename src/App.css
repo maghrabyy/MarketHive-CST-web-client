@@ -74,3 +74,14 @@ p {
 .ant-spin-dot-item {
   background-color: #f39932 !important;
 }
+
+.bg-pattern {
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image: radial-gradient(#f39932 0.75px, transparent 0.75px),
+    radial-gradient(#f39932 0.75px, #ffffff 0.75px);
+  background-size: 30px 30px;
+  background-position:
+    0 0,
+    15px 15px;
+}

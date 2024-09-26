@@ -1,6 +1,7 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Layout from './Layout/Layout.jsx';
+import { RootLayout } from './Layout/RootLayout.jsx';
+import AuthLayout from './Layout/AuthLayout.jsx';
 import HomePage from './Pages/Home Page/HomePage.jsx';
 import NotFoundPage from './Pages/NotFound Page/NotFoundPage.jsx';
 import CartPage from './Pages/Cart Page/CartPage.jsx';
@@ -23,71 +24,77 @@ function App() {
   const routers = createBrowserRouter([
     {
       path: '',
-      element: <Layout />,
+      element: <RootLayout />,
       children: [
-        { index: true, element: <HomePage /> },
         {
-          path: 'cart',
-          element: (
-            <ProtectedRoute>
-              <CartPage />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: 'checkout',
-          element: (
-            <ProtectedRoute>
-              <CheckoutPage />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: 'wishlist',
-          element: (
-            <ProtectedRoute>
-              <WishlistPage />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: 'my-orders',
-          element: (
-            <ProtectedRoute>
-              <MyOrdersPage />
-            </ProtectedRoute>
-          ),
-        },
-        { path: 'search-result/:keyword', element: <SearchResultPage /> },
-        {
-          path: 'categories',
-          element: <CategoriesPage />,
+          path: '',
+          element: <AuthLayout />,
           children: [
+            { index: true, element: <HomePage /> },
             {
-              path: '/categories/:categoryId',
-              element: <ProductsCategoryPage />,
+              path: 'cart',
+              element: (
+                <ProtectedRoute>
+                  <CartPage />
+                </ProtectedRoute>
+              ),
             },
-          ],
-        },
-        {
-          path: 'stores',
-          element: <StoresPage />,
-          children: [
             {
-              path: '/stores/:storeId',
-              element: <ProductsStorePage />,
+              path: 'checkout',
+              element: (
+                <ProtectedRoute>
+                  <CheckoutPage />
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: 'wishlist',
+              element: (
+                <ProtectedRoute>
+                  <WishlistPage />
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: 'my-orders',
+              element: (
+                <ProtectedRoute>
+                  <MyOrdersPage />
+                </ProtectedRoute>
+              ),
+            },
+            { path: 'search-result/:keyword', element: <SearchResultPage /> },
+            {
+              path: 'categories',
+              element: <CategoriesPage />,
               children: [
                 {
-                  path: '/stores/:storeId/:prodId',
-                  element: <ProductDetailPage />,
+                  path: '/categories/:categoryId',
+                  element: <ProductsCategoryPage />,
                 },
               ],
             },
+            {
+              path: 'stores',
+              element: <StoresPage />,
+              children: [
+                {
+                  path: '/stores/:storeId',
+                  element: <ProductsStorePage />,
+                  children: [
+                    {
+                      path: '/stores/:storeId/:prodId',
+                      element: <ProductDetailPage />,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              path: 'popular-products',
+              element: <PopularProductsPage />,
+            },
           ],
-        },
-        {
-          path: 'popular-products',
-          element: <PopularProductsPage />,
         },
 
         {
