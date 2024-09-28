@@ -16,6 +16,7 @@ import { IoMdSearch } from 'react-icons/io';
 import { useSearchDrawer } from '../../Context/SearchDrawerContext';
 import { Badge } from 'antd';
 import { useFetchCartItems } from '../../Custom Hooks/useFetchCartItems';
+import { useFetchCategories } from '../../Custom Hooks/useFetchCategories';
 
 export default function NavBar() {
   const { setShowSearchDrawer } = useSearchDrawer();
@@ -31,7 +32,7 @@ export default function NavBar() {
     });
   }, []);
   const { cartItems, isCartLoading } = useFetchCartItems();
-
+  const { categories, isCategoriesLoading } = useFetchCategories();
   const unAuthProfileItems = [
     {
       key: '1',
@@ -43,6 +44,19 @@ export default function NavBar() {
     },
   ];
 
+  const categoryItems = isCategoriesLoading
+    ? [
+        {
+          key: '1',
+          label: 'loading..',
+        },
+      ]
+    : categories.map((category) => ({
+        key: category.id,
+        label: (
+          <Link to={`/categories/${category.id}`}>{category.categoryName}</Link>
+        ),
+      }));
   const authProfileItems = [
     {
       key: '1',
@@ -142,7 +156,9 @@ export default function NavBar() {
             <Link to="">Home</Link>
           </li>
           <li>
-            <Link to="/categories">Categories</Link>
+            <Dropdown menu={{ items: categoryItems }}>
+              <Link to="/categories">Categories</Link>
+            </Dropdown>
           </li>
           <li>
             <Link to="/stores">Stores</Link>
