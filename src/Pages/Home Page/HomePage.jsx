@@ -20,6 +20,10 @@ export default function HomePage() {
   const popularProdList = products
     .sort((a, b) => b.reviews.length - a.reviews.length)
     .slice(0, 4);
+  const offersProdList = products
+    .filter((prod) => Number(prod.discount))
+    .sort((a, b) => Number(b.discount) - Number(a.discount))
+    .slice(0, 4);
   const popularStoresList = stores
     .sort((a, b) => b.products.length - a.products.length)
     .slice(0, 4);
@@ -28,19 +32,6 @@ export default function HomePage() {
     <>
       <Header />
       <div className="paddingX">
-        <HomeSection
-          title="Popular Products"
-          pathTitle={'Products'}
-          sectionPath={'/popular-products'}
-        >
-          {isProdsLoading
-            ? Array.from(Array(4)).map((_, index) => (
-                <SkeletonProdsCard key={index} />
-              ))
-            : popularProdList.map((prod) => {
-                return <ProductCard key={prod.id} product={prod} />;
-              })}
-        </HomeSection>
         <HomeSection
           title="Stores Collection"
           pathTitle={'Stores'}
@@ -63,7 +54,7 @@ export default function HomePage() {
               })}
         </HomeSection>
         <HomeSection
-          title="Popular Categories"
+          title="Shop by Categories"
           pathTitle={'Categories'}
           sectionPath={'/categories'}
         >
@@ -81,6 +72,32 @@ export default function HomePage() {
                     cover
                   />
                 );
+              })}
+        </HomeSection>
+        <HomeSection
+          title="Popular Products"
+          pathTitle={'Products'}
+          sectionPath={'/popular-products'}
+        >
+          {isProdsLoading
+            ? Array.from(Array(4)).map((_, index) => (
+                <SkeletonProdsCard key={index} />
+              ))
+            : popularProdList.map((prod) => {
+                return <ProductCard key={prod.id} product={prod} />;
+              })}
+        </HomeSection>
+        <HomeSection
+          title="Offers"
+          pathTitle={'Offers'}
+          sectionPath={'/offers-products'}
+        >
+          {isProdsLoading
+            ? Array.from(Array(4)).map((_, index) => (
+                <SkeletonProdsCard key={index} />
+              ))
+            : offersProdList.map((prod) => {
+                return <ProductCard key={prod.id} product={prod} />;
               })}
         </HomeSection>
       </div>
