@@ -157,7 +157,7 @@ export default function NavBar() {
           </li>
           <li>
             <Dropdown menu={{ items: categoryItems }}>
-              <Link to="/categories">Categories</Link>
+              <span className="select-none cursor-pointer">Categories</span>
             </Dropdown>
           </li>
           <li>
