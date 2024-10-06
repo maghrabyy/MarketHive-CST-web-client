@@ -14,10 +14,18 @@ import { db, auth } from '../../firebase';
 import { Button } from 'antd';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { CheckoutForm } from '../../Pages/Checkout Page/CheckoutForm';
+
+const stripePromise = loadStripe(
+  'pk_test_51Q6Bl6044til73YWs2AFxKil3umGNaZb5UqkQJriOhKTDhDwOzvDCZUIwiwq2hvKdMHLDjyekqm7AVoSTfQyrY3Z00I71DxMa8',
+);
 
 export default function OrderSummary({
   cartItems,
   customerAddress,
+  paymentMethod,
   isDisabled,
 }) {
   const [isPlaceOrderLoading, setIsPlaceOrderLoading] = useState(false);
@@ -26,6 +34,11 @@ export default function OrderSummary({
   const shippingFees = 0;
   const totalAmount = subtotal + shippingFees;
   const navigate = useNavigate();
+  const paymentMethodFromId = (paymentId) => {
+    if (paymentId === 1) return 'Debit/Credit Card';
+    if (paymentId === 2) return 'ValU';
+    if (paymentId === 3) return 'Cash on delivery';
+  };
   const wordPlusS = () => {
     if (totalItems == 1) {
       return 'Item';
@@ -80,7 +93,7 @@ export default function OrderSummary({
         totalAmount,
         orderHistory: [{ orderStatus: 'pending', date: new Date() }],
         destinationAddress: customerAddress,
-        paymentMethod: 'Cash on delivery',
+        paymentMethod: paymentMethodFromId(paymentMethod),
       });
       updateStoresDocWithNewOrderData(order.id);
       updateCustomerDocWithNewOrder(order.id);
@@ -119,19 +132,28 @@ export default function OrderSummary({
           <span>{totalAmount.toLocaleString()} EGP</span>
         </div>
       </div>
-      <Button
-        type="primary"
-        loading={isPlaceOrderLoading}
-        className="w-full"
-        disabled={isDisabled}
-        onClick={() =>
-          location.pathname == '/cart'
-            ? navigate('/checkout')
-            : placeOrderHandler()
-        }
-      >
-        {location.pathname == '/cart' ? 'Checkout' : 'PLACE ORDER'}
-      </Button>
+      {paymentMethod === 1 ? (
+        <Elements stripe={stripePromise}>
+          <CheckoutForm
+            totalAmount={totalAmount}
+            placeOrderHandler={placeOrderHandler}
+          />
+        </Elements>
+      ) : (
+        <Button
+          type="primary"
+          loading={isPlaceOrderLoading}
+          className="w-full font-semibold"
+          disabled={isDisabled}
+          onClick={() =>
+            location.pathname == '/cart'
+              ? navigate('/checkout')
+              : placeOrderHandler()
+          }
+        >
+          {location.pathname == '/cart' ? 'Checkout' : 'PLACE ORDER'}
+        </Button>
+      )}
     </div>
   );
 }

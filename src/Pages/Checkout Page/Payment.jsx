@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import cash from '../../assets/cash.png';
 import valu from '../../assets/valu.jpeg';
 import credit from '../../assets/Wallet-pana.png';
 import { PaymentModal } from './PlaceOrderModal';
-function Payment({ setIsDisabled }) {
-  const [selectedPayment, setSelectedPayment] = useState(null);
+
+function Payment({ setIsDisabled, selectedPayment, setSelectedPayment }) {
   const paymentMethods = [
     {
       id: 1,
@@ -24,7 +23,7 @@ function Payment({ setIsDisabled }) {
   ];
 
   const handlePlaceOrder = (methodId) => {
-    if (methodId === 3) {
+    if (methodId !== 2) {
       setIsDisabled(false);
       setSelectedPayment(methodId);
     } else {

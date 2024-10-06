@@ -11,6 +11,8 @@ function PlaceOrderPage({ customer }) {
   const [editing, setEditing] = useState(!customer.address?.city);
   const [update, setUpdate] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [selectedPayment, setSelectedPayment] = useState(null);
+
   const { cartItems } = useFetchCartItems();
   return (
     <div>
@@ -35,13 +37,18 @@ function PlaceOrderPage({ customer }) {
                     setIsDisabled={setIsDisabled}
                   />
                   <OrderShipment />
-                  <Payment setIsDisabled={setIsDisabled} />
+                  <Payment
+                    setIsDisabled={setIsDisabled}
+                    selectedPayment={selectedPayment}
+                    setSelectedPayment={setSelectedPayment}
+                  />
                 </div>
                 <div className="md:col-span-1">
                   <OrderSummary
                     cartItems={cartItems}
                     isDisabled={isDisabled}
                     customerAddress={customer.address}
+                    paymentMethod={selectedPayment}
                   />
                 </div>
               </div>
