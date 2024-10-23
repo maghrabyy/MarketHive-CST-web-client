@@ -50,7 +50,7 @@ http://market-hive-iota.vercel.app/
 1 - Clone the repository:
 
 ```bash
-  git clone https://github.com/maghrabyy/marketplace-platform.git
+  https://github.com/maghrabyy/MarketHive-CST-web-client.git
 ```
 2 - Navigate to the project directory:
 
