@@ -55,7 +55,7 @@ http://market-hive-iota.vercel.app/
 2 - Navigate to the project directory:
 
 ```bash
-cd marketplace-platform
+cd MarketHive-CST-web-client
 ```
 
 3 - Install the necessary dependencies:
