@@ -25,6 +25,8 @@ This project is a dynamic marketplace platform that consolidates multiple online
 - Firebase Authentication: Used for secure login and user management.
 - Firestore Database: A NoSQL cloud database for storing user and product data.
 - Firebase Cloud Storage: Used to store product images and other static assets.
+- Stripe: Integrated for handling secure payments within the app.
+
 ## Screenshots
 
 ![Home Screenshot](screenshots/home_page.png)
