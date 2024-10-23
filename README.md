@@ -13,6 +13,9 @@ This project is a dynamic marketplace platform that consolidates multiple online
 - **Cart & Checkout:** Seamless checkout process with multiple payment options.
 - **User Authentication:** Secure login and registration with Firebase.
 - **Responsive Design:** Fully optimized for desktop and mobile views.
+
+## Tech Stack
+  
 **Client-side**
 
 - ReactJS (VITE): Utilized for building a fast and scalable frontend.
