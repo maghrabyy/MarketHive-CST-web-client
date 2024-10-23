@@ -82,7 +82,11 @@ const firebaseConfig = {
 };
 
 ```
+Stripe is integrated for secure payments:
+ ```bash
+ const stripe = require('stripe-client')(process.env.STRIPE_PUBLISHABLE_KEY);
 
+ ```
 
 ## Contributing
 
