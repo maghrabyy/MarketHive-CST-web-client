@@ -50,7 +50,7 @@ http://market-hive-iota.vercel.app/
 1 - Clone the repository:
 
 ```bash
-  git clone https://github.com/yourusername/marketplace-platform.git
+  git clone https://github.com/maghrabyy/marketplace-platform.git
 ```
 2 - Navigate to the project directory:
 
@@ -104,7 +104,3 @@ This project is licensed under the MIT License.
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-
-## 🚀 About Me
-
-I’m Mahmoud Elmaghraby, a software developer specializing in frontend development with expertise in ReactJS/NextJS and cross-platform mobile development using React Native and Flutter. 
